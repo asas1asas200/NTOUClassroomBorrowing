@@ -1,0 +1,107 @@
+%!TEX program=xelatex
+\documentclass{article}
+
+% Chinese font
+\usepackage{xeCJK}
+\usepackage{hyperref}
+
+\setCJKmainfont{[kaiu.ttf]}
+\setmainfont{[times new roman.ttf]}
+
+\usepackage{colortbl}
+\usepackage{xcolor}
+
+\definecolor{LightGray}{gray}{0.8}
+\newcolumntype{a}{>{\columncolor{LightGray}}c}
+
+\usepackage{tabularx}
+
+\setcounter{section}{-1}
+\renewcommand*\contentsname{目錄}
+
+\begin{document}
+\begin{titlepage}
+	\centering
+
+	{\huge 海大教室借用平台}
+
+	\vfill
+
+	{\huge 需求規格文件}
+
+	\vfill
+
+	\begin{Large}
+		\begin{center}
+			\begin{tabular}{| a | c |}
+				\hline
+				專案名稱 & 海大教室借用平台 \\ \hline
+				撰寫日期 & 撰寫日期     \\ \hline
+				發展者  & 發展者姓名    \\ \hline
+			\end{tabular}
+		\end{center}
+	\end{Large}
+\end{titlepage}
+
+
+\addcontentsline{toc}{section}{版次變更紀錄}
+\section*{版次變更紀錄}
+
+\begin{tabularx}{\textwidth}{| c | X | X |}
+	\rowcolor{LightGray}
+	\hline
+	版次  & 變更項目 & 變更日期       \\ \hline
+	0.1 & 初版   & 2022/10/04 \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+\end{tabularx}
+
+\newpage
+
+\begin{center}
+	\tableofcontents
+\end{center}
+
+\newpage
+
+\section[接受準則(ACCEPTANCE CRITERIA OF THIS DOCUMENT)]{接受準則(Accpetance Criteria of this Document)}
+
+
+\begin{itemize}
+	\color{blue}
+	\item Clearly and properly stated (需求需清楚且適當的陳述)
+	\item Complete (需求需完整)
+	\item Consistent with each other (需求之間需維持一致性)
+	\item Uniquely identified (每項需求有明確之識別)
+	\item Appropriate to implement (需求需可被實作)
+	\item Verifiable (需求需可被驗證)
+\end{itemize}
+
+\newpage
+
+\section[系統概述(SYSTEM DESCRIPTION)]{系統概述(System Description)}
+
+\newpage
+
+\section[使用者故事地圖(USER STORY MAP)]{使用者故事地圖(User Story Map)}
+
+\newpage
+
+\section[操作概念(OPERATIONAL CONCEPTS)]{操作概念(Operational Concepts)}
+
+\newpage
+
+\section[功能需求(FUNCTIONAL REQUIREMENTS)]{功能需求(Functional Requirements)}
+
+\newpage
+
+\section[非功能需求(NON-FUNCTIONAL REQUIREMENTS)]{非功能需求(Non-Functional Requirements)}
+
+\newpage
+
+\section[使用者介面分析(USER INTERFACE ANALYSIS)]{使用者介面分析(User Interface Analysis)}
+
+\end{document}
