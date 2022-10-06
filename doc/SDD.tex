@@ -1,0 +1,99 @@
+%!TEX program=xelatex
+\documentclass{article}
+
+% Chinese font
+\usepackage{xeCJK}
+\usepackage{hyperref}
+
+\setCJKmainfont{[kaiu.ttf]}
+\setmainfont{[times new roman.ttf]}
+
+\usepackage{colortbl}
+\usepackage{xcolor}
+
+\definecolor{LightGray}{gray}{0.8}
+\newcolumntype{a}{>{\columncolor{LightGray}}c}
+
+\usepackage{tabularx}
+
+\renewcommand*\contentsname{目錄}
+
+\begin{document}
+\begin{titlepage}
+	\centering
+
+	{\huge 海大教室借用平台}
+
+	\vfill
+
+	{\huge 設計文件}
+
+	\vfill
+
+	\begin{Large}
+		\begin{center}
+			\begin{tabular}{| a | c |}
+				\hline
+				專案名稱 & 海大教室借用平台 \\ \hline
+				撰寫日期 & 撰寫日期     \\ \hline
+				發展者  & 發展者姓名    \\ \hline
+			\end{tabular}
+		\end{center}
+	\end{Large}
+\end{titlepage}
+
+
+\addcontentsline{toc}{section}{版次變更紀錄}
+\section*{版次變更紀錄}
+
+\begin{tabularx}{\textwidth}{| c | X | X |}
+	\rowcolor{LightGray}
+	\hline
+	版次  & 變更項目 & 變更日期       \\ \hline
+	0.1 & 初版   & 2022/10/04 \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+\end{tabularx}
+
+\newpage
+
+\begin{center}
+	\tableofcontents
+\end{center}
+
+\newpage
+
+\section[系統模型與架構(SYSTEM MODEL/SYSTEM ARCHITECTURE)]{系統模型與架構(System Model/System Architecture)}
+
+\newpage
+
+\section[介面需求與設計(INTERFACE REQUIREMENTS AND DESIGN)]{介面需求與設計(Interface Requirements and Design)}
+
+\newpage
+
+\section[流程設計(PROCESS DESIGN)]{流程設計(Process Design)}
+
+\newpage
+
+\section[使用者畫面設計(USER INTERFACE DESIGN)]{使用者畫面設計(User Interface Design)}
+
+\newpage
+
+\section[資料設計(DATA DESIGN)]{資料設計(Data Design)}
+
+\newpage
+
+\section[類別圖設計(CLASS DIAGRAM DESIGN)]{類別圖設計(Class Diagram Design)}
+
+\newpage
+
+\section[實作技術(IMPLEMENTATION LANGUAGE AND PLATFORM)]{實作技術(Implementation Language and Platform)}
+
+\newpage
+
+\section[設計議題(DESIGN ISSUE)]{設計議題(Design Issue)}
+
+\end{document}
