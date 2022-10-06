@@ -1,0 +1,211 @@
+%!TEX program=xelatex
+\documentclass{article}
+
+% Chinese font
+\usepackage{xeCJK}
+\usepackage{hyperref}
+
+\setCJKmainfont{[kaiu.ttf]}
+\setmainfont{[times new roman.ttf]}
+
+\usepackage{colortbl}
+\usepackage{xcolor}
+
+\definecolor{LightGray}{gray}{0.8}
+\newcolumntype{a}{>{\columncolor{LightGray}}c}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{A}[1]{>{\columncolor{LightGray}}m{#1}}
+
+\usepackage{tabularx}
+\usepackage{makecell}
+
+\renewcommand*\contentsname{目錄}
+
+\usepackage{tocloft}
+
+\begin{document}
+\begin{titlepage}
+	\centering
+
+	{\huge 海大教室借用平台}
+
+	\vfill
+
+	{\huge 測試文件}
+
+	\vfill
+
+	\begin{Large}
+		\begin{center}
+			\begin{tabular}{| a | c |}
+				\hline
+				專案名稱 & 海大教室借用平台 \\ \hline
+				撰寫日期 & 撰寫日期     \\ \hline
+				發展者  & 發展者姓名    \\ \hline
+			\end{tabular}
+		\end{center}
+	\end{Large}
+\end{titlepage}
+
+
+\addcontentsline{toc}{section}{版次變更紀錄}
+\section*{版次變更紀錄}
+
+\begin{tabularx}{\textwidth}{| c | X | X |}
+	\rowcolor{LightGray}
+	\hline
+	版次  & 變更項目 & 變更日期       \\ \hline
+	0.1 & 初版   & 2022/10/04 \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+	    &      &            \\ \hline
+\end{tabularx}
+
+\newpage
+
+\begin{center}
+	\tableofcontents
+\end{center}
+
+\newpage
+
+\section[測試目的與接受準則(OBJECTIVES AND ACCEPTANCE CRITERIA)]{測試目的與接受準則(Objectives and Acceptance Criteria)}
+
+\subsection[系統範圍(SYSTEM SCOPE)]{系統範圍(System Scope)}
+
+\subsection[測試接受準則(TEST ACCEPTANCE CRITERIA)]{測試接受準則(Test Acceptance Criteria)}
+
+本測試計畫需要滿足下面的測試接受準則：
+
+\begin{enumerate}
+	\color{blue}
+	\item 測試程序需要依照本測試計劃所訂定的程序進行，所有測試結果需要能符合預期測試結果方能接受。
+	      \begin{itemize}
+		      \item 當測試案例未通過時，相關模組開發之負責人需要進行程式修改(修復bug或改動功能)，以能讓此案例重新通過測試。
+		      \item 重新進行測試時，測試人員需確認其他可能受影響的案例仍可正確執行。
+	      \end{itemize}
+\end{enumerate}
+
+
+\newpage
+
+\section[測試環境(TESTING ENVIRONMENT)]{測試環境(Testing Environment)}
+
+\subsection[硬體需求(HARDWARE SPECIFICATION AND CONFIGURATION)]{硬體需求(Hardware Specification and Configuration)}
+
+\begin{tabularx}{\textwidth}{| c | C | c | C | M{0.15\textwidth} |}
+	\rowcolor{LightGray}
+	\hline
+	項次 & 名稱 & 數量 & 規格 & 備註 \\ \hline
+	   &    &    &    &    \\ \hline
+	   &    &    &    &    \\ \hline
+	   &    &    &    &    \\ \hline
+\end{tabularx}
+
+\subsection[軟體需求(SOFTWARE SPECIFICATION AND CONFIGURATION)]{軟體需求(Software Specification and Configuration)}
+
+\begin{tabularx}{\textwidth}{| c | C | c | C | M{0.15\textwidth} |}
+	\rowcolor{LightGray}
+	\hline
+	項次 & 名稱 & 數量 & 規格 & 備註 \\ \hline
+	   &    &    &    &    \\ \hline
+	   &    &    &    &    \\ \hline
+	   &    &    &    &    \\ \hline
+\end{tabularx}
+
+\subsection[測試資料來源(TEST DATA SOURCE)]{測試資料來源(Test Data Source)}
+
+\subsection[測試工具與設備(TOOLS AND EQUIPMENT)]{測試工具與設備(Tools and Equipment)}
+
+\newpage
+
+\section[測試案例(TEST CASES)]{測試案例(Test Cases)}
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & (編號)           \\ \hline
+	Name            & (名稱)           \\ \hline
+	Reference       & (對應的功能需求)      \\ \hline
+	Severity        & (重要性)          \\ \hline
+	Instructions    & (測試步驟)         \\ \hline
+	Expected result & (預期結果)         \\ \hline
+	Cleanup         & (回復測試錢原始狀態的步驟) \\ \hline
+\end{tabularx}
+
+\newpage
+
+\section[測試工作指派與時程(PERSONNEL AND SCHEDULE)]{測試工作指派與時程(Personnel and Schedule)}
+
+\subsection[測試成員(PERSONNEL)]{測試成員(Personnel)}
+
+\begin{tabularx}{0.4\textwidth}{| X | X |}
+	\hline
+	姓名 & 職責 \\ \hline
+	   &    \\ \hline
+	   &    \\ \hline
+	   &    \\ \hline
+	   &    \\ \hline
+	   &    \\ \hline
+\end{tabularx}
+
+\newpage
+
+\section[測試結果與分析(TEST RESULTS AND ANALYSIS)]{測試結果與分析(Test Results and Analysis)}
+
+\subsection[測試結果(TEST RESULTS)]{測試結果(Test Results)}
+
+\begin{tabularx}{\textwidth}{| m{0.3\textwidth} | m{0.2\textwidth} | X |}
+	\rowcolor{LightGray}
+	\hline
+	測試案例編號 & \makecell{測試結果   \\ (Pass/Fail)} & 註解 \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	       &                & \\ \hline
+	\rowcolor{LightGray}
+	RATE   & ? \%           & \\ \hline
+\end{tabularx}
+
+\subsection[缺失報告(DEFECT TRACKING)]{缺失報告(Defect Tracking)}
+
+\begin{tabularx}{\textwidth}{| c | c | X | c | c | c | X |}
+	\rowcolor{LightGray}
+	\hline
+	\makecell{缺失      \\ 編號} & \makecell{缺失 \\ 嚴重性} & 缺失說明 & \makecell{測試\\案例\\編號} & \makecell{缺失 \\ 負責人} & 修復狀態 & 修復說明 \\ \hline
+	 &  &  &  &  &  & \\ \hline
+	 &  &  &  &  &  & \\ \hline
+	 &  &  &  &  &  & \\ \hline
+\end{tabularx}
+
+\newpage
+
+\section[追溯表(TRACEABILITY MATRIX)]{追溯表(Traceability Matrix)}
+
+\begin{tabularx}{\textwidth}{| X | X | X |}
+	\hline
+	Req. No. & Test Case \# & Verification \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+	         &              &              \\ \hline
+\end{tabularx}
+
+\end{document}
