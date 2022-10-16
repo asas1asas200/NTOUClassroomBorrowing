@@ -1,9 +1,4 @@
 # Latex
-
-#npm package
-package-lock.json
-.keep
-
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
