@@ -15,9 +15,16 @@
 \newcolumntype{a}{>{\columncolor{LightGray}}c}
 
 \usepackage{tabularx}
+\usepackage{makecell}
 
 \setcounter{section}{-1}
 \renewcommand*\contentsname{目錄}
+
+\usepackage{graphicx}
+
+\graphicspath{{./img/}}
+
+\usepackage{indentfirst}
 
 \begin{document}
 \begin{titlepage}
@@ -35,9 +42,9 @@
 		\begin{center}
 			\begin{tabular}{| a | c |}
 				\hline
-				專案名稱 & 海大教室借用平台 \\ \hline
-				撰寫日期 & 撰寫日期     \\ \hline
-				發展者  & 發展者姓名    \\ \hline
+				專案名稱 & 海大教室借用平台               \\ \hline
+				撰寫日期 & \today                 \\ \hline
+				發展者  & \makecell{曾昱翔、林暐傑、陳鈺翔、 \\張銀軒、黃見弘} \\ \hline
 			\end{tabular}
 		\end{center}
 	\end{Large}
@@ -50,13 +57,13 @@
 \begin{tabularx}{\textwidth}{| c | X | X |}
 	\rowcolor{LightGray}
 	\hline
-	版次  & 變更項目 & 變更日期       \\ \hline
-	0.1 & 初版   & 2022/10/04 \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
+	版次    & 變更項目              & 變更日期       \\ \hline
+	0.1   & 初版                & 2022/10/04 \\ \hline
+	0.1.1 & 加入 User Story Map & 2022/10/13 \\ \hline
+	0.1.2 & 完成系統概述            & 2022/10/14 \\ \hline
+	      &                   &            \\ \hline
+	      &                   &            \\ \hline
+	      &                   &            \\ \hline
 \end{tabularx}
 
 \newpage
@@ -84,14 +91,32 @@
 
 \section[系統概述(SYSTEM DESCRIPTION)]{系統概述(System Description)}
 
-\begin{itemize}
-	\item 系統目標:設計一個教室借用平台，可以增加教室借用的便利性及途徑。
-	\item 系統特色:
-\end{itemize}
+隨著各種服務數位化，許多事情能夠在網路上處理就不需要到現場，例如網路銀行、網路購物、網路訂票等等，這些服務都能夠讓人們在家中就能夠完成，節省了許多時間，也讓人們的生活更加便利。
+然而，許多學校的教室借用系統仍然是以紙本的方式來處理，這樣的方式不僅浪費了許多紙張，也讓人們在借用教室時需要花費許多時間，因此我們希望能夠開發一個網路教室借用系統，讓人們能夠在網路上借用教室，並且能夠在借用教室時節省許多時間。
+
+\subsection{系統目標}
+
+透過網路平台的方式，讓使用者可以在任何地方，隨時隨地的借用教室，並即時的得知教室借用的狀態。
+
+\subsection{系統特色}
+
+使用人性化的介面和即時的狀態顯示，整合 Email 通知系統，除了讓使用者能避免到現場登記借用教室外，也能在借用教室時節省許多時間。
+
+\bigskip
+
+對於管理者而言，透過數位的紀錄方式，能夠更有效的管理教室借用的紀錄等資訊，更直觀的分配教室，並且能夠即時的得知教室借用的狀態。
 
 \newpage
 
 \section[使用者故事地圖(USER STORY MAP)]{使用者故事地圖(User Story Map)}
+
+\begin{center}
+	\includegraphics[height=0.45\textheight]{UserStoryMap-AccountManagement.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[height=0.45\textheight]{UserStoryMap-ClassroomBorrowing.png}
+\end{center}
 
 \newpage
 
@@ -100,22 +125,22 @@
 \newpage
 
 \section[功能需求(FUNCTIONAL REQUIREMENTS)]{功能需求(Functional Requirements)}
-	\begin{tabular}{|l|c|c|}
-		\hline
-		功能編號 & 功能名稱 & 功能說明 \\ \hline
-		\multicolumn{3}{| c |}{Account Management(帳號管理)}  \\ \hline
-		CBP-AM-LOG-01 & 帳號登入 & 使用者/管理員可於登入介面登入帳號\\ \hline
-		CBP-AM-REG-01 & 帳號註冊 & 使用者可使用email與自訂密碼進行註冊\\ \hline
-		CBP-AM-PIM-01 & 個人資料管理 & 使用者可更改密碼與電話號碼\\ \hline
-		\color{blue}CBP-AM-PIV-01 & 審核個人資料 & 管理員可根據EMAIL認證結果核可/否決新辦帳號 \\ \hline
-		\color{blue}CBP-AM-AR-01 & 帳號紀錄 & 管理員可根據學號/姓名等資訊查詢使用者使用紀錄 \\ \hline
-		\multicolumn{3}{| c |}{Classroom Borrowing \& Inquiring(教室租借查詢)}  \\ \hline
-		CBP-CBI-LOG-01 & 教室查詢 & 使用者可查詢教室目前使用狀態\\ \hline
-		CBP-CBI-BOR-01 & 教室立即借用 & 使用者可輸入教室編號進行借用\\ \hline
-		CBP-CBI-BOR-02 & 教室預約借用 & 使用者可輸入時段及需求進行申請\\ \hline
-		\color{blue}CBP-CBI-BOR-3 & 預約審核 & 管理員可對預約進行審核\\ \hline
-		\color{blue}CBP-CBI-KR-1 & 鑰匙歸還登記 & 管理員可變更教室狀態\\ \hline
-	\end{tabular}
+\begin{tabular}{|l|c|c|}
+	\hline
+	功能編號                      & 功能名稱   & 功能說明                        \\ \hline
+	\multicolumn{3}{| c |}{Account Management(帳號管理)}                 \\ \hline
+	CBP-AM-LOG-01             & 帳號登入   & 使用者/管理員可於登入介面登入帳號           \\ \hline
+	CBP-AM-REG-01             & 帳號註冊   & 使用者可使用 Email 與自訂密碼進行註冊      \\ \hline
+	CBP-AM-PIM-01             & 個人資料管理 & 使用者可更改密碼與電話號碼               \\ \hline
+	\color{blue}CBP-AM-PIV-01 & 審核個人資料 & 管理員可根據 Email 認證結果核可/否決新辦帳號  \\ \hline
+	\color{blue}CBP-AM-AR-01  & 帳號紀錄   & 管理員可根據學號/姓名等資訊查詢使用者使用紀錄     \\ \hline
+	\multicolumn{3}{| c |}{Classroom Borrowing \& Inquiring(教室租借查詢)} \\ \hline
+	CBP-CBI-LOG-01            & 教室查詢   & 使用者可查詢教室目前使用狀態              \\ \hline
+	CBP-CBI-BOR-01            & 教室立即借用 & 使用者可輸入教室編號進行借用              \\ \hline
+	CBP-CBI-BOR-02            & 教室預約借用 & 使用者可輸入時段及需求進行申請             \\ \hline
+	\color{blue}CBP-CBI-BOR-3 & 預約審核   & 管理員可對預約進行審核                 \\ \hline
+	\color{blue}CBP-CBI-KR-1  & 鑰匙歸還登記 & 管理員可變更教室狀態                  \\ \hline
+\end{tabular}
 \newpage
 
 \section[非功能需求(NON-FUNCTIONAL REQUIREMENTS)]{非功能需求(Non-Functional Requirements)}
