@@ -9,7 +9,7 @@
 $ cd src
 
 # Get npm package
-$ npm build
+$ npm install
 
 # start and run localhost:3000
 $ node index.js
