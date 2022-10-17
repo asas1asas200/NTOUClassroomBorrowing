@@ -5,13 +5,13 @@
 ---
 
 ```bash
-# go to code
+# Go to code
 $ cd src
 
 # Get npm package
 $ npm install
 
-# start and run localhost:3000
+# Start and run localhost:3000
 $ node index.js
 
 ```
