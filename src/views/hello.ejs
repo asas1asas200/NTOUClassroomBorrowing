@@ -1,1 +1,12 @@
-<h2><%= hello %></h2>
+<%- include("header"); %>
+    <div class="container text-center">
+        <!--ntoulogo, title, login state-->
+        <%- include("top"); %>
+
+        <!--navigation bar-->
+        <%- include("navbar"); %>
+
+        <!--current floor classromm status-->
+        <%- include("floorstatus"); %>
+    </div>
+<%- include("footer"); %>
