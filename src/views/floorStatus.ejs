@@ -1,0 +1,39 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#"><%= today %></a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+</nav>
+
+<table class="table">
+    <thead>
+        
+    </thead>
+    <tbody>
+      <tr>
+        <% for(var i=0; i<navbarItem.length; i++) { %>
+            <td><%= statusTableColumn[i] %></td>
+        <% } %>
+      </tr>
+        <% for(var i=0; i<classroomStatus.length; i++) { %>
+            <tr>
+                <th scope="row"><%= i+1 %></th>
+                <% for(var j=0; j<classroomStatus[i].length; j++) { %>
+
+                        <td><%= classroomStatus[i][j] %></td>
+
+                <% } %>
+              </tr>
+        <% } %>
+
+    </tbody>
+</table>
