@@ -18,11 +18,10 @@ classroomStatus = [
 	["已借出", "狀態:未歸還", "資料庫系統"],
 	["借用", "已借出", "資料庫系統"]
 ];
-ntouLogoSrc = "img/ntouLogo.jpg";
 
 router.get("/", function (req, res) {
 	res.render("home", {
-		ntouLogoSrc, today, loginStatus, navbarItem, statusTableColumn, classroomStatus
+		today, loginStatus, navbarItem, statusTableColumn, classroomStatus
 	});
 });
 
