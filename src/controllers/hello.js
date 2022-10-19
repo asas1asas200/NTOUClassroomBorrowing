@@ -1,5 +1,5 @@
 hello = "Hello world";
-const Controller = {
+const Controller1 = {
   hello: (req, res) => {
     res.render("hello", {
       hello,
@@ -7,4 +7,4 @@ const Controller = {
   },
 };
 
-module.exports = Controller;
+module.exports = Controller1;

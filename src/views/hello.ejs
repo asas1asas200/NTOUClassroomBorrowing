@@ -1,1 +1,43 @@
-<h2><%= hello %></h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('head'); %>
+</head>
+
+<body>
+    <div class="container text-center">
+      <%- include('top'); %>
+
+        <!--nav bar-->
+        <nav class="navbar navbar-expand-lg bg-light">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">首頁</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">一樓</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">二樓</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled">三樓</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled">四樓</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled">五樓</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</body>
+</html>
