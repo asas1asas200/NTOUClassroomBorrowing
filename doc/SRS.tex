@@ -13,6 +13,7 @@
 
 \definecolor{LightGray}{gray}{0.8}
 \newcolumntype{a}{>{\columncolor{LightGray}}c}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 \usepackage{tabularx}
 \usepackage{makecell}
@@ -65,6 +66,7 @@
 	0.1.3 & 完成使用者介面分析            & 2022/10/19 \\ \hline
 	0.1.4 & 增加 User Story Map 說明 & 2022/10/20 \\ \hline
 	0.1.5 & 新增操作概念               & 2022/10/20 \\ \hline
+	0.1.6 & 新增非功能需求              & 2022/10/20 \\ \hline
 	      &                      &            \\ \hline
 \end{tabularx}
 
@@ -376,6 +378,14 @@
 \newpage
 
 \section[非功能需求(NON-FUNCTIONAL REQUIREMENTS)]{非功能需求(Non-Functional Requirements)}
+\begin{tabularx}{\textwidth}{|l|c|Y|}
+	\hline
+	功能編號       & 功能名稱  & 功能說明                                 \\ \hline
+	CBP-NFR-01 & 延遲時間  & 狀態更新後延遲不超過一分鐘                        \\ \hline
+	CBP-NFR-02 & 密碼安全  & 密碼皆以雜湊後之形式傳輸、儲存                      \\ \hline
+	CBP-NFR-03 & 人性化介面 & 查詢教室以前端實作，避免過度換頁造成瀏覽困難（如 tronclass ） \\ \hline
+	CBP-NFR-04 & 驗證帳號  & 註冊後需要經過驗證方可開始借用教室                    \\ \hline
+\end{tabularx}
 \newpage
 
 \section[使用者介面分析(USER INTERFACE ANALYSIS)]{使用者介面分析(User Interface Analysis)}
