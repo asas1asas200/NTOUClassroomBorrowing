@@ -67,6 +67,7 @@
 	0.1.4 & 增加 User Story Map 說明 & 2022/10/20 \\ \hline
 	0.1.5 & 新增操作概念               & 2022/10/20 \\ \hline
 	0.1.6 & 新增非功能需求              & 2022/10/20 \\ \hline
+	0.2.0 & 增加功能需求註解，加上 TODO     & 2022/10/26 \\ \hline
 	      &                      &            \\ \hline
 \end{tabularx}
 
@@ -374,6 +375,7 @@
 	CBP-CBI-BOR-02            & 教室預約借用 & 使用者可輸入時段及需求進行申請             \\ \hline
 	\color{blue}CBP-CBI-BOR-3 & 預約審核   & 管理員可對預約進行審核                 \\ \hline
 	\color{blue}CBP-CBI-KR-1  & 鑰匙歸還登記 & 管理員可變更教室狀態                  \\ \hline
+	\multicolumn{3}{r}{\color{blue}註：藍色代表管理員功能}
 \end{tabular}
 \newpage
 
@@ -406,6 +408,7 @@
 
 \newpage
 \subsection*{教室借用介面：}
+% TODO：加上新大樓其他教室（電綜大樓 6-8F），移除五樓教室。
 \medskip
 \begin{minipage}{0.6\linewidth}
 	\includegraphics[height=0.4\textheight]{Borowing_GUI.jpg}
@@ -416,5 +419,7 @@
 	\subsubsection*{\textcolor{red}{3.}日期選擇：}可選擇欲借用之日期
 	\subsubsection*{\textcolor{red}{4.}教室狀態：}直行為時間、橫列為教室，教室狀態有：已有固定課程、已經借用、尚未歸還鑰匙、可借用
 \end{minipage}
+
+% TODO：管理員介面
 
 \end{document}
