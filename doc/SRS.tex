@@ -69,6 +69,7 @@
 	0.1.6 & 新增非功能需求              & 2022/10/20 \\ \hline
 	0.2.0 & 增加功能需求註解，加上 TODO     & 2022/10/26 \\ \hline
 	0.2.1 & 修正 UserStoryMap      & 2022/11/02 \\ \hline
+	0.2.2 & 增加功能/非功能需求           & 2022/11/02 \\ \hline
 	      &                      &            \\ \hline
 \end{tabularx}
 
@@ -361,33 +362,39 @@
 \newpage
 
 \section[功能需求(FUNCTIONAL REQUIREMENTS)]{功能需求(Functional Requirements)}
-\begin{tabular}{|l|c|c|}
+\begin{tabularx}{\textwidth}{|c|c|X|}
 	\hline
-	功能編號                      & 功能名稱   & 功能說明                        \\ \hline
-	\multicolumn{3}{| c |}{Account Management(帳號管理)}                 \\ \hline
-	CBP-AM-LOG-01             & 帳號登入   & 使用者/管理員可於登入介面登入帳號           \\ \hline
-	CBP-AM-REG-01             & 帳號註冊   & 使用者可使用 Email 與自訂密碼進行註冊      \\ \hline
-	CBP-AM-PIM-01             & 個人資料管理 & 使用者可更改密碼與電話號碼               \\ \hline
-	\color{blue}CBP-AM-PIV-01 & 審核個人資料 & 管理員可根據 Email 認證結果核可/否決新辦帳號  \\ \hline
-	\color{blue}CBP-AM-AR-01  & 帳號紀錄   & 管理員可根據學號/姓名等資訊查詢使用者使用紀錄     \\ \hline
-	\multicolumn{3}{| c |}{Classroom Borrowing \& Inquiring(教室租借查詢)} \\ \hline
-	CBP-CBI-LOG-01            & 教室查詢   & 使用者可查詢教室目前使用狀態              \\ \hline
-	CBP-CBI-BOR-01            & 教室立即借用 & 使用者可輸入教室編號進行借用              \\ \hline
-	CBP-CBI-BOR-02            & 教室預約借用 & 使用者可輸入時段及需求進行申請             \\ \hline
-	\color{blue}CBP-CBI-BOR-3 & 預約審核   & 管理員可對預約進行審核                 \\ \hline
-	\color{blue}CBP-CBI-KR-1  & 鑰匙歸還登記 & 管理員可變更教室狀態                  \\ \hline
+	功能編號                      & 功能名稱     & 功能說明                        \\ \hline
+	\multicolumn{3}{| c |}{Account Management(帳號管理)}                   \\ \hline
+	CBP-AM-LOG-01             & 帳號登入     & 使用者/管理員可於登入介面登入帳號           \\ \hline
+	CBP-AM-REG-01             & 帳號註冊     & 使用者可使用 Email 與自訂密碼進行註冊      \\ \hline
+	CBP-AM-PIM-01             & 個人資料管理   & 使用者可更改密碼與電話號碼               \\ \hline
+	\color{blue}CBP-AM-PIV-01 & 審核個人資料   & 管理員可根據 Email 認證結果核可/否決新辦帳號  \\ \hline
+	\color{blue}CBP-AM-AR-01  & 帳號紀錄     & 管理員可根據學號/姓名等資訊查詢使用者使用紀錄     \\ \hline
+	\multicolumn{3}{| c |}{Classroom Borrowing \& Inquiring（教室租借查詢）}   \\ \hline
+	CBP-CBI-LOG-01            & 教室狀態     & 使用者可查詢指定教室目前使用狀態            \\ \hline
+	CBP-CBI-LOG-02            & 教室類型篩選   & 使用者可依據教室功能（容量、有無電腦）篩選欲查詢之教室 \\ \hline
+	CBP-CBI-LOG-03            & 教室時段篩選   & 使用者可依據空閒時段（日期、時間）篩選欲查詢之教室   \\ \hline
+	CBP-CBI-LOG-04            & 教室借用歷程   & 使用者可查詢教室被借用紀錄               \\ \hline
+	CBP-CBI-BOR-01            & 教室立即借用   & 使用者可輸入教室編號進行借用              \\ \hline
+	CBP-CBI-BOR-02            & 教室預約借用   & 使用者可輸入時段及需求申請               \\ \hline
+	CBP-CBI-BOR-03            & 教室借用進度查詢 & 使用者可查詢已申請之紀錄                \\ \hline
+	\color{blue}CBP-CBI-BOR-3 & 預約審核     & 管理員可對預約進行審核                 \\ \hline
+	\color{blue}CBP-CBI-KR-1  & 鑰匙歸還登記   & 管理員可登記已歸還鑰匙之教室              \\ \hline
 	\multicolumn{3}{r}{\color{blue}註：藍色代表管理員功能}
-\end{tabular}
+\end{tabularx}
 \newpage
 
 \section[非功能需求(NON-FUNCTIONAL REQUIREMENTS)]{非功能需求(Non-Functional Requirements)}
-\begin{tabularx}{\textwidth}{|l|c|Y|}
+\begin{tabularx}{\textwidth}{|c|c|X|}
 	\hline
-	功能編號       & 功能名稱  & 功能說明                                 \\ \hline
-	CBP-NFR-01 & 延遲時間  & 狀態更新後延遲不超過一分鐘                        \\ \hline
-	CBP-NFR-02 & 密碼安全  & 密碼皆以雜湊後之形式傳輸、儲存                      \\ \hline
-	CBP-NFR-03 & 人性化介面 & 查詢教室以前端實作，避免過度換頁造成瀏覽困難（如 tronclass ） \\ \hline
-	CBP-NFR-04 & 驗證帳號  & 註冊後需要經過驗證方可開始借用教室                    \\ \hline
+	功能編號       & 功能名稱   & 功能說明                                 \\ \hline
+	CBP-NFR-01 & 延遲時間   & 狀態更新後延遲不超過一分鐘                        \\ \hline
+	CBP-NFR-02 & 密碼安全   & 密碼皆以雜湊後之形式傳輸、儲存                      \\ \hline
+	CBP-NFR-03 & 人性化介面  & 查詢教室以前端實作，避免過度換頁造成瀏覽困難（如 tronclass ） \\ \hline
+	CBP-NFR-04 & 驗證帳號   & 註冊後需要經過驗證方可開始借用教室                    \\ \hline
+	CBP-NFR-05 & 系統人數上限 & 系統最多可 100 人同時操作申請                    \\ \hline
+	CBP-NFR-06 & 預期響應時間 & 每個頁面最多 1000ms 延遲                     \\ \hline
 \end{tabularx}
 \newpage
 
