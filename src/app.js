@@ -19,7 +19,7 @@ app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -28,15 +28,15 @@ app.use("/users", usersRouter);
 app.use("/home", homeRouter);
 app.use("/login", loginRouter);
 
-//db connection
-//連接mongodb
-const uri = process.env.ATLAS_URI;
-//mongo db bug : https://stackoverflow.com/questions/68958221/mongoparseerror-options-usecreateindex-usefindandmodify-are-not-supported.
-mongoose.connect(uri);
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("MongoDB database connection established successfully");
-});
+// db connection
+// use local docker container for development
+
+const uri = "mongodb://localhost:27017/NTOUClassroomBorrowingSystem";
+mongoose.connect(uri).then(() => console.log("MongoDB database connection established successfully"));
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
