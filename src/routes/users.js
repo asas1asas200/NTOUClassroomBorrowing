@@ -4,6 +4,9 @@ const { route } = require('./index.js');
 
 var router = express.Router();
 
+var csrf = require("csurf");
+var csrfProtection = csrf({ cookie: true });
+
 let makeField = (name, label, type) =>
   `
     <div class="mb-3 row">
@@ -19,7 +22,7 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/', async (req, res) => {
+router.post('/', csrfProtection, async (req, res) => {
   try {
     // TODO: verify infos like if user exist, if email is valid, etc
     const user = new User({
@@ -40,8 +43,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/new', function (req, res, next) {
-  res.render('user/entry', { title: 'Register', form: 'registerForm', makeField: makeField });
+router.get('/new', csrfProtection, function (req, res, next) {
+  res.render('user/entry', { title: 'Register', form: 'registerForm', csrfToken: req.csrfToken(), makeField: makeField });
 });
 
 
