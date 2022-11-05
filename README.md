@@ -31,3 +31,4 @@ src $ npm start
 
 http://localhost:3000
 
+Default account and password is `root`.

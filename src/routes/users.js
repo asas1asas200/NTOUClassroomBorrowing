@@ -1,11 +1,14 @@
-var express = require('express');
-const User = require('../models/user.js');
-const { route } = require('./index.js');
+var express = require("express");
+const User = require("../models/user.js");
 
 var router = express.Router();
 
 var csrf = require("csurf");
 var csrfProtection = csrf({ cookie: true });
+
+var passport = require("passport");
+
+const auth = require("../middleware/auth");
 
 let makeField = (name, label, type) =>
   `
@@ -17,12 +20,11 @@ let makeField = (name, label, type) =>
     </div>
 `;
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get("/", function (req, res, next) {
+  res.send("respond with a resource");
 });
 
-router.post('/', csrfProtection, async (req, res) => {
+router.post("/", csrfProtection, async (req, res) => {
   try {
     // TODO: verify infos like if user exist, if email is valid, etc
     const user = new User({
@@ -33,8 +35,8 @@ router.post('/', csrfProtection, async (req, res) => {
       admin: false,
       id: req.body.id,
       phone: req.body.phone,
-      confirmed: false
-  });
+      confirmed: false,
+    });
     await user.save();
     res.send(user);
   } catch (e) {
@@ -43,9 +45,43 @@ router.post('/', csrfProtection, async (req, res) => {
   }
 });
 
-router.get('/new', csrfProtection, function (req, res, next) {
-  res.render('user/entry', { title: 'Register', form: 'registerForm', csrfToken: req.csrfToken(), makeField: makeField });
+router.get("/new", csrfProtection, function (req, res, next) {
+  res.render("user/entry", {
+    title: "Register",
+    form: "registerForm",
+    csrfToken: req.csrfToken(),
+    makeField: makeField,
+  });
 });
 
+router.get("/login", csrfProtection, function (req, res) {
+  res.render("user/entry", {
+    title: "Login",
+    form: "loginForm",
+    csrfToken: req.csrfToken(),
+    makeField: makeField,
+  });
+});
+
+router.post(
+  "/login",
+  csrfProtection,
+  passport.authenticate("local", {
+    failureRedirect: "/users/login",
+  }),
+  function (req, res) {
+    res.redirect("/");
+  }
+);
+
+/* ---- Test page can be removed in the future. --- */
+router.get("/logined", auth.loginedUser, function (req, res) {
+  res.send("logined user only page");
+});
+
+router.get("/admin_only", auth.admin, function (req, res) {
+  res.send("admin only page");
+});
+/* ----------------------------------------------- */
 
 module.exports = router;

@@ -1,0 +1,13 @@
+<form action="/users/login" method="post">
+  <div class="form-group container-fluid m-3">
+    <%- makeField('id', '學號' , 'text' ) %>
+    <%# TODO: Confirm if two passwords are the same. %>
+    <%- makeField('password', '密碼' , 'password' ) %>
+    <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+    <div class="mb-3 row">
+      <div class="col-9"></div>
+      <%# TODO: Hash the password before submit %>
+      <button class="col btn btn-primary mb-3">送出</button>
+    </div>
+  </div>
+</form>
