@@ -12,6 +12,9 @@
             <%- user.username %>
           </button>
           <ul class="dropdown-menu">
+            <% if (user.admin) { %>
+            <li><a class="dropdown-item" href="/admin">Manage</a></li>
+            <% } %>
             <li><a class="dropdown-item" href="#">Edit Profile</a></li>
             <li>
               <form action="/users/logout" method="post">
