@@ -3,9 +3,6 @@ const User = require("../models/user.js");
 
 var router = express.Router();
 
-var csrf = require("csurf");
-var csrfProtection = csrf({ cookie: true });
-
 var passport = require("passport");
 
 const auth = require("../middleware/auth");
@@ -24,7 +21,7 @@ router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
-router.post("/", csrfProtection, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     // TODO: verify infos like if user exist, if email is valid, etc
     const user = new User({
@@ -45,34 +42,40 @@ router.post("/", csrfProtection, async (req, res) => {
   }
 });
 
-router.get("/new", csrfProtection, function (req, res, next) {
+router.get("/new", auth.unloginedUser, function (req, res, next) {
   res.render("user/entry", {
     title: "Register",
     form: "registerForm",
-    csrfToken: req.csrfToken(),
     makeField: makeField,
   });
 });
 
-router.get("/login", csrfProtection, function (req, res) {
+router.get("/login", auth.unloginedUser, function (req, res) {
   res.render("user/entry", {
     title: "Login",
     form: "loginForm",
-    csrfToken: req.csrfToken(),
     makeField: makeField,
   });
 });
 
 router.post(
   "/login",
-  csrfProtection,
   passport.authenticate("local", {
     failureRedirect: "/users/login",
   }),
   function (req, res) {
-    res.redirect("/");
+    res.redirect("/home");
   }
 );
+
+router.post("/logout", function (req, res, next) {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/users/login");
+  });
+});
 
 /* ---- Test page can be removed in the future. --- */
 router.get("/logined", auth.loginedUser, function (req, res) {

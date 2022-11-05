@@ -34,6 +34,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 usePassport(app); // auth
 
+// Some frequently used variables.
+var csrf = require("csurf");
+var csrfProtection = csrf({ cookie: true });
+app.use(csrfProtection, function (req, res, next) {
+  if (req.user) {
+    res.locals.user = req.user;
+  } else {
+    res.locals.user = null;
+  }
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/home", homeRouter);
