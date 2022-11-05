@@ -38,43 +38,6 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/home", homeRouter);
 
-// db connection
-// use local docker container for development
-// TODO: Use winston instead of `console.log`
-const uri = "mongodb://localhost:27017/NTOUClassroomBorrowingSystem";
-mongoose
-  .connect(uri)
-  .then(() =>
-    console.log("MongoDB database connection established successfully")
-  );
-
-var db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-// TODO: Need a better implementation.
-function createRoot() {
-  let root = db.collection("users").findOne({ id: "root" });
-  root.then(async (result) => {
-    if (!result) {
-      const User = require("./models/user");
-      const user = new User({
-        username: "root",
-        password: "root",
-        email: "root@root",
-        admin: true,
-        id: "root",
-        phone: "0000000000",
-        confirmed: true,
-      });
-      await user.save();
-      console.log("Root account create automatically.");
-    } else {
-      console.log("Root account already exist.");
-    }
-  });
-}
-createRoot();
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
