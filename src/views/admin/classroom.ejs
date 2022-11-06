@@ -11,7 +11,7 @@
   <ul class="nav nav-pills">
     <% for (let building in data.buildings) { %>
       <li class="nav-item">
-        <button type="button" class="nav-link" data-bs-toggle="pill" 
+        <button type="button" class="nav-link building" data-bs-toggle="pill"
           data-bs-target="#building-<%- building %>" onclick="selectedBuilding = this;">
         <%- building %></button>
       </li>
@@ -34,8 +34,9 @@
     <% for (let floor in data.buildings[building]) { %>
       <li class="nav-item">
         <button type="button"
-          class="nav-link" data-bs-toggle="pill" data-bs-target="#building-<%- floor %>" onclick="selectedFloor = this;">
-            <%- floor %></button></li>
+          class="nav-link floor" data-bs-toggle="pill" 
+            data-bs-target="#building-<%- building %>-floor-<%- floor %>" onclick="selectedFloor = this;">
+              <%- floor %></button></li>
     <% } %>
     </ul>
     <ul class="pagination mb-0">
@@ -49,3 +50,41 @@
     </nav>
   <% } %>
 </div>
+
+<div class="tab-content">
+  <% for (let building in data.buildings) { %>
+    <% for (let floor in data.buildings[building]) { %>
+      <div class="tab-pane fade list-group classrooms" id="building-<%- building %>-floor-<%- floor %>">
+        <% for (let i = 0; i < data.buildings[building][floor].length; i++) { %>
+          <div class="list-group-item">
+            <div class="d-flex flex-row justify-content-around align-items-center ">
+              <h3 class="m-0"><%- data.buildings[building][floor][i] %></h3>
+              <div>
+                <button class="btn btn-lg btn-outline-warning"> 編輯 </button>
+                <button class="btn btn-lg btn-outline-danger"> 移除 </button>
+              </div>
+            </div>
+          </div>
+        <% } %>
+        <a href="#" class="list-group-item list-group-item-action list-group-item-success text-center"> 新增教室 </a>
+      </div>
+    <% } %>
+  <% } %>
+</div>
+
+<script>
+  var buildings = document.getElementsByClassName('building');
+  var floors = document.getElementsByClassName('floor');
+  var classrooms = document.getElementsByClassName("classrooms");
+  for (let i = 0; i < buildings.length; i++) {
+    buildings[i].addEventListener("click", function() {
+      for (let j = 0; j < classrooms.length; j++) {
+        classrooms[j].classList.remove("active");
+        classrooms[j].classList.remove("show");
+      }
+      for(let j = 0; j < floors.length; j++) {
+        floors[j].classList.remove("active");
+      }
+    });
+  }
+</script>
