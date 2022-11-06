@@ -5,6 +5,12 @@
   </head>
   <body>
     <%- include("sidebar") %>
+    <% if (page) { %>
+      <div id="content">
+        <%- include(page, data) %>
+      </div>
+    <% } %>
+  <%- include("../partials/footer"); %>
   </body>
 
 </html>

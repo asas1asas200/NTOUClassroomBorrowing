@@ -122,13 +122,14 @@ nav.open ~ .overlay {
 }
 
 </style>
-<!-- Remove 'open' class, this is just to show in Codepen thumbnail -->
-<nav class="">
+<nav class="position-relative">
   <div class="logo">
+    <a data-bs-toggle="offcanvas" href="#sidebar">
     <i class="bx bx-menu menu-icon"></i>
+    </a>
     <span class="logo-name">Admin</span>
   </div>
-  <div class="sidebar">
+  <div class="sidebar offcanvas offcanvas-start" id="sidebar">
     <div class="logo">
       <i class="bx bx-menu menu-icon"></i>
       <span class="logo-name">Admin</span>
@@ -155,7 +156,7 @@ nav.open ~ .overlay {
           </a>
         </li>
         <li class="list">
-          <a href="#" class="nav-link">
+          <a href="/admin/classroom" class="nav-link">
             <i class="bx bx-table icon"></i>
             <span class="link"> 教室編輯 </span>
           </a>
@@ -166,19 +167,3 @@ nav.open ~ .overlay {
 </nav>
 
 <section class="overlay"></section>
-<script>
-const navBar = document.querySelector("nav"),
-  menuBtns = document.querySelectorAll(".menu-icon"),
-  overlay = document.querySelector(".overlay");
-
-menuBtns.forEach((menuBtn) => {
-  menuBtn.addEventListener("click", () => {
-    navBar.classList.toggle("open");
-  });
-});
-
-overlay.addEventListener("click", () => {
-  navBar.classList.remove("open");
-});
-
-</script>

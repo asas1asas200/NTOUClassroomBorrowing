@@ -1,0 +1,51 @@
+<style>
+  .floors {
+    display: none;
+  }
+  .floors.active {
+    display: flex;
+  }
+</style>
+
+<nav class="d-flex position-relative flex-row justify-content-between">
+  <ul class="nav nav-pills">
+    <% for (let building in data.buildings) { %>
+      <li class="nav-item">
+        <button type="button" class="nav-link" data-bs-toggle="pill" 
+          data-bs-target="#building-<%- building %>" onclick="selectedBuilding = this;">
+        <%- building %></button>
+      </li>
+    <% } %>
+  </ul>
+  <ul class="pagination mb-0">
+    <li><button type="button" class="btn btn-success" onclick="console.log('plus');">
+      <i class="bx bx-plus"></i></button>
+    </li>
+    <li><button type="button" class="btn btn-danger" onclick="console.log('minus');">
+      <i class="bx bx-minus"></i></button>
+    </li>
+  </ul>
+</nav>
+
+<div class="tab-content">
+  <% for (let building in data.buildings) { %>
+    <nav class="tab-pane position-relative floors fade flex-row justify-content-between" id="building-<%- building %>">
+    <ul class="nav nav-pills">
+    <% for (let floor in data.buildings[building]) { %>
+      <li class="nav-item">
+        <button type="button"
+          class="nav-link" data-bs-toggle="pill" data-bs-target="#building-<%- floor %>" onclick="selectedFloor = this;">
+            <%- floor %></button></li>
+    <% } %>
+    </ul>
+    <ul class="pagination mb-0">
+      <li><button type="button" class="btn btn-success" onclick="console.log('plus');">
+        <i class="bx bx-plus"></i></button>
+      </li>
+      <li><button type="button" class="btn btn-danger" onclick="console.log('minus');">
+        <i class="bx bx-minus"></i></button>
+      </li>
+    </ul>
+    </nav>
+  <% } %>
+</div>
