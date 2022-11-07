@@ -33,7 +33,7 @@ function createRoot(db) {
   let root = db.collection("users").findOne({ id: "root" });
   root.then(async (result) => {
     if (!result) {
-      const User = require("./models/user");
+      const User = mongoose.model("User", UserSchema);
       const user = new User({
         username: "root",
         password: "root",
