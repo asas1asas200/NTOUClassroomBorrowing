@@ -26,11 +26,30 @@ function addBuilding() {
         name: newBuilding.value,
       },
     })
-    .then((res) => {
-      window.location.reload();
-    })
+    .then((res) => window.location.reload())
     .catch((err) => {
       newBuilding.value = "";
+      showError(err.response.data, err);
+      console.log(err);
+    });
+}
+
+function deleteBuilding() {
+  let building = document.getElementsByClassName("building active");
+  if (building.length !== 1) {
+    showError("錯誤", "請選擇要刪除的建築");
+    return;
+  }
+
+  console.log(building[0].textContent);
+  axios
+    .delete(url + `/building/${building[0].textContent}`, {
+      data: {
+        _csrf: csrfToken,
+      },
+    })
+    .then((res) => window.location.reload())
+    .catch((err) => {
       showError(err.response.data, err);
       console.log(err);
     });

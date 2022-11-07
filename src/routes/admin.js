@@ -9,6 +9,14 @@ const auth = require("../middleware/auth");
 
 router.use(auth.admin);
 
+function errorHandle(e, res) {
+  if (e.code === 11000) {
+    res.status(409).send("409 Already exist");
+  } else {
+    res.status(400).send("400 Bad Request");
+  }
+}
+
 router.get("/", function (req, res, next) {
   res.render("admin/home", { title: "Admin", page: null });
 });
@@ -37,23 +45,34 @@ router.get("/classroom", function (req, res, next) {
 router.post("/building", async function (req, res, next) {
   /*
    req.body.data = {
+    _cfrf: csrfToken,
     name: "電機二館",
   }
   */
-  console.log("req.body: ", req.body);
-  let data = req.body.data;
   try {
     const building = new Building({
-      name: data.name,
+      name: req.body.data.name,
     });
     await building.save();
     res.status(200).send("OK");
   } catch (e) {
-    if (e.code === 11000) {
-      res.status(409).send("409 Already exist");
-    } else {
-      res.status(400).send("400 Bad Request");
+    errorHandle(e, res);
+  }
+});
+
+router.delete("/building/:id", async function (req, res, next) {
+  /*
+    req.body.data = {
+      _cfrf: csrfToken,
     }
+    req.body.params = "電機二館"
+    }
+  */
+  try {
+    await Building.deleteOne({ name: req.params.id });
+    res.status(200).send("OK");
+  } catch (e) {
+    errorHandle(e, res);
   }
 });
 
