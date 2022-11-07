@@ -34,29 +34,19 @@ router.get("/classroom", function (req, res, next) {
   });
 });
 
-router.post("/classroom", async function (req, res, next) {
+router.post("/building", async function (req, res, next) {
   /*
    req.body.data = {
-    type: "add" or "delete",
-    target: "building" or "floor" or "classroom",
-    building: "電機二館",
+    name: "電機二館",
   }
   */
   console.log("req.body: ", req.body);
   let data = req.body.data;
   try {
-    switch (data.type) {
-      case "add":
-        switch (data.target) {
-          case "building":
-            const building = new Building({
-              name: data.building,
-            });
-            await building.save();
-            break;
-        }
-        break;
-    }
+    const building = new Building({
+      name: data.name,
+    });
+    await building.save();
     res.status(200).send("OK");
   } catch (e) {
     if (e.code === 11000) {

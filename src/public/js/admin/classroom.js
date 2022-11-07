@@ -20,18 +20,17 @@ function addBuilding() {
   }
 
   axios
-    .post(url + "/classroom", {
+    .post(url + "/building", {
       _csrf: csrfToken,
       data: {
-        type: "add",
-        target: "building",
-        building: newBuilding.value,
+        name: newBuilding.value,
       },
     })
     .then((res) => {
       window.location.reload();
     })
     .catch((err) => {
+      newBuilding.value = "";
       showError(err.response.data, err);
       console.log(err);
     });
