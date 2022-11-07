@@ -1,7 +1,9 @@
 var express = require("express");
-const User = require("../models/user.js");
-
 var router = express.Router();
+
+const Building = require("../models/building");
+const Floor = require("../models/floor");
+const Classroom = require("../models/classroom");
 
 const auth = require("../middleware/auth");
 
@@ -30,6 +32,39 @@ router.get("/classroom", function (req, res, next) {
     page: "classroom",
     data: fakeData,
   });
+});
+
+router.post("/classroom", async function (req, res, next) {
+  /*
+   req.body.data = {
+    type: "add" or "delete",
+    target: "building" or "floor" or "classroom",
+    building: "電機二館",
+  }
+  */
+  console.log("req.body: ", req.body);
+  let data = req.body.data;
+  try {
+    switch (data.type) {
+      case "add":
+        switch (data.target) {
+          case "building":
+            const building = new Building({
+              name: data.building,
+            });
+            await building.save();
+            break;
+        }
+        break;
+    }
+    res.status(200).send("OK");
+  } catch (e) {
+    if (e.code === 11000) {
+      res.status(409).send("409 Already exist");
+    } else {
+      res.status(400).send("400 Bad Request");
+    }
+  }
 });
 
 module.exports = router;

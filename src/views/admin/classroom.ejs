@@ -5,10 +5,35 @@
   .floors.active {
     display: flex;
   }
+
+  .input-field {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+  .input-field > input[type=text]{
+    border: none;
+    outline: none;
+    color: #4070f4;
+  }
+
+  .underline-animation{
+    transition: all 0.5s;
+    /*display: inline-block;*/
+    bottom: 0;
+    left: -100%;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #4070f4;
+  }
+  .input-field > input[type=text]:focus + .underline-animation{
+    left: 0;
+  }
 </style>
 
-<nav class="d-flex position-relative flex-row justify-content-between">
-  <ul class="nav nav-pills">
+<nav class="d-flex position-relative flex-row justify-content-between animate fadeInDown">
+  <ul class="nav nav-pills p-1">
     <% for (let building in data.buildings) { %>
       <li class="nav-item">
         <button type="button" class="nav-link building" data-bs-toggle="pill"
@@ -16,9 +41,13 @@
         <%- building %></button>
       </li>
     <% } %>
+    <li class="nav-item input-field d-flex m-1">
+      <input type="text" placeholder="新增大樓" id="newBuilding">
+      <span class="underline-animation"></span>
+    </li>
   </ul>
   <ul class="pagination mb-0">
-    <li><button type="button" class="btn btn-success" onclick="console.log('plus');">
+    <li><button type="button" class="btn btn-success" onclick="addBuilding();">
       <i class="bx bx-plus"></i></button>
     </li>
     <li><button type="button" class="btn btn-danger" onclick="console.log('minus');">
@@ -29,7 +58,7 @@
 
 <div class="tab-content">
   <% for (let building in data.buildings) { %>
-    <nav class="tab-pane position-relative floors fade flex-row justify-content-between" id="building-<%- building %>">
+    <nav class="tab-pane position-relative floors fade flex-row justify-content-between animate fadeInDown" id="building-<%- building %>">
     <ul class="nav nav-pills">
     <% for (let floor in data.buildings[building]) { %>
       <li class="nav-item">
@@ -38,6 +67,10 @@
             data-bs-target="#building-<%- building %>-floor-<%- floor %>" onclick="selectedFloor = this;">
               <%- floor %></button></li>
     <% } %>
+      <li class="nav-item input-field d-flex m-1">
+        <input type="text" placeholder="新增樓層">
+        <span class="underline-animation"></span>
+      </li>
     </ul>
     <ul class="pagination mb-0">
       <li><button type="button" class="btn btn-success" onclick="console.log('plus');">
@@ -71,6 +104,25 @@
     <% } %>
   <% } %>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="msgModal" tabindex="-1" aria-labelledby="msgModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="msgModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="msgModalBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input id="csrfToken" type="hidden" name="_csrf" value="<%- csrfToken %>">
 
 <script>
   var buildings = document.getElementsByClassName('building');
