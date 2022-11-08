@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -28,28 +28,24 @@ const UserSchema = new mongoose.Schema({
   confirmed: { type: Boolean, required: true },
 });
 
-// TODO: Need a better implementation.
-function createRoot(db) {
-  let root = db.collection("users").findOne({ id: "root" });
-  root.then(async (result) => {
-    if (!result) {
-      const User = mongoose.model("User", UserSchema);
-      const user = new User({
-        username: "root",
-        password: "root",
-        email: "root@root",
-        admin: true,
-        id: "root",
-        phone: "0000000000",
-        confirmed: true,
-      });
-      await user.save();
-      console.log("Root account create automatically.");
-    } else {
-      console.log("Root account already exist.");
-    }
-  });
-}
+userSchema.static("createRoot", async function () {
+  let root = await this.findOne({ id: "root" });
+  if (!root) {
+    const user = new this({
+      username: "root",
+      password: "root",
+      email: "root@root",
+      admin: true,
+      id: "root",
+      phone: "0000000000",
+      confirmed: true,
+    });
+    await user.save();
+    console.log("Root account created automatically.");
+  } else {
+    console.log("Root account already existed.");
+  }
+});
 
-module.exports = mongoose.model("User", UserSchema);
-module.exports.createRoot = createRoot;
+module.exports = mongoose.model("User", userSchema);
+//module.exports.createRoot = createRoot;

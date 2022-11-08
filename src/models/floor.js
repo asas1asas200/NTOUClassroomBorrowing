@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const FloorSchema = new mongoose.Schema({
+const floorSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -18,4 +18,4 @@ const FloorSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("Floor", FloorSchema);
+module.exports = mongoose.model("Floor", floorSchema);

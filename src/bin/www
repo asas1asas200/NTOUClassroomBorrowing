@@ -21,9 +21,7 @@ mongoose
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-var createRoot = require("../models/user").createRoot;
-createRoot(db);
+require("../models/user").createRoot();
 
 /**
  * Get port from environment and store in Express.
