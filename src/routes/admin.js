@@ -7,7 +7,7 @@ const Classroom = require("../models/classroom");
 
 const auth = require("../middleware/auth");
 
-//router.use(auth.admin);
+router.use(auth.admin);
 
 function errorHandle(e, res) {
   console.log(e);
@@ -130,28 +130,29 @@ router.delete("/building/:id/floor/:fid", async function (req, res, next) {
   }
 });
 
-// TODO:
-// router.post("/classroom", async function (req, res, next) {
-//   /*
-//     req._csrf: csrfToken,
-//     req.body.data = {
-//       building: "電機二館",
-//       floor: "一樓",
-//       name: "103",
-//     }
-//   */
-//   try {
-//     let building = await Building.findOne({ name: req.body.data.building });
-//     let floor = await Floor.findOne({
-//       name: req.body.data.floor,
-//       building: building,
-//     });
-//     Classroom.newClassroom(floor, body.data.name);
-//
-//     res.status(200).send("OK");
-//   } catch (e) {
-//     errorHandle(e, res);
-//   }
-// });
+router.post("/classroom", async function (req, res, next) {
+  /*
+    req._csrf: csrfToken,
+    req.body.data = {
+      building: "電機二館",
+      floor: "一樓",
+      name: "103",
+    }
+  */
+
+  // TODO: add more information about classroom
+  try {
+    let building = await Building.findOne({ name: req.body.data.building });
+    let floor = await Floor.findOne({
+      name: req.body.data.floor,
+      building: building,
+    });
+    Classroom.newClassroom(floor, req.body.data.name);
+
+    res.status(200).send("OK");
+  } catch (e) {
+    errorHandle(e, res);
+  }
+});
 
 module.exports = router;
