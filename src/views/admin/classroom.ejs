@@ -68,15 +68,15 @@
               <%- floor %></button></li>
     <% } %>
       <li class="nav-item input-field d-flex m-1">
-        <input type="text" placeholder="新增樓層">
+        <input type="text" placeholder="新增樓層" id="<%- building %>-newFloor">
         <span class="underline-animation"></span>
       </li>
     </ul>
     <ul class="pagination mb-0">
-      <li><button type="button" class="btn btn-success" onclick="console.log('plus');">
+      <li><button type="button" class="btn btn-success" onclick="addFloor();">
         <i class="bx bx-plus"></i></button>
       </li>
-      <li><button type="button" class="btn btn-danger" onclick="console.log('minus');">
+      <li><button type="button" class="btn btn-danger" onclick="deleteFloor();">
         <i class="bx bx-minus"></i></button>
       </li>
     </ul>

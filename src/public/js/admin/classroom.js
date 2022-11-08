@@ -54,3 +54,65 @@ function deleteBuilding() {
       console.log(err);
     });
 }
+
+function addFloor() {
+  let building = document.getElementsByClassName("building active");
+  if (building.length !== 1) {
+    showError("錯誤", "請選擇所屬的建築");
+    return;
+  }
+
+  let newFloor = document.getElementById(
+    `${building[0].textContent.trim()}-newFloor`
+  );
+  console.log(newFloor);
+  if (newFloor.value.trim() === "") {
+    showError("錯誤", "請輸入新樓層名稱");
+    return;
+  }
+
+  axios
+    .post(url + "/floor", {
+      _csrf: csrfToken,
+      data: {
+        name: newFloor.value,
+        building: building[0].textContent.trim(),
+      },
+    })
+    .then((res) => window.location.reload())
+    .catch((err) => {
+      newFloor.value = "";
+      showError(err.response.data, err);
+      console.log(err);
+    });
+}
+
+function deleteFloor() {
+  let building = document.getElementsByClassName("building active");
+  if (building.length !== 1) {
+    showError("錯誤", "請選擇所屬的建築");
+    return;
+  }
+
+  let floor = document.getElementsByClassName("floor active");
+  if (floor.length !== 1) {
+    showError("錯誤", "請選擇要刪除的樓層");
+    return;
+  }
+
+  axios
+    .delete(
+      url +
+        `/building/${building[0].textContent.trim()}/floor/${floor[0].textContent.trim()}`,
+      {
+        data: {
+          _csrf: csrfToken,
+        },
+      }
+    )
+    .then((res) => window.location.reload())
+    .catch((err) => {
+      showError(err.response.data, err);
+      console.log(err);
+    });
+}

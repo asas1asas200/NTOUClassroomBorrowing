@@ -11,4 +11,15 @@ const classroomSchema = new mongoose.Schema({
   },
 });
 
+classroomSchema.static("newClassroom", async function (floor, name) {
+  let classroom = new this({
+    name: name,
+    floor: floor,
+  });
+  await classroom.save();
+  floor.classrooms.push(classroom);
+  await floor.save();
+  return classroom;
+});
+
 module.exports = mongoose.model("Classroom", classroomSchema);
