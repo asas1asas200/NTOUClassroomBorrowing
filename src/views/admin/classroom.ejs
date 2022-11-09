@@ -37,7 +37,7 @@
     <% for (let building in data.buildings) { %>
       <li class="nav-item">
         <button type="button" class="nav-link building" data-bs-toggle="pill"
-          data-bs-target="#building-<%- building %>">
+          data-bs-target="#building-<%- building %>" id="building-btn-<%- building %>" onclick="window.sessionStorage.setItem('building', '<%- building %>');">
         <%- building %></button>
       </li>
     <% } %>
@@ -64,7 +64,7 @@
       <li class="nav-item">
         <button type="button"
           class="nav-link floor" data-bs-toggle="pill" 
-            data-bs-target="#building-<%- building %>-floor-<%- floor %>">
+            data-bs-target="#building-<%- building %>-floor-<%- floor %>" id="floor-btn-<%- building %>-<%- floor %>" onclick="window.sessionStorage.setItem('floor', '<%- floor %>');">
               <%- floor %></button></li>
     <% } %>
       <li class="nav-item input-field d-flex m-1">
@@ -159,5 +159,17 @@
         floors[j].classList.remove("active");
       }
     });
+  }
+
+  window.onload = function() {
+    let building = sessionStorage.getItem("building");
+    let floor = sessionStorage.getItem("floor");
+
+    if (building) {
+      document.getElementById(`building-btn-${building}`).click();
+    }
+    if (floor) {
+      document.getElementById(`floor-btn-${building}-${floor}`).click();
+    }
   }
 </script>
