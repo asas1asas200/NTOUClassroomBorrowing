@@ -117,6 +117,91 @@ function deleteFloor() {
     });
 }
 
+function formClassroom() {
+  /*
+    {
+      // Period | 0   | 1   | 2
+                [true, true, false, ...], // Monday
+                [true, false, false, ...], // Tuesday
+      ...
+    }
+  */
+  let schedule = {};
+  for (let i = 1; i <= 7; i++) {
+    schedule[i] = {};
+    for (let j = 0; j <= 14; j++) {
+      schedule[i][j] = document.getElementById(`schedule-${i}-${j}`).checked;
+    }
+  }
+  let options = [];
+  if (document.getElementById("computer").checked) options.push("computer");
+
+  return {
+    building: document
+      .getElementsByClassName("building active")[0]
+      .textContent.trim(),
+    floor: document
+      .getElementsByClassName("floor active")[0]
+      .textContent.trim(),
+    name: document.getElementById("name").value,
+    schedule: schedule,
+    capacity: document.getElementById("capacity").value,
+    options: options,
+  };
+}
+
+function getEmptyClassroom() {
+  let form = document.getElementById("classroomInfo");
+  document.getElementById("classroomEditModalTitle").textContent = "新增教室";
+  document.getElementById("saveButton").onclick = addClassroom;
+
+  axios.get(url + "/classroom/empty").then((res) => {
+    form.innerHTML = res.data;
+  });
+}
+
+function getClassroomInfo(name) {
+  let form = document.getElementById("classroomInfo");
+  let building = document.getElementsByClassName("building active");
+  let floor = document.getElementsByClassName("floor active");
+  document.getElementById("classroomEditModalTitle").textContent = "編輯教室";
+  document.getElementById("saveButton").onclick = updateClassroom;
+
+  axios
+    .get(
+      url +
+        `/building/${building[0].textContent.trim()}/floor/${floor[0].textContent.trim()}/classroom/${name}`
+    )
+    .then((res) => {
+      form.innerHTML = res.data;
+    })
+    .catch((err) => {
+      showError(err.response.data, err);
+      console.log(err);
+    });
+}
+
+function updateClassroom() {
+  let building = document
+    .getElementsByClassName("building active")[0]
+    .textContent.trim();
+  let floor = document
+    .getElementsByClassName("floor active")[0]
+    .textContent.trim();
+  let name = document.getElementById("oldName").value;
+
+  axios
+    .put(url + `/building/${building}/floor/${floor}/classroom/${name}`, {
+      _csrf: csrfToken,
+      data: formClassroom(),
+    })
+    .then((res) => window.location.reload())
+    .catch((err) => {
+      showError(err.response.data, err);
+      console.log(err);
+    });
+}
+
 function addClassroom() {
   let building = document.getElementsByClassName("building active");
   if (building.length !== 1) {
@@ -132,11 +217,7 @@ function addClassroom() {
   axios
     .post(url + "/classroom", {
       _csrf: csrfToken,
-      data: {
-        name: document.getElementById("name").value.trim(),
-        building: building[0].textContent.trim(),
-        floor: floor[0].textContent.trim(),
-      },
+      data: formClassroom(),
     })
     .then((res) => window.location.reload())
     .catch((err) => {

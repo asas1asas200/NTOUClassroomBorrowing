@@ -93,14 +93,14 @@
             <div class="d-flex flex-row justify-content-around align-items-center ">
               <h3 class="m-0"><%- data.buildings[building][floor][i] %></h3>
               <div>
-                <button class="btn btn-lg btn-outline-warning"> 編輯 </button>
+                <button class="btn btn-lg btn-outline-warning" data-bs-toggle="modal" data-bs-target="#classroomEditModal" onclick="getClassroomInfo('<%- data.buildings[building][floor][i] %>');"> 編輯 </button>
                 <button class="btn btn-lg btn-outline-danger"> 移除 </button>
               </div>
             </div>
           </div>
         <% } %>
         <div class="d-grid">
-          <button type="button" data-bs-toggle="modal" data-bs-target="#newClassroomModal" class="btn btn-outline-success text-center"> 新增教室 </button>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#classroomEditModal" class="btn btn-outline-success text-center" onclick="getEmptyClassroom();"> 新增教室 </button>
         </div>
       </div>
     <% } %>
@@ -108,63 +108,19 @@
 </div>
 
 
-<!-- New Classroom Modal -->
-<div class="modal fade" id="newClassroomModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="newClassroomModalLabel" aria-hidden="true">
+<!-- Classroom Edit Modal -->
+<div class="modal fade" id="classroomEditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="classroomEditModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newClassroomModal"> 新增教室 </h5>
+        <h5 class="modal-title" id="classroomEditModalTitle">  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form>
-          <div class="row">
-            <div class="col">
-              <label for="name" class="form-label"> 教室名稱 </label>
-              <input type="text" class="form-control" id="name">
-            </div>
-            <div class="col">
-              <label for="capacity" class="form-label"> 教室容量 </label>
-              <input type="number" class="form-control" id="capacity">
-            </div>
-          </div>
-          <div class="row mb-3 mt-3">
-            <div class="col-3">
-              <label for="capacity" class="form-label"> 其他資訊 </label>
-            </div>
-            <div class="col">
-              <input type="checkbox" class="form-check-input" id="computer">
-              <label class="form-check-label" for="computer"> 電腦 </label>
-            </div>
-          </div>
-          <table class="table table-striped" id="schedule">
-            <thead>
-              <tr>
-                <th scope="col"> 節次 </th>
-                <% for (let weekday of ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]) { %>
-                  <th scope="col"> <%- weekday %> </th>
-                <% } %>
-              </tr>
-            </thead>
-            <tbody>
-              <% for (let period of Array(15).keys()) { %>
-                <tr id="period-<%- period %>">
-                <th scope="row"> <%- period %> </th>
-                <% for (let day of Array(7).keys()) { %>
-                  <td>
-                    <input type="checkbox" class="btn-check" id="btn-check-<%- day+1 %>-<%- period %>" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btn-check-<%- day+1 %>-<%- period %>"> 保留 </label>
-                  </td>
-                <% } %>
-                </tr>
-              <% } %>
-            </tbody>
-          </table>
-        </form>
+      <div class="modal-body" id="classroomInfo">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="addClassroom();">Save changes</button>
+        <button type="button" class="btn btn-primary" id="saveButton">Save changes</button>
       </div>
     </div>
   </div>

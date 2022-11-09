@@ -23,20 +23,6 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/classroom", async function (req, res, next) {
-  //TODO: communicate with database
-  let fakeData = {
-    buildings: {
-      電機二館: {
-        一樓: ["101", "105"],
-        二樓: ["201", "203"],
-        三樓: ["301", "303"],
-      },
-      電綜大樓: {
-        一樓: ["101", "105"],
-      },
-    },
-  };
-
   // TODO: Rewrite this by JSON.stringify.
   //       This may change the format.
   let data = await Building.dumpJSON();
@@ -130,6 +116,43 @@ router.delete("/building/:id/floor/:fid", async function (req, res, next) {
   }
 });
 
+// Empty classroom form
+router.get("/classroom/empty", async function (req, res, next) {
+  res.render("admin/classroomInfo", {
+    name: "",
+    capacity: 0,
+    schedule: null,
+    options: [],
+  });
+});
+
+// Classroom info
+router.get(
+  "/building/:id/floor/:fid/classroom/:cid",
+  async function (req, res, next) {
+    try {
+      let building = await Building.findOne({ name: req.params.id });
+      let floor = await Floor.findOne({
+        name: req.params.fid,
+        building: building,
+      });
+      let classroom = await Classroom.findOne({
+        name: req.params.cid,
+        floor: floor,
+      });
+      res.render("admin/classroomInfo", {
+        name: classroom.name,
+        capacity: classroom.capacity,
+        schedule: JSON.parse(classroom.schedule),
+        options: classroom.options,
+      });
+    } catch (e) {
+      errorHandle(e, res);
+    }
+  }
+);
+
+// Create new classroom
 router.post("/classroom", async function (req, res, next) {
   /*
     req._csrf: csrfToken,
@@ -137,6 +160,9 @@ router.post("/classroom", async function (req, res, next) {
       building: "電機二館",
       floor: "一樓",
       name: "103",
+      capacity: 30,
+      schedule: {JSON},
+      options: ["computer"],
     }
   */
 
@@ -147,12 +173,34 @@ router.post("/classroom", async function (req, res, next) {
       name: req.body.data.floor,
       building: building,
     });
-    Classroom.newClassroom(floor, req.body.data.name);
+    Classroom.newClassroom(floor, req.body.data);
 
     res.status(200).send("OK");
   } catch (e) {
     errorHandle(e, res);
   }
 });
+
+router.put(
+  "/building/:id/floor/:fid/classroom/:cid",
+  async function (req, res, next) {
+    try {
+      let building = await Building.findOne({ name: req.params.id });
+      let floor = await Floor.findOne({
+        name: req.params.fid,
+        building: building,
+      });
+      let classroom = await Classroom.findOne({
+        name: req.params.cid,
+        floor: floor,
+      });
+      classroom.update(req.body.data);
+
+      res.status(200).send("OK");
+    } catch (e) {
+      errorHandle(e, res);
+    }
+  }
+);
 
 module.exports = router;
