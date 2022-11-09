@@ -1,0 +1,175 @@
+<style>
+  .floors {
+    display: none;
+  }
+  .floors.active {
+    display: flex;
+  }
+
+  .input-field {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+  .input-field > input[type=text]{
+    border: none;
+    outline: none;
+    color: #4070f4;
+  }
+
+  .underline-animation{
+    transition: all 0.5s;
+    /*display: inline-block;*/
+    bottom: 0;
+    left: -100%;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #4070f4;
+  }
+  .input-field > input[type=text]:focus + .underline-animation{
+    left: 0;
+  }
+</style>
+
+<nav class="d-flex position-relative flex-row justify-content-between animate fadeInDown">
+  <ul class="nav nav-pills p-1">
+    <% for (let building in data.buildings) { %>
+      <li class="nav-item">
+        <button type="button" class="nav-link building" data-bs-toggle="pill"
+          data-bs-target="#building-<%- building %>" id="building-btn-<%- building %>" onclick="window.sessionStorage.setItem('building', '<%- building %>');">
+        <%- building %></button>
+      </li>
+    <% } %>
+    <li class="nav-item input-field d-flex m-1">
+      <input type="text" placeholder="新增大樓" id="newBuilding">
+      <span class="underline-animation"></span>
+    </li>
+  </ul>
+  <ul class="pagination mb-0">
+    <li><button type="button" class="btn btn-success" onclick="addBuilding();">
+      <i class="bx bx-plus"></i></button>
+    </li>
+    <li><button type="button" class="btn btn-danger" onclick="deleteBuilding();">
+      <i class="bx bx-minus"></i></button>
+    </li>
+  </ul>
+</nav>
+
+<div class="tab-content">
+  <% for (let building in data.buildings) { %>
+    <nav class="tab-pane position-relative floors fade flex-row justify-content-between animate fadeInDown" id="building-<%- building %>">
+    <ul class="nav nav-pills">
+    <% for (let floor in data.buildings[building]) { %>
+      <li class="nav-item">
+        <button type="button"
+          class="nav-link floor" data-bs-toggle="pill" 
+            data-bs-target="#building-<%- building %>-floor-<%- floor %>" id="floor-btn-<%- building %>-<%- floor %>" onclick="window.sessionStorage.setItem('floor', '<%- floor %>');">
+              <%- floor %></button></li>
+    <% } %>
+      <li class="nav-item input-field d-flex m-1">
+        <input type="text" placeholder="新增樓層" id="<%- building %>-newFloor">
+        <span class="underline-animation"></span>
+      </li>
+    </ul>
+    <ul class="pagination mb-0">
+      <li><button type="button" class="btn btn-success" onclick="addFloor();">
+        <i class="bx bx-plus"></i></button>
+      </li>
+      <li><button type="button" class="btn btn-danger" onclick="deleteFloor();">
+        <i class="bx bx-minus"></i></button>
+      </li>
+    </ul>
+    </nav>
+  <% } %>
+</div>
+
+<div class="tab-content">
+  <% for (let building in data.buildings) { %>
+    <% for (let floor in data.buildings[building]) { %>
+      <div class="tab-pane fade list-group classrooms" id="building-<%- building %>-floor-<%- floor %>">
+        <% for (let i = 0; i < data.buildings[building][floor].length; i++) { %>
+          <div class="list-group-item">
+            <div class="row">
+              <h3 class="m-0 col text-center"><%- data.buildings[building][floor][i] %></h3>
+              <div class="col-4">
+                <button class="btn btn-lg btn-outline-warning" data-bs-toggle="modal" data-bs-target="#classroomEditModal" onclick="getClassroomInfo('<%- data.buildings[building][floor][i] %>');"> 編輯 </button>
+                <button class="btn btn-lg btn-outline-danger" onclick="deleteClassroom('<%- data.buildings[building][floor][i] %>');"> 移除 </button>
+              </div>
+            </div>
+          </div>
+        <% } %>
+        <div class="d-grid">
+          <button type="button" data-bs-toggle="modal" data-bs-target="#classroomEditModal" class="btn btn-outline-success text-center" onclick="getEmptyClassroom();"> 新增教室 </button>
+        </div>
+      </div>
+    <% } %>
+  <% } %>
+</div>
+
+
+<!-- Classroom Edit Modal -->
+<div class="modal fade" id="classroomEditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="classroomEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="classroomEditModalTitle">  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="classroomInfo">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveButton">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal fade" id="msgModal" tabindex="-1" aria-labelledby="msgModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="msgModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="msgModalBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input id="csrfToken" type="hidden" name="_csrf" value="<%- csrfToken %>">
+
+<script>
+  var buildings = document.getElementsByClassName('building');
+  var floors = document.getElementsByClassName('floor');
+  var classrooms = document.getElementsByClassName("classrooms");
+  for (let i = 0; i < buildings.length; i++) {
+    buildings[i].addEventListener("click", function() {
+      for (let j = 0; j < classrooms.length; j++) {
+        classrooms[j].classList.remove("active");
+        classrooms[j].classList.remove("show");
+      }
+      for(let j = 0; j < floors.length; j++) {
+        floors[j].classList.remove("active");
+      }
+    });
+  }
+
+  window.onload = function() {
+    let building = sessionStorage.getItem("building");
+    let floor = sessionStorage.getItem("floor");
+
+    if (building) {
+      document.getElementById(`building-btn-${building}`).click();
+    }
+    if (floor) {
+      document.getElementById(`floor-btn-${building}-${floor}`).click();
+    }
+  }
+</script>

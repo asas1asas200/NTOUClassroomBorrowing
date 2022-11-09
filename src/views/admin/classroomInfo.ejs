@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col">
+    <label for="name" class="form-label"> 教室名稱 </label>
+    <input type="text" class="form-control" id="name" value="<%- name %>">
+    <input type="hidden" id="oldName" value="<%- name %>">
+  </div>
+  <div class="col">
+    <label for="capacity" class="form-label"> 教室容量 </label>
+    <input type="number" class="form-control" id="capacity" value="<%- capacity %>">
+  </div>
+</div>
+<div class="row mb-3 mt-3">
+  <div class="col-3">
+    <label for="capacity" class="form-label"> 其他資訊 </label>
+  </div>
+  <div class="col">
+    <input type="checkbox" class="form-check-input" id="computer" <%- (options.indexOf("computer")!==-1) ? "checked":"" %>>
+    <label class="form-check-label" for="computer"> 電腦 </label>
+  </div>
+</div>
+<table class="table table-striped" id="schedule">
+  <thead>
+    <tr>
+      <th scope="col"> 節次 </th>
+      <% for (let weekday of ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]) { %>
+        <th scope="col"> <%- weekday %> </th>
+      <% } %>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let period of Array(15).keys()) { %>
+      <tr id="period-<%- period %>">
+      <th scope="row"> <%- period %> </th>
+      <% for (let day of Array(7).keys()) { %>
+        <td>
+          <input type="checkbox" class="btn-check" id="schedule-<%- day+1 %>-<%- period %>" autocomplete="off" <%- (schedule && schedule[day+1][period]) ? "checked" : ""%>>
+          <label class="btn btn-outline-secondary" for="schedule-<%- day+1 %>-<%- period %>"> 保留 </label>
+        </td>
+      <% } %>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

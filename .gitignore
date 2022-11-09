@@ -434,3 +434,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Docker MongoDB Volume
+
+data/
+

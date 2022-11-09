@@ -1,0 +1,17 @@
+<form action="/users" method="post">
+  <div class="form-group container-fluid m-3">
+    <%- makeField('id', '學號' , 'text' ) %>
+    <%# TODO: Confirm if two passwords are the same. %>
+    <%- makeField('password', '密碼' , 'password' ) %>
+    <%- makeField('passwordConfirmation', '確認密碼' , 'password' ) %>
+    <%- makeField('username', '姓名' , 'text' ) %>
+    <%- makeField('email', '信箱' , 'email' ) %>
+    <%- makeField('phone', '聯絡電話' , 'text' ) %>
+    <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+    <div class="mb-3 row">
+      <div class="col-9"></div>
+      <%# TODO: Hash the password before submit %>
+      <button class="col btn btn-primary mb-3">送出</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/header'); %>
+</head>
+
+<body>
+  <%- include('../partials/top'); %>
+
+    <div class="card container text-center">
+      <div class="card-body align-items-center">
+        <div class="btn-group" role="group">
+          <a href="/users/login" type="button" class="col-4 btn btn-primary 
+            <% if(form=="loginForm") { %>
+              disabled
+            <% } %>
+          ">登入</button>
+          <a href="/users/new" class="col-4 btn btn-primary 
+            <% if(form=="registerForm") { %>
+              disabled
+            <% } %>
+            ">註冊</a>
+        </div>
+
+        <%- include(form); %>
+      </div>
+    </div>
+</body>
+
+</html>
