@@ -1,13 +1,9 @@
 var express = require("express");
 var router = express.Router();
 
-const Building = require("../models/building");
-const Floor = require("../models/floor");
-const Classroom = require("../models/classroom");
-
-const auth = require("../middleware/auth");
-
-router.use(auth.admin);
+const Building = require("../../models/building");
+const Floor = require("../../models/floor");
+const Classroom = require("../../models/classroom");
 
 function errorHandle(e, res) {
   console.log(e);
@@ -18,11 +14,7 @@ function errorHandle(e, res) {
   }
 }
 
-router.get("/", function (req, res, next) {
-  res.render("admin/home", { title: "Admin", page: null });
-});
-
-router.get("/classroom", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   // TODO: Rewrite this by JSON.stringify.
   //       This may change the format.
   let data = await Building.dumpJSON();
@@ -117,7 +109,7 @@ router.delete("/building/:id/floor/:fid", async function (req, res, next) {
 });
 
 // Empty classroom form
-router.get("/classroom/empty", async function (req, res, next) {
+router.get("/empty", async function (req, res, next) {
   res.render("admin/classroomInfo", {
     name: "",
     capacity: 0,
@@ -153,7 +145,7 @@ router.get(
 );
 
 // Create new classroom
-router.post("/classroom", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
   /*
     req._csrf: csrfToken,
     req.body.data = {

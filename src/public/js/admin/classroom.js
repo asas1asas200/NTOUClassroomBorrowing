@@ -1,5 +1,5 @@
 axios.defaults.withCredentials = true;
-const url = `${window.location.protocol}//${window.location.host}/admin`;
+const url = `${window.location.protocol}//${window.location.host}/admin/classroom`;
 const newBuilding = document.getElementById("newBuilding");
 const csrfToken = document.getElementById("csrfToken").value;
 
@@ -155,7 +155,7 @@ function getEmptyClassroom() {
   document.getElementById("classroomEditModalTitle").textContent = "新增教室";
   document.getElementById("saveButton").onclick = addClassroom;
 
-  axios.get(url + "/classroom/empty").then((res) => {
+  axios.get(url + "/empty").then((res) => {
     form.innerHTML = res.data;
   });
 }
@@ -215,7 +215,7 @@ function addClassroom() {
   }
 
   axios
-    .post(url + "/classroom", {
+    .post(url + "/", {
       _csrf: csrfToken,
       data: formClassroom(),
     })
