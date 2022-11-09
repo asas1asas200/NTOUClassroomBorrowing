@@ -26,7 +26,10 @@ function addBuilding() {
         name: newBuilding.value,
       },
     })
-    .then((res) => window.location.reload())
+    .then((res) => {
+      window.sessionStorage.setItem("building", newBuilding.value);
+      window.location.reload();
+    })
     .catch((err) => {
       newBuilding.value = "";
       showError(err.response.data, err);
@@ -79,7 +82,10 @@ function addFloor() {
         building: building[0].textContent.trim(),
       },
     })
-    .then((res) => window.location.reload())
+    .then((res) => {
+      window.sessionStorage.setItem("floor", newFloor.value);
+      window.location.reload();
+    })
     .catch((err) => {
       newFloor.value = "";
       showError(err.response.data, err);
