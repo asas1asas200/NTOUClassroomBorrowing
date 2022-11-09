@@ -24,6 +24,7 @@ const floorSchema = new mongoose.Schema(
       async deleteFloor() {
         this.building.floors.pull(this._id);
         this.building.save();
+        this.classrooms.forEach((classroom) => classroom.remove());
         this.remove();
       },
     },

@@ -34,6 +34,12 @@ const classroomSchema = new mongoose.Schema(
         this.options = info.options;
         await this.save();
       },
+      // NOTE: The classroom object must populate when query.
+      async deleteClassroom() {
+        this.floor.classrooms.pull(this._id);
+        this.floor.save();
+        this.remove();
+      },
     },
   }
 );

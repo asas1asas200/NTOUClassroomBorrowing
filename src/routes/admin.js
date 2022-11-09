@@ -107,7 +107,7 @@ router.delete("/building/:id/floor/:fid", async function (req, res, next) {
     let floor = await Floor.findOne({
       name: req.params.fid,
       building: building,
-    }).populate("building");
+    }).populate(["building", "classrooms"]);
     floor.deleteFloor();
 
     res.status(200).send("OK");
@@ -195,6 +195,28 @@ router.put(
         floor: floor,
       });
       classroom.update(req.body.data);
+
+      res.status(200).send("OK");
+    } catch (e) {
+      errorHandle(e, res);
+    }
+  }
+);
+
+router.delete(
+  "/building/:id/floor/:fid/classroom/:cid",
+  async function (req, res, next) {
+    try {
+      let building = await Building.findOne({ name: req.params.id });
+      let floor = await Floor.findOne({
+        name: req.params.fid,
+        building: building,
+      });
+      let classroom = await Classroom.findOne({
+        name: req.params.cid,
+        floor: floor,
+      }).populate("floor");
+      classroom.deleteClassroom();
 
       res.status(200).send("OK");
     } catch (e) {

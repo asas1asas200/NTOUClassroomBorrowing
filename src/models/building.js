@@ -20,7 +20,10 @@ const buildingSchema = new mongoose.Schema(
     methods: {
       // NOTE: The building object must populate when query.
       async deleteBuilding() {
-        this.floors.forEach((floor) => floor.remove());
+        this.floors.forEach(function (floor) {
+          floor.classrooms.forEach((classroom) => classroom.remove());
+          floor.remove();
+        });
         this.remove();
       },
     },

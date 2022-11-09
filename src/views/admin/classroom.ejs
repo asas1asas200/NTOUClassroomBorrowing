@@ -94,7 +94,7 @@
               <h3 class="m-0"><%- data.buildings[building][floor][i] %></h3>
               <div>
                 <button class="btn btn-lg btn-outline-warning" data-bs-toggle="modal" data-bs-target="#classroomEditModal" onclick="getClassroomInfo('<%- data.buildings[building][floor][i] %>');"> 編輯 </button>
-                <button class="btn btn-lg btn-outline-danger"> 移除 </button>
+                <button class="btn btn-lg btn-outline-danger" onclick="deleteClassroom('<%- data.buildings[building][floor][i] %>');"> 移除 </button>
               </div>
             </div>
           </div>
