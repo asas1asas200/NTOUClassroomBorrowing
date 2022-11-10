@@ -12,16 +12,16 @@ let makeField = (name, label, type) =>
     <div class="mb-3 row">
       <label for="${name}" class="col-3 col-form-label"> ${label} </label>
       <div class="col">
-        <input type="${type}" class="form-control" id="${name}" name="${name}" placeholder="${label}" required>
+        <input type="${type}" class="form-control" name="${name}" placeholder="${label}" required>
       </div>
     </div>
 `;
 
 router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+  res.redirect("/home");
 });
 
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     // TODO: verify infos like if user exist, if email is valid, etc
     const user = new User({
@@ -35,25 +35,16 @@ router.post("/", async (req, res) => {
       confirmed: false,
     });
     await user.save();
-    res.send(user);
+    res.redirect("/users/session");
   } catch (e) {
     console.log(e);
     res.status(500).send(e);
   }
 });
 
-router.get("/new", auth.unloginedUser, function (req, res, next) {
+router.get("/session", function (req, res, next) {
   res.render("user/entry", {
-    title: "Register",
-    form: "registerForm",
-    makeField: makeField,
-  });
-});
-
-router.get("/login", auth.unloginedUser, function (req, res) {
-  res.render("user/entry", {
-    title: "Login",
-    form: "loginForm",
+    title: "Session",
     makeField: makeField,
   });
 });
@@ -61,7 +52,7 @@ router.get("/login", auth.unloginedUser, function (req, res) {
 router.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "/users/login",
+    failureRedirect: "/users/session",
   }),
   function (req, res) {
     res.redirect("/home");
@@ -73,7 +64,7 @@ router.post("/logout", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect("/users/login");
+    res.redirect("/users/session");
   });
 });
 
