@@ -90,7 +90,7 @@
       <div class="tab-pane fade list-group classrooms" id="building-<%- building %>-floor-<%- floor %>">
         <% for (let i = 0; i < data.buildings[building][floor].length; i++) { %>
           <div class="list-group-item">
-            <div class="row">
+            <div class="row align-items-center">
               <h3 class="m-0 col text-center"><%- data.buildings[building][floor][i] %></h3>
               <div class="col-4">
                 <button class="btn btn-lg btn-outline-warning" data-bs-toggle="modal" data-bs-target="#classroomEditModal" onclick="getClassroomInfo('<%- data.buildings[building][floor][i] %>');"> 編輯 </button>
