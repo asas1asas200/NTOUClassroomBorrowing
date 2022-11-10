@@ -166,20 +166,20 @@ nav.open ~ .overlay {
     <a data-bs-toggle="offcanvas" href="#sidebar">
     <i class="bx bx-menu menu-icon"></i>
     </a>
-    <span class="logo-name">Admin</span>
+    <span class="logo-name">Admin <%- page?` / ${page}` : "" %></span>
   </div>
   <div class="sidebar offcanvas offcanvas-start" id="sidebar">
     <div class="logo">
       <a data-bs-toggle="offcanvas" href="#sidebar">
       <i class="bx bx-menu menu-icon"></i>
       </a>
-      <span class="logo-name">Admin</span>
+      <span class="logo-name">Admin <%- page?` / ${page}` : "" %></span>
     </div>
 
     <div class="sidebar-content">
       <ul class="lists">
         <li class="list">
-          <a href="#" class="nav-link">
+          <a href="/admin/account" class="nav-link">
             <i class="bx bxs-user-account icon"></i>
             <span class="link"> 帳號管理 </span>
           </a>
