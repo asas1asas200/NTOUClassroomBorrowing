@@ -1,0 +1,15 @@
+<div class="row m-2">
+  <div class="col h3 text-secondary"> 學號 </div>
+  <div class="col h3 text-primary"> <%- user.id %> </div>
+  <div class="col h3 text-secondary"> 姓名 </div>
+  <div class="col h3 text-primary"> <%- user.username %> </div>
+</div>
+<div class="row m-2">
+  <div class="col h3 text-secondary"> E-mail </div>
+  <div class="col h3 text-primary"> <%- user.email %> </div>
+  <div class="col-1 h3 text-center <%- user.emailVerified ? "text-success" : "text-danger" %>"> <%- user.emailVerified ? "<i class='bx bxs-checkbox-checked'></i>" : "<i class='bx bxs-x-square' ></i>" %> </div>
+</div>
+<div class="row m-2">
+  <div class="col h3 text-secondary"> Phone </div>
+  <div class="col h3 text-primary"> <%- user.phone %> </div>
+</div>
