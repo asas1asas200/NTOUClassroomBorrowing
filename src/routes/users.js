@@ -32,7 +32,8 @@ router.post("/", async (req, res) => {
       admin: false,
       id: req.body.id,
       phone: req.body.phone,
-      confirmed: false,
+      emailVerified: false,
+      verified: false,
     });
     await user.save();
     res.send(user);

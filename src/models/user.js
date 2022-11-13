@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: 3,
   },
-  confirmed: { type: Boolean, required: true },
+  emailVerified: { type: Boolean, required: true },
+  verified: { type: Boolean, required: true },
 });
 
 userSchema.static("createRoot", async function () {
@@ -38,7 +39,8 @@ userSchema.static("createRoot", async function () {
       admin: true,
       id: "root",
       phone: "0000000000",
-      confirmed: true,
+      emailVerified: true,
+      verified: true,
     });
     await user.save();
     console.log("Root account created automatically.");

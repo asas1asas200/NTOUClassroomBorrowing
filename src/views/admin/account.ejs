@@ -1,0 +1,43 @@
+<ul class="list-group">
+  <li class="list-group-item">
+    <div class="row align-items-center">
+      <h3 class="m-0 text-center col"> 學號 </h3>
+      <h3 class="m-0 text-center col"> 姓名 </h3>
+      <h3 class="m-0 text-center col"> Email 驗證 </h3>
+      <div class="col">
+        <h3 class="m-0 text-center"> 動作 </h3>
+      </div>
+    </div>
+  </li>
+  <% for(let user of data) { %>
+    <li class="list-group-item">
+      <div class="row align-items-center">
+        <h3 class="m-0 text-center col"> <%- user.id %> </h3>
+        <h3 class="m-0 text-center col"> <%- user.username %> </h3>
+        <h3 class="m-0 text-center col <%- user.emailVerified ? 'text-success' : 'text-danger' %>"> <%- user.emailVerified %> </h3>
+        <div class="col justify-content-evenly d-flex flex-row flex-wrap">
+          <button class="btn btn-lg btn-outline-primary" data-bs-toggle="modal" data-bs-target="#auditModal" onclick="getUserInfo('<%- user.id %>');"> 進行審核 </button>
+          <button class="btn btn-lg btn-outline-success" onclick="acceptUser('<%- user.id %>')"> 直接通過 </button>
+        </div>
+      </div>
+    </li>
+  <% } %>
+</ul>
+
+<!-- Audit modal -->
+<div class="modal fade" id="auditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="msgModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="auditModalLabel"> 使用者審核 </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="auditModalBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="acceptUser();"> 通過 </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> 取消 </button>
+      </div>
+    </div>
+  </div>
+</div>
