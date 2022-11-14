@@ -14,7 +14,7 @@ describe("index route", () => {
   test("home page", async () => {
     return request(app).get("/").expect(200);
   });
-  test("redircet to login", async () => {
+  test("redirect to login", async () => {
     return request(app)
       .get("/users/logined")
       .expect(302)
