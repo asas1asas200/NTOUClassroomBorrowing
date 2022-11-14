@@ -5,6 +5,30 @@
   </head>
   <body>
     <h1>this is profile edit page</h1>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col">
+          使用者名稱: <%= user.username %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          密碼: <%= user.password %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          信箱: <%= user.email %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          聯絡電話: <%= user.phone %>
+        </div>
+      </div>
+    </div>
+    
+    
   <%- include("../partials/footer"); %>
   </body>
 
