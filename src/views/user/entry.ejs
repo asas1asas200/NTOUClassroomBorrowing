@@ -6,26 +6,57 @@
 </head>
 
 <body>
+  <div class="container">
   <%- include('../partials/top'); %>
 
     <div class="card container text-center">
-      <div class="card-body align-items-center">
-        <div class="btn-group" role="group">
-          <a href="/users/login" type="button" class="col-4 btn btn-primary 
-            <% if(form=="loginForm") { %>
-              disabled
-            <% } %>
-          ">登入</button>
-          <a href="/users/new" class="col-4 btn btn-primary 
-            <% if(form=="registerForm") { %>
-              disabled
-            <% } %>
-            ">註冊</a>
-        </div>
-
-        <%- include(form); %>
+      <div class="card-body align-items-center" id="sessionForm">
+        <ul class="nav nav-pills mb-3 justify-content-center">
+          <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#loginForm" type="button"> 登入 </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#registerForm" type="button"> 註冊 </button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="loginForm">
+            <form action="/users/login" method="post">
+              <div class="form-group container-fluid m-3">
+                <%- makeField('id', '學號' , 'text' ) %>
+                <%# TODO: Confirm if two passwords are the same. %>
+                <%- makeField('password', '密碼' , 'password' ) %>
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+                <div class="mb-3 row">
+                  <div class="col-9"></div>
+                  <%# TODO: Hash the password before submit %>
+                  <button class="col btn btn-primary mb-3">送出</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="registerForm">
+            <form action="/users/register" method="post">
+              <div class="form-group container-fluid m-3">
+                <%- makeField('id', '學號' , 'text' ) %>
+                <%# TODO: Confirm if two passwords are the same. %>
+                <%- makeField('password', '密碼' , 'password' ) %>
+                <%- makeField('passwordConfirmation', '確認密碼' , 'password' ) %>
+                <%- makeField('username', '姓名' , 'text' ) %>
+                <%- makeField('email', '信箱' , 'email' ) %>
+                <%- makeField('phone', '聯絡電話' , 'text' ) %>
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+                <div class="mb-3 row">
+                  <div class="col-9"></div>
+                  <%# TODO: Hash the password before submit %>
+                  <button class="col btn btn-primary mb-3">送出</button>
+                </div>
+              </div>
+            </form>
+          </div>
       </div>
     </div>
+  </div>
 </body>
 
 </html>
