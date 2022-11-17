@@ -8,7 +8,7 @@ function displayPassword(){
           目前的密碼:
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="password" value="">
+          <input type="password" class="form-control" id="originPassword" value="">
         </div>
     </div>
     <div class="mb-3 row">
@@ -16,7 +16,7 @@ function displayPassword(){
           新密碼:
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="password" value="">
+          <input type="password" class="form-control" id="newPassword" value="">
         </div>
     </div>
     <div class="mb-3 row">
@@ -24,7 +24,7 @@ function displayPassword(){
         再次輸入新密碼:
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="password" value="">
+          <input type="password" class="form-control" id="newPasswordCheck" value="">
         </div>
     </div>`;
 }
