@@ -19,7 +19,7 @@
           密碼:
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="id" value="<%= user.password %>">
+          <input type="text" class="form-control" id="password" value="<%= user.password %>">
         </div>
       </div>
       <div class="mb-3 row">
@@ -27,7 +27,7 @@
           信箱:
         </div>
         <div class="col-3">
-          <input type="email" class="form-control" id="id" value="<%= user.email %>">
+          <input type="email" class="form-control" id="email" value="<%= user.email %>">
         </div>
       </div>
       <div class="mb-3 row">
@@ -35,12 +35,15 @@
           聯絡電話:
         </div>
         <div class="col-3">
-          <input type="email" class="form-control" id="id" value="<%= user.phone %>">
+          <input type="tel" class="form-control" id="phone" value="<%= user.phone %>">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-3">
+          <input type="submit" class="form-control" id="id" value="修改">
         </div>
       </div>
     </div>
-    
-    
   <%- include("../partials/footer"); %>
   </body>
 
