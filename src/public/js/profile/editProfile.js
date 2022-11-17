@@ -2,6 +2,7 @@ let displayPasswordBlockButton = document.getElementById("displayPasswordBlockBu
 displayPasswordBlockButton.addEventListener("click", displayPassword);
 let passwordBlock =document.getElementById("passwordEditBlock");
 function displayPassword(){
+    passwordBlock.setAttribute("class","mb-3");
     passwordBlock.innerHTML=`
     <div class="mb-3 row">
         <div class="col-3">
