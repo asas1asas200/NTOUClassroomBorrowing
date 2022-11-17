@@ -15,11 +15,11 @@
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-3">
-          密碼:
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="password" value="<%= user.password %>">
+        <div class="col" id="passwordEditBlock">
+          <div class="col-3">
+            密碼:
+          </div>
+          <button class="btn btn-info" id="displayPasswordBlockButton">修改密碼</button>
         </div>
       </div>
       <div class="mb-3 row">
@@ -39,12 +39,12 @@
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-3">
+        <div class="col-5">
           <input type="submit" class="form-control" id="id" value="修改">
         </div>
       </div>
     </div>
-  <%- include("../partials/footer"); %>
+    <script src="/js/profile/editProfile.js"></script>
   </body>
 
 </html>
