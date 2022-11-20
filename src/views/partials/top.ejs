@@ -1,31 +1,37 @@
-<div class="row">
-  <div class="col align-self-start">
-    <a href="/home"><img src="/img/ntouLogo.jpg" alt="ntou logo"></a>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">
+      <img src="/img/ntouLogo.jpg" class="img-thumbnail" width="50" alt="ntou logo">
+      海大教室借用系統
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#bar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="bar">
+      <div class="navbar-nav ms-auto">
+        <!--<a class="nav-link" href="/home">首頁</a>-->
+        <% if (user) { %>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle nav-item" data-bs-toggle="dropdown" aria-expanded="false">
+              <%- user.username %>
+            </button>
+            <ul class="dropdown-menu">
+              <% if (user.admin) { %>
+              <li><a class="dropdown-item" href="/admin">Manage</a></li>
+              <% } %>
+              <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+              <li>
+                <form action="/users/logout" method="post">
+                  <input value="Logout" type="submit" class="dropdown-item">
+                  <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+                </form>
+              </li>
+            </ul>
+          </div>
+        <% } else { %>
+          <a href="/users/session" class="text-primary nav-link"> 登入/註冊 </a>
+        <% } %>
+      </div>
+    </div>
   </div>
-  <div class="col align-self-center">
-    <p class="fs-1">海大教室借用系統</p>
-  </div>
-  <div class="col align-self-end">
-    <% if (user) { %>
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <%- user.username %>
-          </button>
-          <ul class="dropdown-menu">
-            <% if (user.admin) { %>
-            <li><a class="dropdown-item" href="/admin">Manage</a></li>
-            <% } %>
-            <li><a class="dropdown-item" href="/profile">Edit Profile</a></li>
-            <li>
-              <form action="/users/logout" method="post">
-                <input value="Logout" type="submit" class="dropdown-item">
-                <input type="hidden" name="_csrf" value="<%- csrfToken %>">
-              </form>
-            </li>
-          </ul>
-        </div>
-    <% } else { %>
-      <a href="/users/login" class="text-primary"> 登入/註冊 </a>
-    <% } %>
-  </div>
-</div>
+</nav>
