@@ -6,8 +6,24 @@ const User = require("../../models/user");
 
 router.use(auth.loginedUser);
 
+let makeField = (prompt, id, value, type = "text", readonly = false) =>
+  `
+  <div class="mb-3 row">
+    <div class="col"></div>
+    <div class="col-3">
+      ${prompt}
+    </div>
+    <div class="col-3">
+      <input class="form-control" type="${type}" id="${id}" value="${value}" ${
+    readonly ? "readonly" : ""
+  }>
+    </div>
+    <div class="col"></div>
+  </div>
+  `;
+
 router.get("/", async function (req, res, next) {
-  res.render("profile/home", { title: "profile edit", data: null });
+  res.render("profile/home", { title: "profile edit", makeField: makeField });
 });
 
 router.post("/:id", async function (req, res, next) {
