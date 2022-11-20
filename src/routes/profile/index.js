@@ -7,8 +7,8 @@ const User = require("../../models/user");
 router.use(auth.loginedUser);
 
 router.get("/", async function (req, res, next) {
-  let users = await User.find({ verified: false }).lean();
-  res.render("profile/home", { title: "profile edit", data: users });
+  let currentUser = req.user;
+  res.render("profile/home", { title: "profile edit", data: currentUser });
 });
 
 router.post("/:id", async function (req, res, next) {
