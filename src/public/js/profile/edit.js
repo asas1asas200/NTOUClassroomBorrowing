@@ -41,7 +41,6 @@ function editProfile(userID) {
     .post(url + `/${userID}`, {
       _csrf: csrfToken,
       data: {
-        id: userID,
         username: newUsername,
         email: newEmail,
         phone: newPhone,
