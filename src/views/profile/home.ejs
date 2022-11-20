@@ -10,20 +10,27 @@
           <h1>帳號設定</h1>
         </div>
       </div>
-      
       <div class="mb-3 row">
         <div class="col-3">
-          使用者名稱:
+          學號:
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="id" value="<%= user.username %>">
+          <input type="text" class="form-control" id="id" value="<%= user.id %>" readonly>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-3">
+          姓名:
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="username" value="<%= user.username %>">
         </div>
       </div>
       <div class="mb-3 row" id="passwordEditBlock">
           <div class="col-3">
             密碼:
           </div>
-          <div class="col-3"><button class="col btn btn-info" id="displayPasswordBlockButton">修改密碼</button></div>
+          <div class="col-3"><button class="col btn btn-info" id="displayPasswordBlockButton" onclick="editPassword()">修改密碼</button></div>
       </div>
       <div class="mb-3 row">
         <div class="col-3">
@@ -43,10 +50,11 @@
       </div>
       <div class="mb-3 row">
           <div class="col-2"></div>
-          <button class="col-2 btn btn-danger mb-3">修改</button>
+          <button class="col-2 btn btn-danger mb-3" onclick="editProfile('<%- user.id %>')">修改</button>
       </div>
+      <input id="csrfToken" type="hidden" name="_csrf" value="<%- csrfToken %>">
     </div>
-    <script src="/js/profile/editProfile.js"></script>
+    <script src="/js/profile/edit.js"></script>
   </body>
 
 </html>
