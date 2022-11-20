@@ -14,7 +14,7 @@ router.post("/:id", async function (req, res, next) {
   try {
     let receivedUserId = req.body.data.id;
     console.log("received id: " + receivedUserId);
-    if(receivedUserId == req.user.id){
+    if (receivedUserId == req.user.id) {
       let user = await User.findOne({ id: req.params.id }).lean();
       user.username = req.body.data.username;
       user.email = req.body.data.email;
