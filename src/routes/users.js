@@ -1,5 +1,6 @@
 var express = require("express");
 const User = require("../models/user.js");
+const bcrypt = require("bcrypt");
 
 var router = express.Router();
 
@@ -35,6 +36,14 @@ router.post("/register", async (req, res) => {
       emailVerified: false,
       verified: false,
     });
+
+    // 加密
+    const saltRounds = 10;
+    bcrypt.hash(user.password, saltRounds).then(function (hash) {
+      user.password = hash;
+      console.log(hash);
+    });
+
     await user.save();
     res.redirect("/users/session");
   } catch (e) {
