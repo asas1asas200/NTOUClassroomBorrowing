@@ -39,7 +39,7 @@ router.post("/:id", async function (req, res, next) {
 
       res.status(200).send("OK");
     } else {
-      res.status(403);
+      res.status(403).send("403 Forbidden");
     }
   } catch (e) {
     res.status(500).send(e);
