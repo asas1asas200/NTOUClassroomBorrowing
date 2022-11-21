@@ -38,7 +38,7 @@ function editProfile(userID) {
   let newPhone = document.getElementById("phone").value;
 
   axios
-    .post(url + `/${userID}`, {
+    .put(url + `/${userID}`, {
       _csrf: csrfToken,
       data: {
         username: newUsername,

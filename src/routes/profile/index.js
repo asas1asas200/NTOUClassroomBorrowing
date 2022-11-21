@@ -26,7 +26,7 @@ router.get("/", async function (req, res, next) {
   res.render("profile/home", { title: "profile edit", makeField: makeField });
 });
 
-router.post("/:id", async function (req, res, next) {
+router.put("/:id", async function (req, res, next) {
   try {
     let receivedUserId = req.params.id;
     console.log("received id: " + receivedUserId);
