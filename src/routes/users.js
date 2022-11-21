@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/session", function (req, res, next) {
+router.get("/session", auth.unloginedUser, function (req, res, next) {
   res.render("user/entry", {
     title: "Session",
     makeField: makeField,
