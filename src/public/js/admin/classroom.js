@@ -127,16 +127,17 @@ function formClassroom() {
   /*
     {
       // Period | 0   | 1   | 2
-                [true, true, false, ...], // Monday
-                [true, false, false, ...], // Tuesday
+                [lesson._id, lesson._id, "", ...], // Monday
+                ["", "", lesson._id, ...], // Tuesday
       ...
     }
   */
-  let schedule = {};
+  let schedule = [];
   for (let i = 1; i <= 7; i++) {
-    schedule[i] = {};
+    schedule[i] = [];
     for (let j = 0; j <= 14; j++) {
-      schedule[i][j] = document.getElementById(`schedule-${i}-${j}`).checked;
+      let lesson = document.getElementById(`schedule-${i}-${j}`).value;
+      schedule[i][j] = lesson ? lesson : null;
     }
   }
   let options = [];

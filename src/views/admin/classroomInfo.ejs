@@ -33,8 +33,12 @@
       <th scope="row"> <%- period %> </th>
       <% for (let day of Array(7).keys()) { %>
         <td>
-          <input type="checkbox" class="btn-check" id="schedule-<%- day+1 %>-<%- period %>" autocomplete="off" <%- (schedule && schedule[day+1][period]) ? "checked" : ""%>>
-          <label class="btn btn-outline-secondary" for="schedule-<%- day+1 %>-<%- period %>"> 保留 </label>
+          <select id="schedule-<%- day+1 %>-<%- period %>" class="form-select form-select-sm">
+            <option value="" <%- (schedule && schedule[day+1][period]) ? "" : "selected" %>> 選擇課程 </option>
+            <% for (let lesson of lessons) { %>
+              <option value="<%- lesson._id %>" <%- (schedule && String(schedule[day+1][period]) == lesson._id) ? "selected" : "" %>> <%- lesson.name %> - <%- lesson.teacher %> </option>
+            <% } %>
+          </select>
         </td>
       <% } %>
       </tr>
