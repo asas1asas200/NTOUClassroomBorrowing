@@ -32,7 +32,7 @@
   }
 </style>
 
-<nav class="d-flex position-relative flex-row justify-content-between animate fadeInDown">
+<nav class="d-flex position-relative flex-row justify-content-between animate__animated animate__fadeInDown">
   <ul class="nav nav-pills p-1">
     <% for (let building in data.buildings) { %>
       <li class="nav-item">
@@ -58,7 +58,7 @@
 
 <div class="tab-content">
   <% for (let building in data.buildings) { %>
-    <nav class="tab-pane position-relative floors fade flex-row justify-content-between animate fadeInDown" id="building-<%- building %>">
+    <nav class="tab-pane position-relative floors fade flex-row justify-content-between animate__animated animate__fadeInDown" id="building-<%- building %>">
     <ul class="nav nav-pills">
     <% for (let floor in data.buildings[building]) { %>
       <li class="nav-item">
@@ -89,7 +89,7 @@
     <% for (let floor in data.buildings[building]) { %>
       <div class="tab-pane fade list-group classrooms" id="building-<%- building %>-floor-<%- floor %>">
         <% for (let i = 0; i < data.buildings[building][floor].length; i++) { %>
-          <div class="list-group-item">
+          <div class="list-group-item animate__animated animate__fadeInDown animate__fast">
             <div class="row align-items-center">
               <h3 class="m-0 col text-center"><%- data.buildings[building][floor][i] %></h3>
               <div class="col-4">
