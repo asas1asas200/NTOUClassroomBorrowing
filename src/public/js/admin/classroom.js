@@ -133,7 +133,7 @@ function formClassroom() {
     }
   */
   let schedule = [];
-  for (let i = 1; i <= 7; i++) {
+  for (let i = 0; i < 7; i++) {
     schedule[i] = [];
     for (let j = 0; j <= 14; j++) {
       let lesson = document.getElementById(`schedule-${i}-${j}`).value;

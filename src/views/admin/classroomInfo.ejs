@@ -22,7 +22,7 @@
   <thead>
     <tr>
       <th scope="col"> 節次 </th>
-      <% for (let weekday of ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]) { %>
+      <% for (let weekday of ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]) { %>
         <th scope="col"> <%- weekday %> </th>
       <% } %>
     </tr>
@@ -33,10 +33,10 @@
       <th scope="row"> <%- period %> </th>
       <% for (let day of Array(7).keys()) { %>
         <td>
-          <select id="schedule-<%- day+1 %>-<%- period %>" class="form-select form-select-sm">
-            <option value="" <%- (schedule && schedule[day+1][period]) ? "" : "selected" %>> 選擇課程 </option>
+          <select id="schedule-<%- day %>-<%- period %>" class="form-select form-select-sm">
+            <option value="" <%- (schedule && schedule[day][period]) ? "" : "selected" %>> 選擇課程 </option>
             <% for (let lesson of lessons) { %>
-              <option value="<%- lesson._id %>" <%- (schedule && String(schedule[day+1][period]) == lesson._id) ? "selected" : "" %>> <%- lesson.name %> - <%- lesson.teacher %> </option>
+              <option value="<%- lesson._id %>" <%- (schedule && String(schedule[day][period]) == lesson._id) ? "selected" : "" %>> <%- lesson.name %> - <%- lesson.teacher %> </option>
             <% } %>
           </select>
         </td>

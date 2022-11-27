@@ -1,0 +1,37 @@
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <% for (let building of buildings) { %>
+      <button class="nav-link" id="tab-building-<%- building.name %>" data-bs-toggle="tab" data-bs-target="#building-<%- building.name %>" type="button" role="tab" onclick="sessionStorage.setItem('home-building', 'tab-building-<%- building.name %>')">
+        <%- building.name %>
+      </button>
+    <% } %>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <% for (let building of buildings) { %>
+    <div class="tab-pane fade" id="building-<%- building.name %>" role="tabpanel">
+      <table class="table">
+        <thead><tr>
+          <th scope="col"> 節次 </th>
+          <% for (let floor of building.floors) { %>
+            <% for (let classroom of floor.classrooms) { %>
+              <th scope="col"> <span class="text-secondary"><%- floor.name %></span> <br> <%- classroom.name %> </th>
+            <% } %>
+          <% } %>
+        </tr></thead>
+        <tbody>
+          <% for (let period of Array(15).keys()) { %>
+            <tr>  
+              <th scope="row"> <%- period %> </th>
+              <% for (let floor of building.floors) { %>
+                <% for (let classroom of floor.classrooms) { %>
+                <td> <%- classroom.schedule[date.getDay()][period]?.name %> </td>
+                <% } %>
+              <% } %>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
