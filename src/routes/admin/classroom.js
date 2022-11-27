@@ -136,6 +136,8 @@ router.get(
       })
         .populate("schedule")
         .lean();
+
+      console.log("classroom.schedule: ", classroom.schedule);
       res.render("admin/classroomInfo", {
         name: classroom.name,
         capacity: classroom.capacity,
