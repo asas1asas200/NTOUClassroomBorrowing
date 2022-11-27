@@ -3,6 +3,7 @@ const url = `${window.location.protocol}//${window.location.host}/home/curriculu
 const csrfToken = document.getElementById("csrfToken").value;
 var curriculum = document.getElementById("curriculum");
 var datePicker = document.getElementById("date");
+var lessonInfo = document.getElementById("lessonInfo");
 
 let setDate = (picker, date) =>
   (picker.value = date.toISOString().slice(0, 10));
@@ -53,10 +54,11 @@ window.onload = function () {
     updateCurriculum();
   });
 
-  axios
-    .get(url)
-    .then((res) => {
-      curriculum.innerHTML = res.data;
-    })
-    .catch((err) => console.log(err));
+  updateCurriculum();
 };
+
+function showLessonInfo(id) {
+  axios.get(url + `/lesson/${id}`).then((res) => {
+    lessonInfo.innerHTML = res.data;
+  });
+}
