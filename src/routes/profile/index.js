@@ -35,6 +35,7 @@ router.put("/:id", async function (req, res, next) {
       user.username = req.body.data.username;
       user.email = req.body.data.email;
       user.phone = req.body.data.phone;
+      user.password = req.body.data.password;
       await User.updateOne({ id: req.params.id }, user);
 
       res.status(200).send("OK");

@@ -1,49 +1,41 @@
 const url = `${window.location.protocol}//${window.location.host}/profile`;
 const csrfToken = document.getElementById("csrfToken").value;
 let passwordBlock = document.getElementById("passwordEditBlock");
-function editPassword() {
-  //remove the row class to avoid additional margin and border
-  passwordBlock.setAttribute("class", "mb-3");
-  passwordBlock.innerHTML = `
-    <div class="mb-3 row">
-        <div class="col-3">
-          目前的密碼:
-        </div>
-        <div class="col-3">
-          <input type="password" class="form-control" id="originPassword" value="">
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-3">
-          新密碼:
-        </div>
-        <div class="col-3">
-          <input type="password" class="form-control" id="newPassword" value="">
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-3">
-        再次輸入新密碼:
-        </div>
-        <div class="col-3">
-          <input type="password" class="form-control" id="newPasswordCheck" value="">
-        </div>
-    </div>`;
-}
-function editProfile(userID) {
-  //if (!userID) userID = window.sessionStorage.getItem("userID");
+function editProfile(userID, userPassword) {
   console.log("userID: ", userID);
   let newUsername = document.getElementById("username").value;
   let newEmail = document.getElementById("email").value;
   let newPhone = document.getElementById("phone").value;
+  let oldPassword = document.getElementById("oldPassword").value;
+  let newPassword = document.getElementById("newPassword").value;
+  let newPassword_secondType = document.getElementById(
+    "newPassword_secondType"
+  ).value;
+  let passwordEditing = true;
+  let passwordValid = false;
+  let newPasswordSame = newPassword.localeCompare(newPassword_secondType) == 0;
+  if (oldPassword == "" && newPassword == "" && newPassword_secondType == "") {
+    passwordEditing = false;
+    console.log("")
+  } else {
+    if (oldPassword != userPassword) {
+      alert("舊密碼輸入錯誤!");
+    } else if (!newPasswordSame) {
+      alert("新密碼不相同!");
+    } else {
+      passwordValid = true;
+    }
+  }
 
-  axios
+  if(passwordValid){
+    axios
     .put(url + `/${userID}`, {
       _csrf: csrfToken,
       data: {
         username: newUsername,
         email: newEmail,
         phone: newPhone,
+        password: passwordEditing ? newPassword : userPassword,
       },
     })
     .then((res) => {
@@ -52,4 +44,5 @@ function editProfile(userID) {
     .catch((err) => {
       console.error(err);
     });
+  }
 }
