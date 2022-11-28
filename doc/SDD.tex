@@ -19,6 +19,11 @@
 
 \renewcommand*\contentsname{目錄}
 
+\usepackage{graphicx}
+\graphicspath{{./img/SDD}}
+
+\usepackage{indentfirst}
+
 \begin{document}
 \begin{titlepage}
 	\centering
@@ -50,13 +55,13 @@
 \begin{tabularx}{\textwidth}{| c | X | X |}
 	\rowcolor{LightGray}
 	\hline
-	版次  & 變更項目 & 變更日期       \\ \hline
-	0.1 & 初版   & 2022/10/04 \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
+	版次    & 變更項目      & 變更日期       \\ \hline
+	0.1   & 初版        & 2022/10/04 \\ \hline
+	0.1.1 & 新增系統模型與架構 & 2022/11/28 \\ \hline
+	      &           &            \\ \hline
+	      &           &            \\ \hline
+	      &           &            \\ \hline
+	      &           &            \\ \hline
 \end{tabularx}
 
 \newpage
@@ -68,6 +73,38 @@
 \newpage
 
 \section[系統模型與架構(SYSTEM MODEL/SYSTEM ARCHITECTURE)]{系統模型與架構(System Model/System Architecture)}
+
+\centerline{\includegraphics[width=\textwidth]{HighLevelArchitecture.png}}
+
+\bigskip
+
+前後端透過瀏覽器的 HTTP request 和 axios 提供的 request 方法與後端溝通，後端透過 express 提供的路由來處理前端的要求。
+
+實際傳輸的方式包含了 RESTful API 和直接用 ejs render 後的結果當成網頁內容。
+
+每個頁面透過瀏覽器發送的 request 來得到後端 ejs render 完的 HTML 內容，頁面中需要純前端處理的部分則以 axios 來傳送 request ，接收後端 render 完的 response 後直接操作 DOM 來改變頁面內容。
+
+\subsection{後端架構}
+
+後端架構主要分為兩個部分：後端伺服器和資料庫。
+
+\subsubsection{後端伺服器}
+
+伺服器為 Node.js express 搭配 ejs 來實作，主要負責處理前端的 request 並回傳給前端。
+
+後端架構遵循 express-generator 產生出的 MVC 架構，將後端大致分為三個部分： routes、views 和 models 。
+
+\subsubsection{資料庫}
+
+透過 docker 來管理本地端的資料庫，使用的是 mongodb ，並在 express app 中以 mongoose ODM 來操作資料庫。
+
+資料庫連線分為 \verb|/test| 和 \verb|/NTOUClassroomBorrowing| ，分別用來測試和正式使用。
+
+\subsection{前端架構}
+
+前端透過 Bootstrap 5 和基本的 HTML、CSS、JavaScript 來實作，主要負責處理使用者的操作並將結果傳送給後端。
+
+部份動畫透過 animate.css 提供，純前端處理 request 的部份則以 axios 與後端溝通，收取 response 來更新頁面內容，或是彈出提示訊息。
 
 \newpage
 
