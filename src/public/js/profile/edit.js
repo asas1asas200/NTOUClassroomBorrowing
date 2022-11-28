@@ -16,7 +16,7 @@ function editProfile(userID, userPassword) {
   let newPasswordSame = newPassword.localeCompare(newPassword_secondType) == 0;
   if (oldPassword == "" && newPassword == "" && newPassword_secondType == "") {
     passwordEditing = false;
-    console.log("")
+    console.log("");
   } else {
     if (oldPassword != userPassword) {
       alert("舊密碼輸入錯誤!");
@@ -27,22 +27,22 @@ function editProfile(userID, userPassword) {
     }
   }
 
-  if(passwordValid){
+  if (passwordValid) {
     axios
-    .put(url + `/${userID}`, {
-      _csrf: csrfToken,
-      data: {
-        username: newUsername,
-        email: newEmail,
-        phone: newPhone,
-        password: passwordEditing ? newPassword : userPassword,
-      },
-    })
-    .then((res) => {
-      window.location.reload();
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+      .put(url + `/${userID}`, {
+        _csrf: csrfToken,
+        data: {
+          username: newUsername,
+          email: newEmail,
+          phone: newPhone,
+          password: passwordEditing ? newPassword : userPassword,
+        },
+      })
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 }
