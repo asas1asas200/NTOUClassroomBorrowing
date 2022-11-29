@@ -925,7 +925,19 @@ const userSchema = new mongoose.Schema({
 
 \newpage
 
-\section[實作技術(IMPLEMENTATION LANGUAGE AND PLATFORM)]{實作技術(Implementation Language and Platform)}
+\section[實作方案(IMPLEMENTATION LANGUAGE AND PLATFORM)]{實作方案(Implementation Language and Platform)}
+
+\subsection{後端與資料庫}
+
+後端採用 \textbf{Node.js} 的 \textbf{Express} 框架，並使用 \textbf{Mongoose} 來操作 \textbf{MongoDB} 資料庫。
+使用者登入的部份由 \textbf{Node Package} 的 \textbf{Passport} 來建立 \textbf{Session} 。
+\textbf{CSRF Protection} 也是使用 \textbf{Node Package} 提供的 \textbf{csurf} 套件來實作。
+預計執行在 \textbf{x86\_64} 架構的 \textbf{Linux} 作業系統上，並使用 \textbf{Docker} 來建立 \textbf{MongoDB} 資料庫。
+後續可能會使用 \textbf{Docker Compose} 來建立整個環境。
+
+\subsection{前端}
+
+前端採用 \textbf{Bootstrap 5} 框架配合基本的 \textbf{JavaScript} 和 \textbf{animate.css} ，並使用 \textbf{Axios} 來傳送請求至後端，以直接操作 \textbf{DOM} 的方式來處理畫面的更新。
 
 \newpage
 
