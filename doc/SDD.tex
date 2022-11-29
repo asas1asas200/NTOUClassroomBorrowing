@@ -72,7 +72,7 @@
 	版次    & 變更項目      & 變更日期       \\ \hline
 	0.1   & 初版        & 2022/10/04 \\ \hline
 	0.1.1 & 新增系統模型與架構 & 2022/11/28 \\ \hline
-	      &           &            \\ \hline
+	0.1.2 & 新增介面需求與設計 & 2022/11/29 \\ \hline
 	      &           &            \\ \hline
 	      &           &            \\ \hline
 	      &           &            \\ \hline
@@ -132,7 +132,7 @@
 		#1                                     & #2                   & #3                    \\ \hline
 		\rowcolor{LightGray} 連結方式              & 輸入資料                 & 輸出資料                  \\
 		\rowcolor{LightGray} (Connection Type) & (Input Data)         & (Output Data)         \\ \hline
-		#4                                     & \usebox\jsoninputbox & \usebox\jsonoutputbox \\ \hline
+		\texttt{#4}                            & \usebox\jsoninputbox & \usebox\jsonoutputbox \\ \hline
 		\rowcolor{LightGray} \multicolumn{3}{|c|}{ URL }                                      \\ \hline
 		\multicolumn{3}{|c|}{\texttt{#5}}                                                     \\ \hline
 		\rowcolor{LightGray} \multicolumn{3}{|c|}{  介面描述 (Interface Description) }            \\ \hline
@@ -154,7 +154,7 @@ Plain HTML
 \end{lstlisting}
 \end{lrbox}
 
-\IRTable{註冊/登入畫面}
+\IRTable{登入/註冊畫面}
 {User 模組}
 {登入/註冊頁面}
 {HTTP GET}
@@ -537,8 +537,181 @@ None
 {/admin/classroom/building/:id/floor/:fid/classroom/:cid}
 {刪除指定教室}
 
+\subsection{課程管理}
 
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
 
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{課程列表}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP GET}
+{/admin/lesson}
+{列出所有課程}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"name": "課程A",
+	"teacher": "王大明",
+	"description": "課程A的說明"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{新增課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP POST}
+{/admin/lesson}
+{新增一個課程於資料庫中}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"name": "課程A",
+	"teacher": "王大明",
+	"description": "課程A的說明"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{編輯課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP PUT}
+{/admin/lesson/:id}
+{編輯指定課程的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{查詢課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP GET}
+{/admin/lesson/:id}
+{查詢指定課程的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP DELETE}
+{/admin/lesson/:id}
+{刪除指定課程}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{列出課表}
+{Home 模組}
+{Home 頁面}
+{HTTP GET}
+{/home/curriculum}
+{列出當天課表}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{列出課表}
+{Home 模組}
+{Home 頁面}
+{HTTP GET}
+{/home/curriculum/:date}
+{列出指定日期的課表}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{課程資訊}
+{Home 模組}
+{Home 頁面}
+{HTTP GET}
+{/home/lesson/:id}
+{列出指定課程的資訊}
 
 \newpage
 
