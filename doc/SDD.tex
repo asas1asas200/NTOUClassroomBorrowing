@@ -124,7 +124,7 @@
 
 \section[介面需求與設計(INTERFACE REQUIREMENTS AND DESIGN)]{介面需求與設計(Interface Requirements and Design)}
 
-\newcommand{\IRTable}[5]{
+\newcommand{\IRTable}[6]{
 	\begin{tabularx}{0.95\textwidth}{|c|Y|Y|}
 		\hline
 		\rowcolor{LightGray} 介面名稱              & 介面提供者                & 介面使用者                 \\
@@ -132,9 +132,11 @@
 		#1                                     & #2                   & #3                    \\ \hline
 		\rowcolor{LightGray} 連結方式              & 輸入資料                 & 輸出資料                  \\
 		\rowcolor{LightGray} (Connection Type) & (Input Data)         & (Output Data)         \\ \hline
-		\makecell{#4}                          & \usebox\jsoninputbox & \usebox\jsonoutputbox \\ \hline
+		#4                                     & \usebox\jsoninputbox & \usebox\jsonoutputbox \\ \hline
+		\rowcolor{LightGray} \multicolumn{3}{|c|}{ URL }                                      \\ \hline
+		\multicolumn{3}{|c|}{\texttt{#5}}                                                     \\ \hline
 		\rowcolor{LightGray} \multicolumn{3}{|c|}{  介面描述 (Interface Description) }            \\ \hline
-		\multicolumn{3}{|c|}{#5}                                                              \\ \hline
+		\multicolumn{3}{|c|}{#6}                                                              \\ \hline
 	\end{tabularx}
 }
 
@@ -155,7 +157,8 @@ Plain HTML
 \IRTable{註冊/登入畫面}
 {User 模組}
 {登入/註冊頁面}
-{HTTP GET \\ \texttt{/users/session}}
+{HTTP GET}
+{/users/session}
 {回傳包含登入和註冊表單的頁面}
 
 \bigskip
@@ -182,7 +185,8 @@ Plain HTML
 \IRTable{使用者註冊}
 {User 模組}
 {註冊表單}
-{HTTP POST \\ \texttt{/users/register}}
+{HTTP POST}
+{/users/register}
 {接收註冊表單，並將使用者資料存入資料庫}
 
 \bigskip
@@ -207,7 +211,8 @@ Plain HTML
 \IRTable{使用者登入}
 {User 模組}
 {登入表單}
-{HTTP POST \\ \texttt{/users/login}}
+{HTTP POST}
+{/users/login}
 {接收登入表單，並將使用者資料存入 session}
 
 \bigskip
@@ -225,7 +230,8 @@ Plain HTML
 \IRTable{使用者登出}
 {User 模組}
 {登出按鈕}
-{HTTP POST \\ \texttt{/users/logout}}
+{HTTP POST}
+{/users/logout}
 {刪除 session 中之使用者資訊，並回到登入畫面}
 
 \bigskip
@@ -245,7 +251,8 @@ Plain HTML
 \IRTable{待審使用者列表}
 {Admin 模組}
 {Admin/Account 頁面}
-{HTTP GET \\ \texttt{/admin/account}}
+{HTTP GET}
+{/admin/account}
 {列出尚未審核之帳號}
 
 \bigskip
@@ -265,7 +272,8 @@ Plain HTML
 \IRTable{查詢使用者資訊}
 {Admin 模組}
 {Admin/Account 頁面}
-{HTTP GET \\ \texttt{/admin/account/:id}}
+{HTTP GET}
+{/admin/account/:id}
 {查詢指定使用者之個人資訊}
 
 \bigskip
@@ -279,14 +287,258 @@ Plain HTML
 \end{lrbox}
 
 \begin{lrbox}{\jsonoutputbox}
-	200 OK
+	\makecell[l]{
+		200 OK \\
+		500 Internal Server Error
+	}
 \end{lrbox}
 
 \IRTable{審核使用者}
 {Admin 模組}
 {Admin/Account 頁面}
-{HTTP POST \\ \texttt{/admin/account/:id}}
+{HTTP POST}
+{/admin/account/:id}
 {修改指定使用者審核狀態}
+
+\pagebreak
+
+\subsection{大樓、樓層與教室編輯}
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+	Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{編輯頁面}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP GET}
+{/admin/classroom}
+{對大樓、樓層與教室進行編輯之主要操作頁面}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
+{ "name": "電機二館" }
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+	200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{新增大樓}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP POST}
+{/admin/classroom/building}
+{在資料庫中新增大樓}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+	200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除大樓}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP DELETE}
+{/admin/classroom/building/:id}
+{在資料庫中刪除大樓}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"building": "電機二館",
+	"floor": "一樓",
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+	200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{新增樓層}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP POST}
+{/admin/classroom/floor}
+{在指定的大樓中新增樓層}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+	200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除樓層}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP DELETE}
+{/admin/classroom/building/:id/floor/:fid}
+{刪除大樓中指定的樓層}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{空教室表單}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP GET}
+{/admin/classroom/empty}
+{準備建立新教室時所需的表單}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{教室資訊}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP GET}
+{/admin/classroom/building/:id/floor/:fid/classroom/:cid}
+{查詢指定教室的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"building": "電機二館",
+	"floor": "一樓",
+	"name": "INS 103",
+	"capacity": 30,
+	"schedule":
+		[
+			[ null, lesson2, ... ],
+			[ lesson1, null, ... ], ... 
+		],
+	"options": ["computer"]
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{建立新教室}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP POST}
+{/admin/classroom}
+{在指定的樓層中建立新教室}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"building": "電機二館",
+	"floor": "一樓",
+	"name": "INS 103",
+	"capacity": 30,
+	"schedule":
+		[
+			[ null, lesson2, ... ],
+			[ lesson1, null, ... ], ... 
+		],
+	"options": ["computer"]
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{更新教室}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP PUT}
+{/admin/classroom/building/:id/floor/:fid/classroom/:cid}
+{更新指定教室的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除教室}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP DELETE}
+{/admin/classroom/building/:id/floor/:fid/classroom/:cid}
+{刪除指定教室}
+
+
+
 
 \newpage
 
