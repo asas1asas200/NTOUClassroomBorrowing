@@ -78,7 +78,7 @@
 	0.1   & 初版        & 2022/10/04 \\ \hline
 	0.1.1 & 新增系統模型與架構 & 2022/11/28 \\ \hline
 	0.1.2 & 新增介面需求與設計 & 2022/11/29 \\ \hline
-	      &           &            \\ \hline
+	0.1.3 & 新增資料設計    & 2022/11/30 \\ \hline
 	      &           &            \\ \hline
 	      &           &            \\ \hline
 \end{tabularx}
@@ -338,7 +338,7 @@ None
 
 \begin{lrbox}{\jsonoutputbox}
 	\begin{lstlisting}
-	200 OK
+200 OK
 \end{lstlisting}
 \end{lrbox}
 
@@ -359,7 +359,7 @@ None
 
 \begin{lrbox}{\jsonoutputbox}
 	\begin{lstlisting}
-	200 OK
+200 OK
 \end{lstlisting}
 \end{lrbox}
 
@@ -383,7 +383,7 @@ None
 
 \begin{lrbox}{\jsonoutputbox}
 	\begin{lstlisting}
-	200 OK
+200 OK
 \end{lstlisting}
 \end{lrbox}
 
@@ -404,7 +404,7 @@ None
 
 \begin{lrbox}{\jsonoutputbox}
 	\begin{lstlisting}
-	200 OK
+200 OK
 \end{lstlisting}
 \end{lrbox}
 
@@ -732,6 +732,23 @@ Plain HTML
 
 \section[資料設計(DATA DESIGN)]{資料設計(Data Design)}
 
+\subsection{檔案結構}
+
+\begin{itemize}
+	\item \textbf{app.js}: 主程式
+	\item \textbf{package.json}: 套件設定檔
+	\item \textbf{public}: 靜態檔案
+	\item \textbf{routes}: 路由
+	\item \textbf{views}: 樣板
+	\item \textbf{models}: 資料庫模組
+	\item \textbf{middlewares}: 中介軟體
+	\item \textbf{config}: 設定檔
+	\item \textbf{bin}: 執行檔
+	\item \textbf{node\_modules}: 套件
+\end{itemize}
+
+\pagebreak
+
 \subsection{資料庫設計(Database Design)}
 
 \begin{center}
@@ -879,7 +896,6 @@ const userSchema = new mongoose.Schema({
 });
 \end{minted}
 \end{center}
-
 
 \newpage
 
