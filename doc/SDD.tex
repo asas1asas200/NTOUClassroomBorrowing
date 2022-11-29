@@ -23,6 +23,9 @@
 \usepackage{graphicx}
 \graphicspath{{./img/SDD}}
 
+\usepackage{svg}
+\svgpath{./img/SDD}
+
 \usepackage{indentfirst}
 
 \usepackage{minted}
@@ -79,7 +82,7 @@
 	0.1.1 & 新增系統模型與架構 & 2022/11/28 \\ \hline
 	0.1.2 & 新增介面需求與設計 & 2022/11/29 \\ \hline
 	0.1.3 & 新增資料設計    & 2022/11/30 \\ \hline
-	      &           &            \\ \hline
+	0.1.4 & 新增類別圖設計   & 2022/11/30 \\ \hline
 	      &           &            \\ \hline
 \end{tabularx}
 
@@ -900,6 +903,25 @@ const userSchema = new mongoose.Schema({
 \newpage
 
 \section[類別圖設計(CLASS DIAGRAM DESIGN)]{類別圖設計(Class Diagram Design)}
+
+\subsection{後端與資料庫 ODM}
+
+\includesvg[inkscapelatex=false, width=\textwidth]{BackendClassDiagram.svg}
+
+\bigskip
+
+說明：程式主體為 \textbf{App} ，\textbf{App} 會使用 \textbf{Express} 建立伺服器，並使用 \textbf{Mongoose} 連接資料庫。
+\textbf{App} 透過各個 \textbf{Router} 來處理使用者的請求，並使用 \textbf{Middleware(passport)} 來管理使用者登入狀態。
+各個 \textbf{Router} 會依據需要使用相對應的 \textbf{Model} 來操作資料庫，並將結果傳回給使用者。
+
+\pagebreak
+
+\subsection{前端互動及資料傳輸}
+
+\includesvg[inkscapelatex=false, width=\textwidth]{FrontendClassDiagram.svg}
+
+說明：每個頁面皆包含 \textbf{Header} 和 \textbf{Topbar} ，分別為 \textbf{HTML} 的雜項設定和功能列。
+其中多數函式皆在內部以純 \textbf{JavaScript} 實作（例如抓取元素資訊等），使用 \textbf{Axios} 來傳送請求至後端，並直接操作 \textbf{DOM} 來處理畫面的更新，達成前端的 \textbf{jQuery Free} 。
 
 \newpage
 
