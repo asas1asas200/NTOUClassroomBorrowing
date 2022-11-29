@@ -77,13 +77,16 @@
 \begin{tabularx}{\textwidth}{| c | X | X |}
 	\rowcolor{LightGray}
 	\hline
-	版次    & 變更項目      & 變更日期       \\ \hline
-	0.1   & 初版        & 2022/10/04 \\ \hline
-	0.1.1 & 新增系統模型與架構 & 2022/11/28 \\ \hline
-	0.1.2 & 新增介面需求與設計 & 2022/11/29 \\ \hline
-	0.1.3 & 新增資料設計    & 2022/11/30 \\ \hline
-	0.1.4 & 新增類別圖設計   & 2022/11/30 \\ \hline
-	      &           &            \\ \hline
+	版次    & 變更項目        & 變更日期       \\ \hline
+	0.1   & 初版          & 2022/10/04 \\ \hline
+	0.1.1 & 新增系統模型與架構   & 2022/11/28 \\ \hline
+	0.1.2 & 新增介面需求與設計   & 2022/11/29 \\ \hline
+	0.1.3 & 新增資料設計      & 2022/11/30 \\ \hline
+	0.1.4 & 新增類別圖設計     & 2022/11/30 \\ \hline
+	0.1.5 & 新增實作方案和設計議題 & 2022/11/30 \\ \hline
+	      &             &            \\ \hline
+	      &             &            \\ \hline
+	      &             &            \\ \hline
 \end{tabularx}
 
 \newpage
@@ -942,5 +945,30 @@ const userSchema = new mongoose.Schema({
 \newpage
 
 \section[設計議題(DESIGN ISSUE)]{設計議題(Design Issue)}
+
+\subsection{後端框架選擇}
+
+此專案為較常見的 \textbf{CRUD} 應用，因此選擇 \textbf{Express} 作為後端框架，並使用 \textbf{Mongoose} 來操作 \textbf{MongoDB} 資料庫。
+但有些實作上的細節需要注意：
+
+\begin{itemize}
+	\item 安全性：例如 \textbf{CSRF Protection} 的部份，因為 \textbf{Express} 本身並沒有提供 \textbf{CSRF Protection} 的功能，因此需要使用 \textbf{Node Package} 的 \textbf{csurf} 套件來實作。但像 \textbf{Ruby on Rails} 就預設提供了這樣的功能，雖然 \textbf{Express} 學習成本較低，但新手反而會在無意間犯下安全性上的錯誤。
+	\item 維護成本：例如在 \textbf{Flask} 中有的 \textbf{Helper} ，像 \textbf{url\_for} 可以直接產生對應的 \textbf{URL} ，但 \textbf{Express} 中並沒有提供類似的功能，因此需要自己實作，並且每當 \textbf{URL} 改變時，都需要同步修改程式碼，這樣的維護成本較高。
+	\item 程式碼品質：例如在 \textbf{Ruby on Rails} 中有 \verb|rails generate resource| 這樣的命令可以快速產生 \textbf{RESTful API} 的 \textbf{Controller} ，但 \textbf{Express} 全部要自己寫，以新手而言也不知道如何設計 \textbf{URL} 是最佳的，因此需要花費較多的時間來設計，也可能會有設計上的缺陷。
+\end{itemize}
+
+綜觀上述問題可以發現，選擇專案的前提如果是「新手」、「快速」、「稍微有點規模」的專案，那麼 \textbf{Express} 不是一個很好的選擇。但畢竟發現的時候也寫到一半了，因此就繼續使用 \textbf{Express} 來實作。
+
+\subsection{資料庫選擇}
+
+觀察前面章節所述的內容可以發現，資料表中像是「大樓」、「樓層」、「教室」及「課程」等是環環相扣的，並且理論上來說資料量都不會到巨量，而當中的關係還有 \textbf{Nested} 跟 \textbf{Array of} 的，用 \textbf{Mongoose} 的 \verb|populate| 相當繁瑣且容易出錯。
+因此本專案更適合的資料庫應為標準的 \textbf{SQL} ，但如前一個議題，因為已經寫到一半了，因此就繼續使用 \textbf{MongoDB} 來實作。
+
+\subsection{模板引擎選擇或使用前端框架}
+
+\textbf{Express} 本身並沒有提供 \textbf{Template Engine} ，因此需要自己選擇或是自己實作。
+但 \textbf{Express} 本身提供了 \textbf{Middleware} 的功能，因此可以使用 \textbf{Frontend Framework} 來實作，例如 \textbf{Vue} 或 \textbf{React} 等。
+考慮到專案的工作量跟我的肝指數，所以目前沒有使用前端框架，而是使用 \textbf{EJS} 直接在後端 render 完後配合 \textbf{Bootstrap} 實作簡單的互動介面傳回前端。
+
 
 \end{document}
