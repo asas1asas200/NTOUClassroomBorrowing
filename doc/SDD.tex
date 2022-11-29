@@ -13,6 +13,7 @@
 
 \definecolor{LightGray}{gray}{0.8}
 \newcolumntype{a}{>{\columncolor{LightGray}}c}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 \usepackage{tabularx}
 \usepackage{makecell}
@@ -23,6 +24,19 @@
 \graphicspath{{./img/SDD}}
 
 \usepackage{indentfirst}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,%
+		breaklines=true,%
+		breakatwhitespace=true,%
+		keepspaces=true,%
+		showspaces=false,%
+		showstringspaces=false,%
+		showtabs=false,%
+		tabsize=2}
+
+\newsavebox\jsoninputbox
+\newsavebox\jsonoutputbox
 
 \begin{document}
 \begin{titlepage}
@@ -109,6 +123,170 @@
 \newpage
 
 \section[介面需求與設計(INTERFACE REQUIREMENTS AND DESIGN)]{介面需求與設計(Interface Requirements and Design)}
+
+\newcommand{\IRTable}[5]{
+	\begin{tabularx}{0.95\textwidth}{|c|Y|Y|}
+		\hline
+		\rowcolor{LightGray} 介面名稱              & 介面提供者                & 介面使用者                 \\
+		\rowcolor{LightGray} (Interface Name)  & (Interface Provider) & (Interface Consumer)  \\ \hline
+		#1                                     & #2                   & #3                    \\ \hline
+		\rowcolor{LightGray} 連結方式              & 輸入資料                 & 輸出資料                  \\
+		\rowcolor{LightGray} (Connection Type) & (Input Data)         & (Output Data)         \\ \hline
+		\makecell{#4}                          & \usebox\jsoninputbox & \usebox\jsonoutputbox \\ \hline
+		\rowcolor{LightGray} \multicolumn{3}{|c|}{  介面描述 (Interface Description) }            \\ \hline
+		\multicolumn{3}{|c|}{#5}                                                              \\ \hline
+	\end{tabularx}
+}
+
+\subsection{帳號管理}
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{註冊/登入畫面}
+{User 模組}
+{登入/註冊頁面}
+{HTTP GET \\ \texttt{/users/session}}
+{回傳包含登入和註冊表單的頁面}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"id": "10987654",
+	"password": "password",
+	"username": "name",
+	"email": "email@mail.host",
+	"phone": "0912345678"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\makecell[l]{
+		302 \texttt{/users/session} \\
+		500 Internal Server Error
+	}
+\end{lrbox}
+
+\IRTable{使用者註冊}
+{User 模組}
+{註冊表單}
+{HTTP POST \\ \texttt{/users/register}}
+{接收註冊表單，並將使用者資料存入資料庫}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"id": "10987654",
+	"password": "password",
+}
+
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\makecell[l]{
+		302 \texttt{/home} \\
+		302 \texttt{/users/sesion}
+	}
+\end{lrbox}
+
+\IRTable{使用者登入}
+{User 模組}
+{登入表單}
+{HTTP POST \\ \texttt{/users/login}}
+{接收登入表單，並將使用者資料存入 session}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+{}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	302 \texttt{/users/sesion}
+\end{lrbox}
+
+\IRTable{使用者登出}
+{User 模組}
+{登出按鈕}
+{HTTP POST \\ \texttt{/users/logout}}
+{刪除 session 中之使用者資訊，並回到登入畫面}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{待審使用者列表}
+{Admin 模組}
+{Admin/Account 頁面}
+{HTTP GET \\ \texttt{/admin/account}}
+{列出尚未審核之帳號}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{查詢使用者資訊}
+{Admin 模組}
+{Admin/Account 頁面}
+{HTTP GET \\ \texttt{/admin/account/:id}}
+{查詢指定使用者之個人資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+{
+	verified: true
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	200 OK
+\end{lrbox}
+
+\IRTable{審核使用者}
+{Admin 模組}
+{Admin/Account 頁面}
+{HTTP POST \\ \texttt{/admin/account/:id}}
+{修改指定使用者審核狀態}
 
 \newpage
 
