@@ -16,7 +16,6 @@ function editProfile(userID, userPassword) {
   let newPasswordSame = newPassword.localeCompare(newPassword_secondType) == 0;
   if (oldPassword == "" && newPassword == "" && newPassword_secondType == "") {
     passwordEditing = false;
-    console.log("");
   } else {
     if (oldPassword != userPassword) {
       alert("舊密碼輸入錯誤!");
