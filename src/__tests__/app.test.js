@@ -1,14 +1,5 @@
-const mongoose = require("mongoose");
 const request = require("supertest");
 const app = require("../app");
-
-beforeEach(async () => {
-  await mongoose.connect("mongodb://localhost:27017/test");
-});
-
-afterEach(async () => {
-  await mongoose.connection.close();
-});
 
 describe("index route", () => {
   test("home page", async () => {
