@@ -85,7 +85,10 @@
 
 \section[使用者畫面設計(USER INTERFACE DESIGN)]{使用者畫面設計(User Interface Design)}
 
+% 模式 : 頁面名稱 -> 該頁面圖片 -> 頁面描述
+
 	\bigskip
+	% 註冊頁面
 	\begin{Large}
 		註冊頁面
 	\end{Large}
@@ -95,8 +98,11 @@
 	\end{center}
 	使用者註冊時須提供學號、姓名、信箱、聯絡電話等資訊註冊，待管理員核可後即可登入本系統。
 
+	% 空行
 	\bigskip
 	\bigskip
+
+	% 登入頁面
 	\begin{Large}
 		登入頁面
 	\end{Large}
@@ -105,101 +111,163 @@
 		\includegraphics[height=0.35\textheight]{SDDLogin.png}
 	\end{center}
 	在使用者註冊後，需輸入註冊時所使用的學號及密碼登入。
-\newpage
-
-
-\begin{Large}
-	未登入首頁
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.35]{SDDFirstpage.png}
-\end{center}
-	左上角logo : 按下後跳回首頁。
+	\newpage
+	
+	% 新頁
+	% 未登入首頁
+	\begin{Large}
+		未登入首頁
+	\end{Large}
 	\bigskip
- \\ 導覽列     : 此處可選擇欲借教室(選擇樓層->選擇教室)，也可登入/註冊帳號。
- 	\bigskip
- \\ 中間區塊   : 日期可調整，選定後即會跳出教室該日的借用及歸還狀況。
- 
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\hspace*{\fill} 
+	\begin{center}
+		\includegraphics[scale=0.35]{SDDFirstpage.png}
+	\end{center}
+		左上角logo : 按下後跳回首頁。
+		\bigskip
+	 \\ 導覽列     : 此處可選擇欲借教室(選擇樓層->選擇教室)，也可登入/註冊帳號。
+	 	\bigskip
+	 \\ 中間區塊   : 日期可調整，選定後即會跳出教室該日的借用及歸還狀況。
+	
+	 % 空行
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
 
-\begin{Large}
-	使用者登入首頁
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.35]{SDDUserLoginnedFirstpage.png}
-\end{center}
-在註冊/登入後，右方會顯示使用者名稱，點擊後可選擇查看個人檔案或登出。
-\bigskip
-\newpage
+	% 首頁:教室資訊
+	\begin{Large}
+		首頁-查看已借用教室資訊
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.45]{SDDFirstpageclassroominfo.png}
+	\end{center}
+		深藍色圖標表示教室已被借用。點入後可查看課程資訊，包括課程名稱、授課教師、課程描述。
+	
+	\newpage
 
-\begin{Large}
-	管理者登入首頁
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.35]{SDDAdminLoginnedFirstpage.png}
-\end{center}
-\bigskip
-\bigskip
-當登入帳號為管理者帳號(root)時，右方會顯示root，點擊後可選擇進入管理者頁面、查看管理者檔案或登出。
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+	% 新頁
+	%使用者登入首頁
+	\begin{Large}
+		使用者登入首頁
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.35]{SDDUserLoginnedFirstpage.png}
+	\end{center}
+	在註冊/登入後，右方會顯示使用者名稱，點擊後可選擇查看個人檔案或登出。
 
-\begin{Large}
-	管理者頁面
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.35]{SDDAdminPage.png}
-\end{center}
-\bigskip
-\bigskip
-在上個頁面中點選Manage後會進入管理者頁面，點開左上角後左側會滑出功能列，可選擇欲執行的功能。
-\bigskip
-\bigskip
-\hspace*{\fill} 
+	% 空行
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
 
-\newpage
+	% 管理者登入首頁
+	\begin{Large}
+		管理者登入首頁
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.65]{SDDAdminLoginnedFirstpage.png}
+	\end{center}
+	\bigskip
+	當登入帳號為管理者帳號(root)時，右方會顯示root，點擊後可選擇進入管理
+	\\者頁面、查看管理者檔案或登出。
+	\\**深藍色圖標表教室已被借用。
+	\newpage
 
-\begin{Large}
-	帳號管理頁面
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.35]{SDDAdminAccountManage.png}
-\end{center}
-\bigskip
-\bigskip
-管理者可透過此頁面查看申請帳號，查看各申請帳號Email驗證是否通過，並選擇進行審核或直接通過。
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\hspace*{\fill} 
+	% 新頁
+	% 管理者頁面
+	\begin{Large}
+		管理者頁面
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.35]{SDDAdminPage.png}
+	\end{center}
+	\bigskip
+	\bigskip
+	在上個頁面中點選Manage後會進入管理者頁面，點開左上角後左側會滑出功能列，可選擇欲執行的功能。
+	
+	% 空行
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
 
-\begin{Large}
-	帳號審核頁面
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.35]{SDDAdminAccountVerify.png}
-\end{center}
-\bigskip
-\bigskip
-管理者在此可看到申請人資料，並決定是否通過該申請。
+	% 帳號管理頁面
+	\begin{Large}
+		帳號管理頁面
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.35]{SDDAdminAccountManage.png}
+	\end{center}
+	\bigskip
+	\bigskip
+	管理者可透過此頁面查看申請帳號，查看各申請帳號Email驗證是否通過，並選擇進行審核或直接通過。
+
+	\newpage
+
+	% 新頁
+	% 帳號審核頁面
+	\begin{Large}
+		帳號審核頁面
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.35]{SDDAdminAccountVerify.png}
+	\end{center}
+	\bigskip
+	\bigskip
+	管理者在此可看到申請人資料，並決定是否通過該申請。
+
+	% 空行
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+
+	% 鑰匙歸還頁面
+	\begin{Large}
+		鑰匙歸還頁面
+	\end{Large}
+	\bigskip
+	\begin{center}
+	% image
+	\end{center}
+	\bigskip
+	\bigskip
+	% description 
+	\newpage
+
+	% 新頁
+	% 教室編輯頁面
+	\begin{Large}
+		教室編輯頁面
+	\end{Large}
+	\bigskip
+	\begin{center}
+		\includegraphics[scale=0.5]{SDDAdminClassroomEditing.png}
+	\end{center}
+	\bigskip
+	\bigskip
+	在管理者使用教室編輯功能時，可查看該教室星期日至星期六的借用情況，並
+	\\可修改教室名稱、容量，且可直接編輯教室借用課程。
+
+	% 空行
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+	\bigskip
+
 \newpage
 
 \section[資料設計(DATA DESIGN)]{資料設計(Data Design)}
