@@ -41,8 +41,7 @@ router.put("/:id", async function (req, res, next) {
         let typed_oldPassword = req.body.data.oldPassword;
         if (typed_oldPassword == req.user.password) {
           user.password = req.body.data.newPassword;
-        }
-        else{
+        } else {
           res.status(403).send("403 Forbidden");
         }
       }
