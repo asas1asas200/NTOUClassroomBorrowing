@@ -1,4 +1,3 @@
-%!TEX program=xelatex
 \documentclass{article}
 
 % Chinese font
@@ -106,7 +105,9 @@
 
 \section[系統模型與架構(SYSTEM MODEL/SYSTEM ARCHITECTURE)]{系統模型與架構(System Model/System Architecture)}
 
-\centerline{\includegraphics[width=\textwidth]{HighLevelArchitecture.png}}
+\begin{center}
+	\includesvg[inkscapelatex=false, height=0.5\paperheight]{BlockDiagram.svg}
+\end{center}
 
 \bigskip
 
@@ -985,188 +986,120 @@ Plain HTML
 
 \section[使用者畫面設計(USER INTERFACE DESIGN)]{使用者畫面設計(User Interface Design)}
 
-% 模式 : 頁面名稱 -> 該頁面圖片 -> 頁面描述
+\subsection{使用者相關}
 
-\bigskip
-% 註冊頁面
-\begin{Large}
-	註冊頁面
-\end{Large}
+\captionof*{figure}{登入畫面}
 
 \begin{center}
-	\includegraphics[height=0.35\textheight]{SDDRegister.png}
+	\includegraphics[width=0.7\linewidth]{UserLoginPage.png}
+	\includegraphics[width=0.2\linewidth]{UserLoginPhone.png}
 \end{center}
-使用者註冊時須提供學號、姓名、信箱、聯絡電話等資訊註冊，待管理員核可後即可登入本系統。
 
-% 空行
-\bigskip
-\bigskip
+使用者登入畫面，使用者輸入帳號密碼後，按下登入按鈕即可登入系統。
 
-% 登入頁面
-\begin{Large}
-	登入頁面
-\end{Large}
+\vfill
+
+\captionof*{figure}{註冊畫面}
 
 \begin{center}
-	\includegraphics[height=0.35\textheight]{SDDLogin.png}
+	\includegraphics[width=0.7\linewidth]{UserRegisterPage.png}
+	\includegraphics[width=0.2\linewidth]{UserRegisterPhone.png}
 \end{center}
-在使用者註冊後，需輸入註冊時所使用的學號及密碼登入。
-\newpage
 
-% 新頁
-% 未登入首頁
-\begin{Large}
-	未登入首頁
-\end{Large}
-\bigskip
+使用者註冊畫面，使用者輸入應填資料後，按下註冊按鈕即可註冊帳號。
+
+\pagebreak
+
+\captionof*{figure}{主要畫面}
+
 \begin{center}
-	\includegraphics[scale=0.35]{SDDFirstpage.png}
+	\includegraphics[width=0.7\linewidth]{HomePage.png}
+	\includegraphics[width=0.2\linewidth]{HomePhone.png}
 \end{center}
-左上角logo : 按下後跳回首頁。
-\bigskip
-\\ 導覽列     : 此處可選擇欲借教室(選擇樓層->選擇教室)，也可登入/註冊帳號。
-\bigskip
-\\ 中間區塊   : 日期可調整，選定後即會跳出教室該日的借用及歸還狀況。
 
-% 空行
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+使用者主要畫面，使用者可以在此頁面查詢教室使用狀態、申請借用鑰匙等。
 
-% 首頁:教室資訊
-\begin{Large}
-	首頁-查看已借用教室資訊
-\end{Large}
-\bigskip
+\vfill
+
+\captionof*{figure}{查詢課程畫面}
+
 \begin{center}
-	\includegraphics[scale=0.45]{SDDFirstpageclassroominfo.png}
+	\includegraphics[width=0.7\linewidth]{HomeLessonInfoPage.png}
+	\includegraphics[width=0.2\linewidth]{HomeLessonInfoPhone.png}
 \end{center}
-深藍色圖標表示教室已被借用。點入後可查看課程資訊，包括課程名稱、授課教師、課程描述。
 
-\newpage
+課程查詢畫面，在使用者點擊深藍色的課程後會顯示該課程的詳細資訊。
 
-% 新頁
-%使用者登入首頁
-\begin{Large}
-	使用者登入首頁
-\end{Large}
-\bigskip
+\pagebreak
+
+
+\begin{minipage}{0.4\textwidth}
+	\captionof*{figure}{依據日期篩選}
+
+	\begin{center}
+		\includegraphics[width=\linewidth]{SelectDatePhone.png}
+	\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	選擇要查看的日期，點選日期後，會自動更新畫面內容，無任何頁面跳轉。
+\end{minipage}
+
+\pagebreak
+
+\subsection{管理者相關}
+
+\captionof*{figure}{管理者頁面}
+
 \begin{center}
-	\includegraphics[scale=0.35]{SDDUserLoginnedFirstpage.png}
+	\includegraphics[width=0.7\linewidth]{AdminPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminPhone.png}
 \end{center}
-在註冊/登入後，右方會顯示使用者名稱，點擊後可選擇查看個人檔案或登出。
 
-% 空行
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+管理者主頁面，管理者可以在此頁面查詢教室使用狀態、申請借用鑰匙、審核借用申請等。
 
-% 管理者登入首頁
-\begin{Large}
-	管理者登入首頁
-\end{Large}
-\bigskip
+\vfill
+
+\captionof*{figure}{帳號管理頁面}
+
 \begin{center}
-	\includegraphics[scale=0.65]{SDDAdminLoginnedFirstpage.png}
+	\includegraphics[width=0.7\linewidth]{AdminAccountPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminAccountPhone.png}
 \end{center}
-\bigskip
-當登入帳號為管理者帳號(root)時，右方會顯示root，點擊後可選擇進入管理
-\\者頁面、查看管理者檔案或登出。
-\\**深藍色圖標表教室已被借用。
-\newpage
 
-% 新頁
-% 管理者頁面
-\begin{Large}
-	管理者頁面
-\end{Large}
-\bigskip
+管理者帳號管理頁面，管理者可以在此頁面審核使用者帳號。
+
+\pagebreak
+
+\captionof*{figure}{教室列表}
+
 \begin{center}
-	\includegraphics[scale=0.35]{SDDAdminPage.png}
+	\includegraphics[width=0.7\linewidth]{AdminClassroomListPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminClassroomListPhone.png}
 \end{center}
-\bigskip
-\bigskip
-在上個頁面中點選Manage後會進入管理者頁面，點開左上角後左側會滑出功能列，可選擇欲執行的功能。
 
-% 空行
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+管理者教室列表頁面，管理者可以在此頁面查看資料庫中所有的大樓、樓層和其中的教室，並透過前端即時編輯。
 
-% 帳號管理頁面
-\begin{Large}
-	帳號管理頁面
-\end{Large}
-\bigskip
+\vfill
+
+\captionof*{figure}{教室編輯}
+
 \begin{center}
-	\includegraphics[scale=0.35]{SDDAdminAccountManage.png}
+	\includegraphics[width=0.7\linewidth]{AdminClassroomEditPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminClassroomEditPhone.png}
 \end{center}
-\bigskip
-\bigskip
-管理者可透過此頁面查看申請帳號，查看各申請帳號Email驗證是否通過，並選擇進行審核或直接通過。
 
-\newpage
+點擊編輯按鈕後，會跳出編輯畫面，管理者可以在此頁面編輯教室資訊，例如選擇該教室固定的課程時間。
 
-% 新頁
-% 帳號審核頁面
-\begin{Large}
-	帳號審核頁面
-\end{Large}
-\bigskip
+\pagebreak
+
+\captionof*{figure}{課程編輯}
+
 \begin{center}
-	\includegraphics[scale=0.35]{SDDAdminAccountVerify.png}
+	\includegraphics[width=0.7\linewidth]{AdminLessonPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminLessonPhone.png}
 \end{center}
-\bigskip
-\bigskip
-管理者在此可看到申請人資料，並決定是否通過該申請。
 
-% 空行
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
-% 鑰匙歸還頁面
-\begin{Large}
-	鑰匙歸還頁面
-\end{Large}
-\bigskip
-\begin{center}
-	% image
-\end{center}
-\bigskip
-\bigskip
-% description 
-\newpage
-
-% 新頁
-% 教室編輯頁面
-\begin{Large}
-	教室編輯頁面
-\end{Large}
-\bigskip
-\begin{center}
-	\includegraphics[scale=0.5]{SDDAdminClassroomEditing.png}
-\end{center}
-\bigskip
-\bigskip
-在管理者使用教室編輯功能時，可查看該教室星期日至星期六的借用情況，並
-\\可修改教室名稱、容量，且可直接編輯教室借用課程。
-
-% 空行
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+管理者課程編輯頁面，管理者可以在此頁面編輯課程資訊，例如課程名稱、授課教師以及課程描述。
 
 \newpage
 
@@ -1363,6 +1296,10 @@ const userSchema = new mongoose.Schema({
 \newpage
 
 \section[實作方案(IMPLEMENTATION LANGUAGE AND PLATFORM)]{實作方案(Implementation Language and Platform)}
+
+\centerline{\includegraphics[width=\textwidth]{HighLevelArchitecture.png}}
+
+\bigskip
 
 \subsection{後端與資料庫}
 

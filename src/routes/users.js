@@ -10,7 +10,7 @@ const auth = require("../middleware/auth");
 let makeField = (name, label, type) =>
   `
     <div class="mb-3 row">
-      <label for="${name}" class="col-3 col-form-label"> ${label} </label>
+      <label for="${name}" class="col-3 col-form-label text-nowrap"> ${label} </label>
       <div class="col">
         <input type="${type}" class="form-control" name="${name}" placeholder="${label}" required>
       </div>
