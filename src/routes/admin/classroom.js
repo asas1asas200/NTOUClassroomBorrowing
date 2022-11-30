@@ -4,6 +4,7 @@ var router = express.Router();
 const Building = require("../../models/building");
 const Floor = require("../../models/floor");
 const Classroom = require("../../models/classroom");
+const Lesson = require("../../models/lesson");
 
 function errorHandle(e, res) {
   console.log(e);
@@ -115,6 +116,7 @@ router.get("/empty", async function (req, res, next) {
     capacity: 0,
     schedule: null,
     options: [],
+    lessons: await Lesson.find({ fixed: true }).lean(),
   });
 });
 
@@ -123,20 +125,24 @@ router.get(
   "/building/:id/floor/:fid/classroom/:cid",
   async function (req, res, next) {
     try {
-      let building = await Building.findOne({ name: req.params.id });
+      let building = await Building.findOne({ name: req.params.id }).lean();
       let floor = await Floor.findOne({
         name: req.params.fid,
         building: building,
-      });
+      }).lean();
       let classroom = await Classroom.findOne({
         name: req.params.cid,
         floor: floor,
-      });
+      })
+        .populate("schedule")
+        .lean();
+
       res.render("admin/classroomInfo", {
         name: classroom.name,
         capacity: classroom.capacity,
-        schedule: JSON.parse(classroom.schedule),
+        schedule: classroom.schedule,
         options: classroom.options,
+        lessons: await Lesson.find({ fixed: true }).lean(),
       });
     } catch (e) {
       errorHandle(e, res);
@@ -153,7 +159,7 @@ router.post("/", async function (req, res, next) {
       floor: "一樓",
       name: "103",
       capacity: 30,
-      schedule: {JSON},
+      schedule: [[ ObjectID of Lesson ]],
       options: ["computer"],
     }
   */

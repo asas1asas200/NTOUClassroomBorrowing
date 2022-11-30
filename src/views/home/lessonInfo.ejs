@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col">
+    <label for="name" class="form-label"> 課程名稱 </label>
+    <input type="text" class="form-control" value="<%- lesson.name %>" required disabled>
+  </div>
+  <div class="col">
+    <label for="teacher" class="form-label"> 授課教師 </label>
+    <input type="text" class="form-control" value="<%- lesson.teacher %>" required disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <label for="description" class="form-label"> 課程描述 </label>
+    <textarea class="form-control" rows="3" required disabled><%- lesson.description %></textarea>
+  </div>
+</div>
