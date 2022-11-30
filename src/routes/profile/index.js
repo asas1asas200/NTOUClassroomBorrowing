@@ -29,13 +29,23 @@ router.get("/", async function (req, res, next) {
 router.put("/:id", async function (req, res, next) {
   try {
     let receivedUserId = req.params.id;
+    let passwordEditing = req.body.data.passwordEditing;
+
     console.log("received id: " + receivedUserId);
     if (receivedUserId == req.user.id) {
       let user = await User.findOne({ id: req.params.id }).lean();
       user.username = req.body.data.username;
       user.email = req.body.data.email;
       user.phone = req.body.data.phone;
-      user.password = req.body.data.password;
+      if (passwordEditing) {
+        let typed_oldPassword = req.body.data.oldPassword;
+        if (typed_oldPassword == req.user.password) {
+          user.password = req.body.data.newPassword;
+        }
+        else{
+          res.status(403).send("403 Forbidden");
+        }
+      }
       await User.updateOne({ id: req.params.id }, user);
 
       res.status(200).send("OK");

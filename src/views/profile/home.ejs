@@ -22,7 +22,7 @@
       <%- makeField("聯絡電話：", "phone", user.phone, "tel") %>
       <div class="mb-3 row">
         <div class="col-7"></div>
-        <button class="col btn btn-warning mb-3" onclick="editProfile('<%- user.id %>','<%- user.password %>')">修改</button>
+        <button class="col btn btn-warning mb-3" onclick="editProfile('<%- user.id %>')">修改</button>
         <div class="col-3"></div>
       </div>
       <input id="csrfToken" type="hidden" name="_csrf" value="<%- csrfToken %>">

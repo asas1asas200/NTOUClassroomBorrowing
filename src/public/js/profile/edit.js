@@ -1,7 +1,7 @@
 const url = `${window.location.protocol}//${window.location.host}/profile`;
 const csrfToken = document.getElementById("csrfToken").value;
 let passwordBlock = document.getElementById("passwordEditBlock");
-function editProfile(userID, userPassword) {
+function editProfile(userID) {
   console.log("userID: ", userID);
   let newUsername = document.getElementById("username").value;
   let newEmail = document.getElementById("email").value;
@@ -12,21 +12,14 @@ function editProfile(userID, userPassword) {
     "newPassword_secondType"
   ).value;
   let passwordEditing = true;
-  let passwordValid = false;
   let newPasswordSame = newPassword.localeCompare(newPassword_secondType) == 0;
   if (oldPassword == "" && newPassword == "" && newPassword_secondType == "") {
     passwordEditing = false;
-  } else {
-    if (oldPassword != userPassword) {
-      alert("舊密碼輸入錯誤!");
-    } else if (!newPasswordSame) {
-      alert("新密碼不相同!");
-    } else {
-      passwordValid = true;
-    }
+  } else if (!newPasswordSame) {
+    alert("新密碼不相同!");
   }
 
-  if (passwordValid) {
+  if (!passwordEditing || (passwordEditing && newPasswordSame)) {
     axios
       .put(url + `/${userID}`, {
         _csrf: csrfToken,
@@ -34,7 +27,9 @@ function editProfile(userID, userPassword) {
           username: newUsername,
           email: newEmail,
           phone: newPhone,
-          password: passwordEditing ? newPassword : userPassword,
+          passwordEditing: passwordEditing,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
         },
       })
       .then((res) => {
