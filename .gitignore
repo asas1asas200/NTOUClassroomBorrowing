@@ -439,3 +439,7 @@ dist
 
 data/
 
+# Temp files of Graphviz
+
+doc/tmp/
+
