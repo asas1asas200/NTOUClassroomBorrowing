@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
     // TODO: verify infos like if user exist, if email is valid, etc
     const user = new User({
       username: req.body.username,
-      // TODO: hash password agiain
+      // hash password
       password: req.body.password,
       email: req.body.email,
       admin: false,
@@ -37,14 +37,9 @@ router.post("/register", async (req, res) => {
       verified: false,
     });
 
-    // 加密
-    const saltRounds = 10;
-    bcrypt.hash(user.password, saltRounds).then(function (hash) {
-      user.password = hash;
-      console.log(hash);
+    await user.save(function (err) {
+      if (err) throw err;
     });
-
-    await user.save();
     res.redirect("/users/session");
   } catch (e) {
     console.log(e);
@@ -59,15 +54,16 @@ router.get("/session", function (req, res, next) {
   });
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/users/session",
-  }),
-  function (req, res) {
-    res.redirect("/home");
+router.post("/login", async (req, res, next) => {
+  let user = await User.findOne({ id: req.body.id });
+  if (!user) return res.status(400).send("invalid id ");
+
+  const isValid = await bcrypt.compare(req.body.password, user.password);
+  if (isValid) {
+    return res.redirect("/home");
   }
-);
+  return res.redirect("/users/session");
+});
 
 router.post("/logout", function (req, res, next) {
   req.logout((err) => {
@@ -89,3 +85,18 @@ router.get("/admin_only", auth.admin, function (req, res) {
 /* ----------------------------------------------- */
 
 module.exports = router;
+/*
+User.findOne({ id: req.body.id }, function (err, user) {
+  if (err) {
+    res.redirect("/users/session");
+  }
+  user.comparePassword(req.body.password, function (err, isMatch) {
+    if (err) {
+      res.redirect("/users/session");
+    }
+    console.log(req.body.password);
+    //帶往正確的路
+    res.redirect("/home");
+  });
+});
+*/
