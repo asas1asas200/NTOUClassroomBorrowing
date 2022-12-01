@@ -33,10 +33,20 @@ function editProfile(userID) {
         },
       })
       .then((res) => {
+        console.log(res.status);
         window.location.reload();
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err.response.data);
+        if (err.response.data == "old pwd wrong") {
+          alert("原密碼錯誤!");
+          clearPassword();
+        }
       });
   }
+}
+function clearPassword() {
+  document.getElementById("oldPassword").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("newPassword_secondType").value = "";
 }
