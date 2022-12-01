@@ -1,0 +1,52 @@
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <% for (let building of buildings) { %>
+      <button class="nav-link" id="tab-building-<%- building.name %>" data-bs-toggle="tab" data-bs-target="#building-<%- building.name %>" type="button" role="tab" onclick="sessionStorage.setItem('home-building', 'tab-building-<%- building.name %>')">
+        <%- building.name %>
+      </button>
+    <% } %>
+  </div>
+</nav>
+<div class="tab-content text-nowrap" id="nav-tabContent">
+  <% for (let building of buildings) { %>
+    <div class="tab-pane fade" id="building-<%- building.name %>" role="tabpanel">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead><tr>
+            <th scope="col" class="align-middle"> 節次 </th>
+            <% for (let floor of building.floors) { %>
+              <% for (let classroom of floor.classrooms) { %>
+                <th scope="col"> <span class="text-secondary"><%- floor.name %></span> <br> <%- classroom.name %> </th>
+              <% } %>
+            <% } %>
+          </tr></thead>
+          <tbody>
+            <% for (let period of Array(15).keys()) { %>
+              <tr>
+                <th scope="row" class="align-middle"> <%- period %> </th>
+                <% for (let floor of building.floors) { %>
+                  <% for (let classroom of floor.classrooms) { %>
+                  <td class="align-middle">
+                    <div class="d-grid">
+                    <% let lesson = classroom.schedule[date.getDay()][period] %>
+                    <% if (lesson) { %>
+                    <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#lessonInfoModal" onclick="showLessonInfo('<%- lesson._id %>');">
+                      <%- lesson.name %> - <span class="h6 text-warning"><%- lesson.teacher %></span>
+                    </button>
+                    <% } else { %>
+                      <button class="btn btn-outline-info btn-lg" type="button">
+                        申請借用
+                      </button>
+                    <% } %>
+                    </div>
+                  </td>
+                  <% } %>
+                <% } %>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% } %>
+</div>

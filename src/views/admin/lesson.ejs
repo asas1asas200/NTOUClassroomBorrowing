@@ -1,0 +1,44 @@
+
+<div class="list-group">
+  <li class="list-group-item">
+    <div class="row align-items-center">
+      <h3 class="m-0 text-center col"> 課程名稱 </h3>
+      <h3 class="m-0 text-center col"> 授課教師 </h3>
+      <div class="col">
+        <h3 class="m-0 text-center"> 動作 </h3>
+      </div>
+    </div>
+  </li>
+  <% for (let lesson of data?.lessons) { %>
+    <div class="list-group-item animate__animated animate__fadeInDown animate__fast">
+      <div class="row align-items-center">
+        <h3 class="m-0 col text-center"><%- lesson.name %></h3>
+        <h3 class="m-0 col text-center"><%- lesson.teacher %></h3>
+        <div class="col align-items-center d-flex flex-row justify-content-evenly flex-wrap">
+          <button class="btn btn-lg btn-outline-warning" data-bs-toggle="modal" data-bs-target="#lessonEditModal" onclick="getLessonInfo('<%- lesson._id %>');"> 編輯 </button>
+          <button class="btn btn-lg btn-outline-danger" onclick="deleteLesson('<%- lesson._id %>');"> 移除 </button>
+        </div>
+      </div>
+    </div>
+  <% } %>
+  <div class="d-grid">
+    <button type="button" data-bs-toggle="modal" data-bs-target="#lessonEditModal" class="btn btn-outline-success text-center" onclick="getEmptyLesson();"> 新增課程 </button>
+  </div>
+</div>
+
+<div class="modal fade" id="lessonEditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="lessonEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="lessonEditModalTitle">  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="lessonInfo">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveButton">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

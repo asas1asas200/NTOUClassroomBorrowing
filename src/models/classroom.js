@@ -6,10 +6,14 @@ const classroomSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    schedule: {
-      type: String, // JSON string
-      required: true,
-    },
+    schedule: [
+      [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+        },
+      ],
+    ],
     capacity: {
       type: Number,
       required: true,
@@ -29,7 +33,7 @@ const classroomSchema = new mongoose.Schema(
     methods: {
       async update(info) {
         this.name = info.name;
-        this.schedule = JSON.stringify(info.schedule);
+        this.schedule = info.schedule;
         this.capacity = info.capacity;
         this.options = info.options;
         await this.save();
@@ -49,7 +53,7 @@ classroomSchema.static("newClassroom", async function (floor, info) {
     name: info.name,
     floor: floor,
     capacity: info.capacity,
-    schedule: JSON.stringify(info.schedule),
+    schedule: info.schedule,
     options: info.options,
   });
   await classroom.save();
