@@ -1,4 +1,3 @@
-%!TEX program=xelatex
 \documentclass{article}
 
 % Chinese font
@@ -13,11 +12,44 @@
 
 \definecolor{LightGray}{gray}{0.8}
 \newcolumntype{a}{>{\columncolor{LightGray}}c}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\usepackage[pdf, tmpdir, singlefile]{graphviz}
 
 \usepackage{tabularx}
 \usepackage{makecell}
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+
+\usepackage{indentfirst}
 
 \renewcommand*\contentsname{目錄}
+
+\usepackage{graphicx}
+\graphicspath{{./img/SDD}}
+
+\usepackage{svg}
+\svgpath{./img/SDD}
+
+\usepackage{indentfirst}
+
+\usepackage{minted}
+\usepackage{caption}
+\captionsetup{justification   = raggedright,
+              singlelinecheck = false}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,%
+		breaklines=true,%
+		breakatwhitespace=true,%
+		keepspaces=true,%
+		showspaces=false,%
+		showstringspaces=false,%
+		showtabs=false,%
+		tabsize=2}
+
+\newsavebox\jsoninputbox
+\newsavebox\jsonoutputbox
 
 \begin{document}
 \begin{titlepage}
@@ -50,13 +82,17 @@
 \begin{tabularx}{\textwidth}{| c | X | X |}
 	\rowcolor{LightGray}
 	\hline
-	版次  & 變更項目 & 變更日期       \\ \hline
-	0.1 & 初版   & 2022/10/04 \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
-	    &      &            \\ \hline
+	版次    & 變更項目                        & 變更日期       \\ \hline
+	0.1   & 初版                          & 2022/10/04 \\ \hline
+	0.1.1 & 新增系統模型與架構                   & 2022/11/28 \\ \hline
+	0.1.2 & 新增介面需求與設計                   & 2022/11/29 \\ \hline
+	0.1.3 & 新增資料設計                      & 2022/11/30 \\ \hline
+	0.1.4 & 新增類別圖設計                     & 2022/11/30 \\ \hline
+	0.1.5 & 新增實作方案和設計議題                 & 2022/11/30 \\ \hline
+	0.1.6 & 新增流程設計                      & 2022/12/01 \\ \hline
+	0.1.7 & 增加 User Interface Design 部分 & 2022/12/01 \\ \hline
+	      &                             &            \\ \hline
+	      &                             &            \\ \hline
 \end{tabularx}
 
 \newpage
@@ -69,32 +105,1241 @@
 
 \section[系統模型與架構(SYSTEM MODEL/SYSTEM ARCHITECTURE)]{系統模型與架構(System Model/System Architecture)}
 
+\begin{center}
+	\includesvg[inkscapelatex=false, height=0.5\paperheight]{BlockDiagram.svg}
+\end{center}
+
+\bigskip
+
+前端透過瀏覽器的 HTTP request 和 axios 提供的 request 方法與後端溝通，後端透過 express 提供的路由來處理前端的要求。
+
+實際傳輸的方式包含了 RESTful API 和直接用 ejs render 後的結果當成網頁內容。
+
+每個頁面透過瀏覽器發送的 request 來得到後端 ejs render 完的 HTML 內容，頁面中需要純前端處理的部分則以 axios 來傳送 request ，接收後端 render 完的 response 後直接操作 DOM 來改變頁面內容。
+
+\subsection{後端架構}
+
+後端架構主要分為兩個部分：後端伺服器和資料庫。
+
+\subsubsection{後端伺服器}
+
+伺服器為 Node.js express 搭配 ejs 來實作，主要負責處理前端的 request 並回傳給前端。
+
+後端架構遵循 express-generator 產生出的 MVC 架構，將後端大致分為三個部分： routes、views 和 models 。
+
+\subsubsection{資料庫}
+
+透過 docker 來管理本地端的資料庫，使用的是 mongodb ，並在 express app 中以 mongoose ODM 來操作資料庫。
+
+資料庫連線分為 \verb|/test| 和 \verb|/NTOUClassroomBorrowing| ，分別用來測試和正式使用。
+
+\subsection{前端架構}
+
+前端透過 Bootstrap 5 和基本的 HTML、CSS、JavaScript 來實作，主要負責處理使用者的操作並將結果傳送給後端。
+
+部份動畫透過 animate.css 提供，純前端處理 request 的部份則以 axios 與後端溝通，收取 response 來更新頁面內容，或是彈出提示訊息。
+
 \newpage
 
 \section[介面需求與設計(INTERFACE REQUIREMENTS AND DESIGN)]{介面需求與設計(Interface Requirements and Design)}
+
+\newcommand{\IRTable}[6]{
+	\begin{tabularx}{0.95\textwidth}{|c|Y|Y|}
+		\hline
+		\rowcolor{LightGray} 介面名稱              & 介面提供者                & 介面使用者                 \\
+		\rowcolor{LightGray} (Interface Name)  & (Interface Provider) & (Interface Consumer)  \\ \hline
+		#1                                     & #2                   & #3                    \\ \hline
+		\rowcolor{LightGray} 連結方式              & 輸入資料                 & 輸出資料                  \\
+		\rowcolor{LightGray} (Connection Type) & (Input Data)         & (Output Data)         \\ \hline
+		\texttt{#4}                            & \usebox\jsoninputbox & \usebox\jsonoutputbox \\ \hline
+		\rowcolor{LightGray} \multicolumn{3}{|c|}{ URL }                                      \\ \hline
+		\multicolumn{3}{|c|}{\texttt{#5}}                                                     \\ \hline
+		\rowcolor{LightGray} \multicolumn{3}{|c|}{  介面描述 (Interface Description) }            \\ \hline
+		\multicolumn{3}{|c|}{#6}                                                              \\ \hline
+	\end{tabularx}
+}
+
+\subsection{帳號管理}
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{登入/註冊畫面}
+{User 模組}
+{登入/註冊頁面}
+{HTTP GET}
+{/users/session}
+{回傳包含登入和註冊表單的頁面}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"id": "10987654",
+	"password": "password",
+	"username": "name",
+	"email": "email@mail.host",
+	"phone": "0912345678"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\makecell[l]{
+		302 \texttt{/users/session} \\
+		500 Internal Server Error
+	}
+\end{lrbox}
+
+\IRTable{使用者註冊}
+{User 模組}
+{註冊表單}
+{HTTP POST}
+{/users/register}
+{接收註冊表單，並將使用者資料存入資料庫}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"id": "10987654",
+	"password": "password",
+}
+
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\makecell[l]{
+		302 \texttt{/home} \\
+		302 \texttt{/users/sesion}
+	}
+\end{lrbox}
+
+\IRTable{使用者登入}
+{User 模組}
+{登入表單}
+{HTTP POST}
+{/users/login}
+{接收登入表單，並將使用者資料存入 session}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+{}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	302 \texttt{/users/sesion}
+\end{lrbox}
+
+\IRTable{使用者登出}
+{User 模組}
+{登出按鈕}
+{HTTP POST}
+{/users/logout}
+{刪除 session 中之使用者資訊，並回到登入畫面}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{待審使用者列表}
+{Admin 模組}
+{Admin/Account 頁面}
+{HTTP GET}
+{/admin/account}
+{列出尚未審核之帳號}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{查詢使用者資訊}
+{Admin 模組}
+{Admin/Account 頁面}
+{HTTP GET}
+{/admin/account/:id}
+{查詢指定使用者之個人資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+{
+	verified: true
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\makecell[l]{
+		200 OK \\
+		500 Internal Server Error
+	}
+\end{lrbox}
+
+\IRTable{審核使用者}
+{Admin 模組}
+{Admin/Account 頁面}
+{HTTP POST}
+{/admin/account/:id}
+{修改指定使用者審核狀態}
+
+\pagebreak
+
+\subsection{大樓、樓層與教室編輯}
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+	Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{編輯頁面}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP GET}
+{/admin/classroom}
+{對大樓、樓層與教室進行編輯之主要操作頁面}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
+{ "name": "電機二館" }
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{新增大樓}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP POST}
+{/admin/classroom/building}
+{在資料庫中新增大樓}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除大樓}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP DELETE}
+{/admin/classroom/building/:id}
+{在資料庫中刪除大樓}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"building": "電機二館",
+	"floor": "一樓",
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{新增樓層}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP POST}
+{/admin/classroom/floor}
+{在指定的大樓中新增樓層}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除樓層}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP DELETE}
+{/admin/classroom/building/:id/floor/:fid}
+{刪除大樓中指定的樓層}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{空教室表單}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP GET}
+{/admin/classroom/empty}
+{準備建立新教室時所需的表單}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{教室資訊}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP GET}
+{/admin/classroom/building/:id/floor/:fid/classroom/:cid}
+{查詢指定教室的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"building": "電機二館",
+	"floor": "一樓",
+	"name": "INS 103",
+	"capacity": 30,
+	"schedule":
+		[
+			[ null, lesson2, ... ],
+			[ lesson1, null, ... ], ... 
+		],
+	"options": ["computer"]
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{建立新教室}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP POST}
+{/admin/classroom}
+{在指定的樓層中建立新教室}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"building": "電機二館",
+	"floor": "一樓",
+	"name": "INS 103",
+	"capacity": 30,
+	"schedule":
+		[
+			[ null, lesson2, ... ],
+			[ lesson1, null, ... ], ... 
+		],
+	"options": ["computer"]
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{更新教室}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP PUT}
+{/admin/classroom/building/:id/floor/:fid/classroom/:cid}
+{更新指定教室的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除教室}
+{Admin 模組}
+{Admin/Classroom 頁面}
+{HTTP DELETE}
+{/admin/classroom/building/:id/floor/:fid/classroom/:cid}
+{刪除指定教室}
+
+\pagebreak
+
+\subsection{課程管理}
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{課程列表}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP GET}
+{/admin/lesson}
+{列出所有課程}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"name": "課程A",
+	"teacher": "王大明",
+	"description": "課程A的說明"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{新增課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP POST}
+{/admin/lesson}
+{新增一個課程於資料庫中}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"name": "課程A",
+	"teacher": "王大明",
+	"description": "課程A的說明"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{編輯課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP PUT}
+{/admin/lesson/:id}
+{編輯指定課程的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{查詢課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP GET}
+{/admin/lesson/:id}
+{查詢指定課程的資訊}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{刪除課程}
+{Admin 模組}
+{Admin/Lesson 頁面}
+{HTTP DELETE}
+{/admin/lesson/:id}
+{刪除指定課程}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{列出課表}
+{Home 模組}
+{Home 頁面}
+{HTTP GET}
+{/home/curriculum}
+{列出當天課表}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{列出課表}
+{Home 模組}
+{Home 頁面}
+{HTTP GET}
+{/home/curriculum/:date}
+{列出指定日期的課表}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{課程資訊}
+{Home 模組}
+{Home 頁面}
+{HTTP GET}
+{/home/lesson/:id}
+{列出指定課程的資訊}
 
 \newpage
 
 \section[流程設計(PROCESS DESIGN)]{流程設計(Process Design)}
 
+\subsection{使用者相關}
+
+\begin{center}
+	\captionof*{figure}{註冊流程}
+
+	\digraph[height=0.35\textheight]{UserRegister} {
+		node [shape=box];
+		RegPage[label="註冊頁面", style=rounded];
+		Submit[label="送出註冊資料"];
+		CheckInfo[label="個人資料檢查", shape=diamond];
+		Email[label="Email 認證"];
+		RegSuccess[label="註冊成功", style=rounded];
+
+		RegPage -> Submit -> CheckInfo;
+		CheckInfo -> Email [label="通過"];
+		CheckInfo -> RegPage [label="不通過"];
+		Email -> RegSuccess;
+	}
+\end{center}
+
+\begin{center}
+	\captionof*{figure}{登入流程}
+
+	\digraph[height=0.35\textheight]{UesrLogin} {
+		node [shape=box];
+		LoginPage[label="登入頁面", style=rounded];
+		Submit[label="送出登入資料"];
+		CheckInfo[label="檢查帳號密碼", shape=diamond];
+		LoginSuccess[label="登入成功", style=rounded];
+
+		LoginPage -> Submit -> CheckInfo;
+		CheckInfo -> LoginSuccess [label="成功"];
+		CheckInfo -> LoginPage [label="失敗"];
+	}
+\end{center}
+
+\pagebreak
+
+\begin{center}
+	\captionof*{figure}{編輯個人資料}
+
+	\digraph[height=0.35\textheight]{UserEdit} {
+		node [shape=box];
+		EditPage[label="編輯頁面", style=rounded];
+		Submit[label="送出編輯資料"];
+		PWExist[label="送出資料包含密碼", shape=diamond];
+		PWCheck[label="檢查舊密碼", shape=diamond];
+		EditSuccess[label="編輯完成", style=rounded];
+
+		EditPage -> Submit -> PWExist;
+		PWExist -> PWCheck [label="是"];
+		PWExist -> EditSuccess [label="否"];
+		PWCheck -> EditSuccess [label="相符"];
+		PWCheck -> EditPage [label="不相符"];
+	}
+\end{center}
+
+\begin{center}
+	\captionof*{figure}{忘記密碼}
+
+	\digraph[height=0.35\textheight]{UserForgetPW} {
+		node [shape=box];
+		ForgetPWPage[label="忘記密碼頁面", style=rounded];
+		Submit[label="送出資料"];
+		Email[label="Email 傳送連結"];
+		ResetPWPage[label="重設密碼頁面", style=rounded];
+		ResetSubmit[label="送出新密碼"];
+		ResetSuccess[label="重設完成", style=rounded];
+
+		ForgetPWPage -> Submit -> Email;
+		Email -> ResetPWPage;
+		ResetPWPage -> ResetSubmit -> ResetSuccess;
+	}
+
+\end{center}
+
+\pagebreak
+
+\subsection{教室管理}
+
+\begin{center}
+	\captionof*{figure}{新增/編輯大樓、樓層或教室}
+
+	\digraph[height=0.35\textheight]{ClassroomAdd} {
+		node [shape=box];
+		AddPage[label="新增/編輯頁面", style=rounded];
+		Select[label="選擇大樓、樓層或教室"];
+		InputInfo[label="輸入資料（名稱、屬性或所屬）"];
+		Submit[label="送出資料"];
+		Success[label="編輯完成", style=rounded];
+
+		AddPage -> Select -> InputInfo -> Submit -> Success;
+	}
+\end{center}
+
+\begin{center}
+	\captionof*{figure}{刪除大樓、樓層或教室}
+
+	\digraph[height=0.35\textheight]{ClassroomDelete} {
+		node [shape=box];
+		DeletePage[label="刪除頁面", style=rounded];
+		Select[label="選擇大樓、樓層或教室"];
+		Submit[label="送出資料"];
+		DeleteRelated[label="刪除相關資料（例如大樓內所有樓層、樓層內所有教室）"];
+		Success[label="刪除完成", style=rounded];
+
+		DeletePage -> Select -> Submit -> DeleteRelated -> Success;
+	}
+\end{center}
+
+
+\pagebreak
+
+
+\begin{center}
+	\captionof*{figure}{新增/編輯教室資訊}
+
+	\digraph[height=0.35\textheight]{ClassroomInfoAdd} {
+		node [shape=box];
+		AddPage[label="新增/編輯頁面", style=rounded];
+		Select[label="選擇教室"];
+		InputInfo[label="課表、設備、容量編輯"];
+		Submit[label="送出資料"];
+		Success[label="編輯完成", style=rounded];
+
+		AddPage -> Select -> InputInfo -> Submit -> Success;
+	}
+\end{center}
+
+\pagebreak
+
+\subsection{課程管理}
+
+\begin{center}
+	\captionof*{figure}{新增/編輯課程}
+
+	\digraph[height=0.35\textheight]{CourseAdd} {
+		node [shape=box];
+		AddPage[label="新增/編輯頁面", style=rounded];
+		InputInfo[label="輸入資料（課程名稱、授課教師、課程描述等）"];
+		Submit[label="送出資料"];
+		Success[label="編輯完成", style=rounded];
+
+		AddPage -> InputInfo -> Submit -> Success;
+	}
+\end{center}
+
+\begin{center}
+	\captionof*{figure}{刪除課程}
+
+	\digraph[height=0.35\textheight]{CourseDelete} {
+		node [shape=box];
+		DeletePage[label="刪除頁面", style=rounded];
+		Select[label="選擇課程"];
+		Submit[label="送出資料"];
+		Success[label="刪除完成", style=rounded];
+
+		DeletePage -> Select -> Submit -> Success;
+	}
+\end{center}
+
+\pagebreak
+
+\begin{center}
+	\captionof*{figure}{查詢課程資訊}
+
+	\digraph[height=0.35\textheight]{CourseQuery} {
+		node [shape=box];
+		QueryPage[label="查詢頁面", style=rounded];
+		Select[label="選擇課程"];
+		Submit[label="送出資料"];
+		Success[label="回傳查詢結果", style=rounded];
+
+		QueryPage -> Select -> Submit -> Success;
+	}
+
+\end{center}
+
+\begin{center}
+	\captionof*{figure}{查詢當日課程}
+
+	\digraph[height=0.35\textheight]{CourseQueryToday} {
+		node [shape=box];
+		QueryPage[label="查詢頁面", style=rounded];
+		Select[label="選擇日期（預設為當日）"];
+		Submit[label="送出資料"];
+		Success[label="回傳查詢結果（包含當日所有教室資訊）", style=rounded];
+
+		QueryPage -> Select -> Submit -> Success;
+	}
+\end{center}
+
+\pagebreak
+
+\subsection{鑰匙借還}
+
+\begin{center}
+	\captionof*{figure}{申請借用流程}
+
+	\digraph[height=0.35\textheight]{BorrowProcess} {
+		node [shape=box];
+		Login[label="登入", style=rounded];
+		Select[label="選擇時間日期和指定教室"];
+		InputInfo[label="輸入借用資訊（借用人、借用目的等）"];
+		Submit[label="送出資料"];
+		Success[label="申請完成", style=rounded];
+
+		Login -> Select -> InputInfo -> Submit -> Success;
+	}
+\end{center}
+
+\begin{center}
+	\captionof*{figure}{借用審核}
+
+	\digraph[height=0.35\textheight]{CancelBorrowProcess} {
+		node [shape=box];
+		Login[label="登入（Admin Only）", style=rounded];
+		ViewList[label="查看借用申請列表"];
+		Select[label="選擇申請"];
+		Submit[label="核可或拒絕"];
+		Success[label="審核完畢", style=rounded];
+
+		Login -> ViewList -> Select -> Submit -> Success;
+	}
+
+\end{center}
+
+\pagebreak
+
+\begin{center}
+	\captionof*{figure}{歸還流程}
+
+	\digraph[height=0.35\textheight]{ReturnProcess} {
+		node [shape=box];
+		Login[label="登入"];
+		Select[label="選擇已完成的申請"];
+		ReturnButton[label="登記已歸還鑰匙"];
+		ReturnChecking[label="管理員確認實際歸還"];
+		Success[label="歸還成功", style=rounded];
+
+		Login -> Select -> ReturnButton -> ReturnChecking -> Success;
+	}
+\end{center}
+
 \newpage
 
 \section[使用者畫面設計(USER INTERFACE DESIGN)]{使用者畫面設計(User Interface Design)}
+
+\subsection{使用者相關}
+
+\captionof*{figure}{登入畫面}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{UserLoginPage.png}
+	\includegraphics[width=0.2\linewidth]{UserLoginPhone.png}
+\end{center}
+
+使用者登入畫面，使用者輸入帳號密碼後，按下登入按鈕即可登入系統。
+
+\vfill
+
+\captionof*{figure}{註冊畫面}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{UserRegisterPage.png}
+	\includegraphics[width=0.2\linewidth]{UserRegisterPhone.png}
+\end{center}
+
+使用者註冊畫面，使用者輸入應填資料後，按下註冊按鈕即可註冊帳號。
+
+\pagebreak
+
+\captionof*{figure}{主要畫面}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{HomePage.png}
+	\includegraphics[width=0.2\linewidth]{HomePhone.png}
+\end{center}
+
+使用者主要畫面，使用者可以在此頁面查詢教室使用狀態、申請借用鑰匙等。
+
+\vfill
+
+\captionof*{figure}{查詢課程畫面}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{HomeLessonInfoPage.png}
+	\includegraphics[width=0.2\linewidth]{HomeLessonInfoPhone.png}
+\end{center}
+
+課程查詢畫面，在使用者點擊深藍色的課程後會顯示該課程的詳細資訊。
+
+\pagebreak
+
+
+\begin{minipage}{0.4\textwidth}
+	\captionof*{figure}{依據日期篩選}
+
+	\begin{center}
+		\includegraphics[width=\linewidth]{SelectDatePhone.png}
+	\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	選擇要查看的日期，點選日期後，會自動更新畫面內容，無任何頁面跳轉。
+\end{minipage}
+
+\pagebreak
+
+\subsection{管理者相關}
+
+\captionof*{figure}{管理者頁面}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{AdminPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminPhone.png}
+\end{center}
+
+管理者主頁面，管理者可以在此頁面查詢教室使用狀態、申請借用鑰匙、審核借用申請等。
+
+\vfill
+
+\captionof*{figure}{帳號管理頁面}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{AdminAccountPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminAccountPhone.png}
+\end{center}
+
+管理者帳號管理頁面，管理者可以在此頁面審核使用者帳號。
+
+\pagebreak
+
+\captionof*{figure}{教室列表}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{AdminClassroomListPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminClassroomListPhone.png}
+\end{center}
+
+管理者教室列表頁面，管理者可以在此頁面查看資料庫中所有的大樓、樓層和其中的教室，並透過前端即時編輯。
+
+\vfill
+
+\captionof*{figure}{教室編輯}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{AdminClassroomEditPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminClassroomEditPhone.png}
+\end{center}
+
+點擊編輯按鈕後，會跳出編輯畫面，管理者可以在此頁面編輯教室資訊，例如選擇該教室固定的課程時間。
+
+\pagebreak
+
+\captionof*{figure}{課程編輯}
+
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{AdminLessonPage.png}
+	\includegraphics[width=0.2\linewidth]{AdminLessonPhone.png}
+\end{center}
+
+管理者課程編輯頁面，管理者可以在此頁面編輯課程資訊，例如課程名稱、授課教師以及課程描述。
 
 \newpage
 
 \section[資料設計(DATA DESIGN)]{資料設計(Data Design)}
 
+\subsection{檔案結構}
+
+\begin{itemize}
+	\item \textbf{app.js}: 主程式
+	\item \textbf{package.json}: 套件設定檔
+	\item \textbf{public}: 靜態檔案
+	\item \textbf{routes}: 路由
+	\item \textbf{views}: 樣板
+	\item \textbf{models}: 資料庫模組
+	\item \textbf{middlewares}: 中介軟體
+	\item \textbf{config}: 設定檔
+	\item \textbf{bin}: 執行檔
+	\item \textbf{node\_modules}: 套件
+\end{itemize}
+
+\pagebreak
+
+\subsection{資料庫設計(Database Design)}
+
+\begin{center}
+	\captionof*{listing}{Building}
+	\begin{minted}{js}
+const buildingSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    minlength: 3,
+  },
+  floors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Floor",
+    },
+  ],
+});
+\end{minted}
+\end{center}
+
+\begin{center}
+	\captionof*{listing}{Floor}
+	\begin{minted}{js}
+const floorSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  building: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Building",
+    required: true,
+  },
+  classrooms: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Classroom",
+    },
+  ],
+});
+\end{minted}
+\end{center}
+
+\pagebreak
+
+\begin{center}
+	\captionof*{listing}{Classroom}
+	\begin{minted}{js}
+const classroomSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  schedule: [
+    [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lesson",
+      },
+    ],
+  ],
+  capacity: {
+    type: Number,
+    required: true,
+  },
+  floor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Floor",
+    required: true,
+  },
+  options: [
+    {
+      type: String,
+    },
+  ],
+});
+\end{minted}
+\end{center}
+
+\pagebreak
+
+\begin{center}
+	\captionof*{listing}{Lesson}
+	\begin{minted}{js}
+const lessonSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  teacher: {
+    type: String,
+    required: true,
+  },
+  borrowerID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  description: {
+    type: String,
+  },
+  fixed: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+});
+\end{minted}
+\end{center}
+
+\pagebreak
+
+\begin{center}
+	\captionof*{listing}{User}
+	\begin{minted}{js}
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    minlength: 3,
+  },
+  password: { type: String, required: true, trim: true, minlength: 3 },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    minlength: 3,
+  },
+  admin: { type: Boolean, required: true },
+  id: { type: String, required: true, unique: true, trim: true, minlength: 3 },
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    minlength: 3,
+  },
+  emailVerified: { type: Boolean, required: true },
+  verified: { type: Boolean, required: true },
+});
+\end{minted}
+\end{center}
+
 \newpage
 
 \section[類別圖設計(CLASS DIAGRAM DESIGN)]{類別圖設計(Class Diagram Design)}
 
+\subsection{後端與資料庫 ODM}
+
+\includesvg[inkscapelatex=false, width=\textwidth]{BackendClassDiagram.svg}
+
+\bigskip
+
+說明：程式主體為 \textbf{App} ，\textbf{App} 會使用 \textbf{Express} 建立伺服器，並使用 \textbf{Mongoose} 連接資料庫。
+\textbf{App} 透過各個 \textbf{Router} 來處理使用者的請求，並使用 \textbf{Middleware(passport)} 來管理使用者登入狀態。
+各個 \textbf{Router} 會依據需要使用相對應的 \textbf{Model} 來操作資料庫，並將結果傳回給使用者。
+
+\pagebreak
+
+\subsection{前端互動及資料傳輸}
+
+\includesvg[inkscapelatex=false, width=\textwidth]{FrontendClassDiagram.svg}
+
+說明：每個頁面皆包含 \textbf{Header} 和 \textbf{Topbar} ，分別為 \textbf{HTML} 的雜項設定和功能列。
+其中多數函式皆在內部以純 \textbf{JavaScript} 實作（例如抓取元素資訊等），使用 \textbf{Axios} 來傳送請求至後端，並直接操作 \textbf{DOM} 來處理畫面的更新，達成前端的 \textbf{jQuery Free} 。
+
 \newpage
 
-\section[實作技術(IMPLEMENTATION LANGUAGE AND PLATFORM)]{實作技術(Implementation Language and Platform)}
+\section[實作方案(IMPLEMENTATION LANGUAGE AND PLATFORM)]{實作方案(Implementation Language and Platform)}
+
+\centerline{\includegraphics[width=\textwidth]{HighLevelArchitecture.png}}
+
+\bigskip
+
+\subsection{後端與資料庫}
+
+後端採用 \textbf{Node.js} 的 \textbf{Express} 框架，並使用 \textbf{Mongoose} 來操作 \textbf{MongoDB} 資料庫。
+使用者登入的部份由 \textbf{Node Package} 的 \textbf{Passport} 來建立 \textbf{Session} 。
+\textbf{CSRF Protection} 也是使用 \textbf{Node Package} 提供的 \textbf{csurf} 套件來實作。
+預計執行在 \textbf{x86\_64} 架構的 \textbf{Linux} 作業系統上，並使用 \textbf{Docker} 來建立 \textbf{MongoDB} 資料庫。
+後續可能會使用 \textbf{Docker Compose} 來建立整個環境。
+
+\subsection{前端}
+
+前端採用 \textbf{Bootstrap 5} 框架配合基本的 \textbf{JavaScript} 和 \textbf{animate.css} ，並使用 \textbf{Axios} 來傳送請求至後端，以直接操作 \textbf{DOM} 的方式來處理畫面的更新。
 
 \newpage
 
 \section[設計議題(DESIGN ISSUE)]{設計議題(Design Issue)}
+
+\subsection{後端框架選擇}
+
+此專案為較常見的 \textbf{CRUD} 應用，因此選擇 \textbf{Express} 作為後端框架，並使用 \textbf{Mongoose} 來操作 \textbf{MongoDB} 資料庫。
+但有些實作上的細節需要注意：
+
+\begin{itemize}
+	\item 安全性：例如 \textbf{CSRF Protection} 的部份，因為 \textbf{Express} 本身並沒有提供 \textbf{CSRF Protection} 的功能，因此需要使用 \textbf{Node Package} 的 \textbf{csurf} 套件來實作。但像 \textbf{Ruby on Rails} 就預設提供了這樣的功能，雖然 \textbf{Express} 學習成本較低，但新手反而會在無意間犯下安全性上的錯誤。
+	\item 維護成本：例如在 \textbf{Flask} 中有的 \textbf{Helper} ，像 \textbf{url\_for} 可以直接產生對應的 \textbf{URL} ，但 \textbf{Express} 中並沒有提供類似的功能，因此需要自己實作，並且每當 \textbf{URL} 改變時，都需要同步修改程式碼，這樣的維護成本較高。
+	\item 程式碼品質：例如在 \textbf{Ruby on Rails} 中有 \verb|rails generate resource| 這樣的命令可以快速產生 \textbf{RESTful API} 的 \textbf{Controller} ，但 \textbf{Express} 全部要自己寫，以新手而言也不知道如何設計 \textbf{URL} 是最佳的，因此需要花費較多的時間來設計，也可能會有設計上的缺陷。
+\end{itemize}
+
+綜觀上述問題可以發現，選擇專案的前提如果是「新手」、「快速」、「稍微有點規模」的專案，那麼 \textbf{Express} 不是一個很好的選擇。但畢竟發現的時候也寫到一半了，因此就繼續使用 \textbf{Express} 來實作。
+
+\subsection{資料庫選擇}
+
+觀察前面章節所述的內容可以發現，資料表中像是「大樓」、「樓層」、「教室」及「課程」等是環環相扣的，並且理論上來說資料量都不會到巨量，而當中的關係還有 \textbf{Nested} 跟 \textbf{Array of} 的，用 \textbf{Mongoose} 的 \verb|populate| 相當繁瑣且容易出錯。
+因此本專案更適合的資料庫應為標準的 \textbf{SQL} ，但如前一個議題，因為已經寫到一半了，因此就繼續使用 \textbf{MongoDB} 來實作。
+
+\subsection{模板引擎選擇或使用前端框架}
+
+\textbf{Express} 本身並沒有提供 \textbf{Template Engine} ，因此需要自己選擇或是自己實作。
+但 \textbf{Express} 本身提供了 \textbf{Middleware} 的功能，因此可以使用 \textbf{Frontend Framework} 來實作，例如 \textbf{Vue} 或 \textbf{React} 等。
+考慮到專案的工作量跟我的肝指數，所以目前沒有使用前端框架，而是使用 \textbf{EJS} 直接在後端 render 完後配合 \textbf{Bootstrap} 實作簡單的互動介面傳回前端。
+
 
 \end{document}

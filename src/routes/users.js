@@ -11,7 +11,7 @@ const auth = require("../middleware/auth");
 let makeField = (name, label, type) =>
   `
     <div class="mb-3 row">
-      <label for="${name}" class="col-3 col-form-label"> ${label} </label>
+      <label for="${name}" class="col-3 col-form-label text-nowrap"> ${label} </label>
       <div class="col">
         <input type="${type}" class="form-control" name="${name}" placeholder="${label}" required>
       </div>
@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/session", function (req, res, next) {
+router.get("/session", auth.unloginedUser, function (req, res, next) {
   res.render("user/entry", {
     title: "Session",
     makeField: makeField,

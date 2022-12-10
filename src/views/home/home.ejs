@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include("../partials/header"); %>
+</head>
+
+<body>
+  <div class="container text-center">
+    <!--ntoulogo, title, login state-->
+    <%- include("../partials/top"); %>
+    <div class="input-group mb-3">
+      <button type="button" class="btn btn-outline-primary" onclick="yesterday();"> Yesterday </button>
+      <input type="date" name="date" id="date" class="form-control text-center" required>
+      <button type="button" class="btn btn-outline-primary" onclick="tomorrow();"> Tomorrow </button>
+    </div>
+    <div id="curriculum"></div>
+  </div>
+
+  <!-- lesson info modal -->
+  <div class="modal fade" id="lessonInfoModal" tabindex="-1" aria-labelledby="lessonInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="lessonInfoModalTitle"> 課程資訊 </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="lessonInfo">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <input id="csrfToken" type="hidden" name="_csrf" value="<%- csrfToken %>">
+  <script src="/js/home/curriculum.js"></script>
+</body>
+
+</html>
