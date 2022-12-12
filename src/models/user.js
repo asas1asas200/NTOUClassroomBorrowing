@@ -48,6 +48,17 @@ userSchema.pre("save", function (next) {
   });
 });
 
+userSchema.methods.comparePassword = function (
+  candidatePassword,
+  hash,
+  callback
+) {
+  bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
+    if (err) throw err;
+    callback(null, isMatch);
+  });
+};
+
 userSchema.static("createRoot", async function () {
   let root = await this.findOne({ id: "root" });
   if (!root) {

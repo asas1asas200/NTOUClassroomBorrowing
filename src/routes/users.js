@@ -1,6 +1,5 @@
 var express = require("express");
 const User = require("../models/user.js");
-const bcrypt = require("bcrypt");
 
 var router = express.Router();
 
@@ -54,16 +53,16 @@ router.get("/session", auth.unloginedUser, function (req, res, next) {
   });
 });
 
-router.post("/login", async (req, res, next) => {
-  let user = await User.findOne({ id: req.body.id });
-  if (!user) return res.status(400).send("invalid id ");
-
-  const isValid = await bcrypt.compare(req.body.password, user.password);
-  if (isValid) {
-    return res.redirect("/home");
+//這邊出問題
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/users/session",
+  }),
+  function (req, res) {
+    res.redirect("/home");
   }
-  return res.redirect("/users/session");
-});
+);
 
 router.post("/logout", function (req, res, next) {
   req.logout((err) => {
