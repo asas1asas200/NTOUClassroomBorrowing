@@ -101,7 +101,7 @@ describe("Create building test.", () => {
       .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
       .type("form")
       .send({data:{building:"TestBuilding",floor:"1f",name:"103",capacity:70,schedule:[],options:[computer]},_csrf: csrfToken})     
-      .expect(403)
+      .expect(400)
   });
 
   test("Delete a non existing floor", async () => {
@@ -109,7 +109,7 @@ describe("Create building test.", () => {
       .post("admin/classroom//building/:id/floor/:fid")
       .type("form")
       .send({data:{building:"TestBuilding",name:"1f"},_csrf: csrfToken})     
-      .expect(403)
+      .expect(400)
   });
 
   test("Delete a non existing building", async () => {
@@ -117,6 +117,6 @@ describe("Create building test.", () => {
       .post("admin/classroom//building/:id")
       .type("form")
       .send({data:{_csrf: csrfToken},param:"TestBuilding"})     
-      .expect(403)
+      .expect(400)
   });
 });
