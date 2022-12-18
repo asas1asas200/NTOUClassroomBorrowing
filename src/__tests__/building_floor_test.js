@@ -37,31 +37,86 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("Create floor", () => {
-  test("login as default root", async () => {
-    return testSession
+describe("Create building test.", () => {
+  beforeEach(function (done) {
+    testSession
       .post("/users/login")
       .type("form")
-      .send({ id: "root", password: "root", _csrf: csrfToken })
-      .post("/building")
+      .send({ id: "0123", password: "1234", _csrf: csrfToken })
+      .end(function (err, res) {
+        assert.equal(res.status, 302);
+        done();
+      });
+  });
+  test("Create a new building", async () => {
+    return testSession
+      .post("admin/classroom/building")
       .type("form")
       .send({data:{name:"TestBuilding"},_csrf: csrfToken})     
-      .expect(302)
-      .expect("Location", "/home");
+      .expect(200)
   });
 
-  test("logined page", async () => {
-    return testSession.get("/users/logined").expect(200);
-  });
-
-  test("admin only page", async () => {
-    return testSession.get("/users/admin_only").expect(403);
-  });
-
-  test("login/register page should be redireted", async () => {
+  test("Create a new floor", async () => {
     return testSession
-      .get("/users/session")
-      .expect(302)
-      .expect("Location", "/home");
+      .post("admin/classroom/floor")
+      .type("form")
+      .send({data:{building:"TestBuilding",name:"1f"},_csrf: csrfToken})     
+      .expect(200)
+  });
+
+  test("Create a new classroom", async () => {
+    return testSession
+      .post("admin/classroom/")
+      .type("form")
+      .send({data:{building:"TestBuilding",floor:"1f",name:"103",capacity:70,schedule:[],options:[computer]},_csrf: csrfToken})     
+      .expect(200)
+  });
+
+  test("Delete a classroom", async () => {
+    return testSession
+      .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
+      .type("form")
+      .send({data:{building:"TestBuilding",floor:"1f",name:"103",capacity:70,schedule:[],options:[computer]},_csrf: csrfToken})     
+      .expect(200)
+  });
+
+  test("Delete a floor", async () => {
+    return testSession
+      .post("admin/classroom//building/:id/floor/:fid")
+      .type("form")
+      .send({data:{building:"TestBuilding",name:"1f"},_csrf: csrfToken})     
+      .expect(200)
+  });
+
+  test("Delete a building", async () => {
+    return testSession
+      .post("admin/classroom//building/:id")
+      .type("form")
+      .send({data:{_csrf: csrfToken},param:"TestBuilding"})     
+      .expect(200)
+  });
+
+  test("Delete a non existing classroom", async () => {
+    return testSession
+      .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
+      .type("form")
+      .send({data:{building:"TestBuilding",floor:"1f",name:"103",capacity:70,schedule:[],options:[computer]},_csrf: csrfToken})     
+      .expect(403)
+  });
+
+  test("Delete a non existing floor", async () => {
+    return testSession
+      .post("admin/classroom//building/:id/floor/:fid")
+      .type("form")
+      .send({data:{building:"TestBuilding",name:"1f"},_csrf: csrfToken})     
+      .expect(403)
+  });
+
+  test("Delete a non existing building", async () => {
+    return testSession
+      .post("admin/classroom//building/:id")
+      .type("form")
+      .send({data:{_csrf: csrfToken},param:"TestBuilding"})     
+      .expect(403)
   });
 });
