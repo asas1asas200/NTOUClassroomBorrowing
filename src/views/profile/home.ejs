@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("../partials/header"); %>
+  </head>
+  <body>
+    <div class="container text-center">
+      <%- include("../partials/top"); %>
+      <div class="mb-3 row">
+        <div class="col"></div>
+        <div class="col-6">
+          <h1>帳號設定</h1>
+        </div>
+        <div class="col"></div>
+      </div>
+      <%- makeField("學號：", "id", user.id, "text", true) %>
+      <%- makeField("姓名：", "username", user.username) %>
+      <%- makeField("原密碼：", "oldPassword", "", "password") %>
+      <%- makeField("新密碼：", "newPassword", "", "password") %>
+      <%- makeField("再輸入一次新密碼：", "newPassword_secondType", "", "password") %>
+      <%- makeField("信箱：", "email", user.email, "email") %>
+      <%- makeField("聯絡電話：", "phone", user.phone, "tel") %>
+      <div class="mb-3 row">
+        <div class="col-7"></div>
+        <button class="col btn btn-warning mb-3" onclick="editProfile('<%- user.id %>')">修改</button>
+        <div class="col-3"></div>
+      </div>
+      <input id="csrfToken" type="hidden" name="_csrf" value="<%- csrfToken %>">
+    </div>
+    <script src="/js/profile/edit.js"></script>
+  </body>
+
+</html>
