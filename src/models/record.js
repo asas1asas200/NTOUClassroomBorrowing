@@ -4,9 +4,14 @@ const Lesson = require("./lesson");
 const Record = Lesson.discriminator(
   "Record",
   new mongoose.Schema({
-    borrowerID: {
+    borrower: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+    },
+    classroom: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Classroom",
       required: true,
     },
     date: {

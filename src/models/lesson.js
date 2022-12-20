@@ -27,7 +27,10 @@ lessonSchema.static("findPendingRecords", async function () {
   return await this.find({
     status: "Pending",
     __t: "Record",
-  }).lean();
+  })
+    .populate("classroom")
+    .populate("borrower")
+    .lean();
 });
 
 module.exports = mongoose.model("Lesson", lessonSchema);

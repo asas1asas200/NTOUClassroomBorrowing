@@ -28,6 +28,11 @@ const classroomSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    keyState: {
+      type: "String",
+      enum: ["Free", "Borrowed"],
+      required: true,
+    },
   },
   {
     methods: {
@@ -55,6 +60,7 @@ classroomSchema.static("newClassroom", async function (floor, info) {
     capacity: info.capacity,
     schedule: info.schedule,
     options: info.options,
+    keyState: "Free",
   });
   await classroom.save();
   floor.classrooms.push(classroom);

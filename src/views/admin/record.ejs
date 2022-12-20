@@ -1,3 +1,41 @@
-<% for(let record of data.records ) { %>
-  <%- JSON.stringify(record) %>
-<% } %>
+<div class="list-group">
+  <li class="list-group-item">
+    <div class="row align-items-center">
+      <h3 class="m-0 text-center col"> 借用教室 </h3>
+      <h3 class="m-0 text-center col"> 借用時間 </h3>
+      <h3 class="m-0 text-center col"> 節次 </h3>
+      <div class="col-1">
+        <h3 class="m-0 text-center"> 動作 </h3>
+      </div>
+    </div>
+  </li>
+  <% for (let record of data?.records) { %>
+    <div class="list-group-item animate__animated animate__fadeInDown animate__fast">
+      <div class="row align-items-center">
+        <h3 class="m-0 col text-center"><%- record.classroom.name %></h3>
+        <h3 class="m-0 col text-center"><%- record.date.toDateString() %></h3>
+        <h3 class="m-0 col text-center"><%- record.period %> - <%- record.period + record.during %></h3>
+        <div class="col-1 align-items-center d-flex flex-row justify-content-evenly flex-wrap">
+          <button class="btn btn-lg btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recordModal" onclick="getRecordInfo('<%- record._id %>')"> 審核 </button>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<div class="modal fade" id="recordModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> 審核借用申請 </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="recordModalBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">拒絕</button>
+        <button type="button" class="btn btn-primary" id="saveButton">同意</button>
+      </div>
+    </div>
+  </div>
+</div>
