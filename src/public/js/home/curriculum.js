@@ -4,6 +4,7 @@ const csrfToken = document.getElementById("csrfToken").value;
 var curriculum = document.getElementById("curriculum");
 var datePicker = document.getElementById("date");
 var lessonInfo = document.getElementById("lessonInfo");
+var borrowInfo = {};
 
 let setDate = (picker, date) =>
   (picker.value = date.toISOString().slice(0, 10));
@@ -61,4 +62,39 @@ function showLessonInfo(id) {
   axios.get(url + `/lesson/${id}`).then((res) => {
     lessonInfo.innerHTML = res.data;
   });
+}
+
+function setBorrowInfo(classroomID, date, period) {
+  //var borrowModal = new bootstrap.Modal(document.getElementById("borrowModal"));
+
+  //modal.show();
+  borrowInfo = {
+    classroom: classroomID,
+    date: new Date(date),
+    period: period,
+  };
+}
+
+function borrow() {
+  form = {
+    classroom: borrowInfo.classroom,
+    date: borrowInfo.date,
+    period: borrowInfo.period,
+    _csrf: csrfToken,
+    name: document.getElementById("borrowName").value,
+    teacher: document.getElementById("borrowTeacher").value,
+    during: document.getElementById("borrowDuring").value,
+    description: document.getElementById("borrowReason").value,
+  };
+  document.getElementById("borrowName").value = "";
+  document.getElementById("borrowTeacher").value = "";
+  document.getElementById("borrowDuring").value = "";
+  document.getElementById("borrowReason").value = "";
+
+  axios
+    .post(url + "/record", form)
+    .then((res) => {})
+    .catch((err) => {
+      console.log(err);
+    });
 }

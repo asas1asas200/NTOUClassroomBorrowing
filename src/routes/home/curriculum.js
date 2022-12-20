@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const Building = require("../../models/building");
 const Lesson = require("../../models/lesson");
+const Record = require("../../models/record");
 
 async function returnCurriculum(req, res, date) {
   try {
@@ -43,6 +44,26 @@ router.get("/lesson/:id", async function (req, res) {
   res.render("home/lessonInfo", {
     lesson: await Lesson.findById(req.params.id).lean(),
   });
+});
+
+router.post("/record", async function (req, res) {
+  try {
+    const borrowInfo = req.body;
+    let record = new Record({
+      name: borrowInfo.name,
+      teacher: borrowInfo.teacher,
+      description: borrowInfo.description,
+      borrowerID: req.user._id,
+      date: borrowInfo.date,
+      period: borrowInfo.period,
+      during: borrowInfo.during,
+      status: "Pending",
+    });
+    await record.save();
+    res.status(200).send("OK");
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 module.exports = router;
