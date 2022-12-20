@@ -31,6 +31,12 @@ const Record = Lesson.discriminator(
       enum: ["Pending", "Approve", "Finish", "Reject", "Cancel"],
       required: true,
     },
+    rejectReason: {
+      type: String,
+      required: function () {
+        return this.status == "Reject";
+      },
+    },
   })
 );
 
