@@ -15,7 +15,7 @@ function extractCSRFToken(html) {
 beforeAll(async () => {
   await mongoose.connect("mongodb://localhost:27017/test");
   await mongoose.connection.db.dropDatabase();
-  User.createRoot();
+  await User.createRoot();
 });
 
 beforeEach(function (done) {
