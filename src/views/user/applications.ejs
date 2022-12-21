@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/header'); %>
+  </head>
+
+  <body>
+    <div class="container">
+    <%- include("../partials/top") %>
+
+      <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+        <% for(let applications of ["Pending", "Approve", "Reject", "Borrowing", "Finish"]) { %>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="<%- applications %>" data-bs-toggle="tab" data-bs-target="#<%- applications %>-pane" type="button" role="tab" aria-controls="<%- applications %>-pane" aria-selected="false"><%- applications %></button>
+          </li>
+        <% } %>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <% for(let applications of ["Pending", "Approve", "Reject", "Borrowing", "Finish"]) { %>
+          <div class="tab-pane fade" id="<%- applications %>-pane" role="tabpanel" aria-labelledby="<%- applications %>" tabindex="0">
+              <div class="list-group">
+                <% for(let record of data[applications]) { %>
+                  <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="popover" data-bs-placement="bottom"
+                    data-bs-trigger="focus" data-bs-html="true" data-bs-title="借用原因" 
+                    data-bs-content="<%- record.description %> <%- record.status === 'Reject' ? `<hr><b> 拒絕原因 </b><br> ${record.rejectReason}` : "" %>">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">
+                        <%- record.name %>
+                      </h5>
+                      <small>
+                        <%- record.teacher %>
+                      </small>
+                    </div>
+                    <p class="mb-1">
+                      <%- record.classroom.floor.building.name %> - <%- record.classroom.floor.name %> - <%- record.classroom.name %>
+                    </p>
+                    <p class="mb-1">
+                      <%- record.date.toDateString() %>
+                      第 <%- record.period %> - <%- record.period + record.during %> 節
+                    </p>
+                  </button>
+                <% } %>
+              </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+  </script>
+<html>

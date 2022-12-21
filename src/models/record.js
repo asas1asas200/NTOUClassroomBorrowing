@@ -28,7 +28,7 @@ const Record = Lesson.discriminator(
     },
     status: {
       type: String,
-      enum: ["Pending", "Approve", "Finish", "Reject", "Cancel"],
+      enum: ["Pending", "Approve", "Borrowing", "Finish", "Reject", "Cancel"],
       required: true,
     },
     rejectReason: {

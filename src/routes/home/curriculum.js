@@ -7,6 +7,7 @@ const Record = require("../../models/record");
 async function returnCurriculum(req, res, date) {
   try {
     res.render("home/curriculum", {
+      user: req.user,
       buildings: await Building.find({})
         .populate({
           path: "floors",
