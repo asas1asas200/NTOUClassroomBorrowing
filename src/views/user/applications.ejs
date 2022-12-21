@@ -9,14 +9,14 @@
     <%- include("../partials/top") %>
 
       <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
-        <% for(let applications of ["Pending", "Approve", "Reject", "Borrowing", "Finish"]) { %>
+        <% for(let applications of Object.keys(data)) { %>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="<%- applications %>" data-bs-toggle="tab" data-bs-target="#<%- applications %>-pane" type="button" role="tab" aria-controls="<%- applications %>-pane" aria-selected="false"><%- applications %></button>
           </li>
         <% } %>
       </ul>
       <div class="tab-content" id="myTabContent">
-        <% for(let applications of ["Pending", "Approve", "Reject", "Borrowing", "Finish"]) { %>
+        <% for(let applications of Object.keys(data)) { %>
           <div class="tab-pane fade" id="<%- applications %>-pane" role="tabpanel" aria-labelledby="<%- applications %>" tabindex="0">
               <div class="list-group">
                 <% for(let record of data[applications]) { %>
