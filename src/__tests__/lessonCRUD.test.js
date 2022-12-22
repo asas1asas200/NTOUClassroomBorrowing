@@ -52,39 +52,24 @@ describe("Before add new lesson", () => {
     });
 });
 
-describe("Lessons CRUD", () =>{
-    beforeEach(function (done) {
-        testSession
-          .get("/admin/lesson/empty")
-          .end(function (err, res) {
-            assert.equal(res.status, 200);
-            done();
-          });
-      });
-/*
-    test("create new lesson", async () => {
-        addLesson(
-            name, "testLesson",
-            teacher, "testteacher",
-            description, "testdescription",
-            _csrf, csrfToken,
-        )
-    });
-*/
+describe("Create lessons", () =>{
+    
     test("create new lesson", async () => {
         return testSession
             .post("/admin/lesson")
-            .type("string")
+            .type("form")
             .send({
-                name: "TestLesson",
-                teacher: "testteacher",
-                description: "testdescription",
+                data:{
+                    name: "TestLesson",
+                    teacher: "testteacher",
+                    description: "testdescription",
+                },
                 _csrf: csrfToken,
-                //fixed:true,
             })
-            .expect(200)
-            .expect("Location", "/admin/lesson");
+            .expect(200);
     });
+});
+
 
     test("Read lessoninfo", async () => {
         return testSession
@@ -99,4 +84,3 @@ describe("Lessons CRUD", () =>{
 
     })
 
-});
