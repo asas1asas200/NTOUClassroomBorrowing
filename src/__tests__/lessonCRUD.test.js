@@ -29,7 +29,7 @@ beforeEach(function (done) {
     });
   });
 
-  beforeEach(function (done) {
+beforeEach(function (done) {
     testSession
       .post("/users/login")
       .type("form")
@@ -37,7 +37,7 @@ beforeEach(function (done) {
       .end(function (err, res) {
         assert.equal(res.status, 302);
         done();
-      });
+    });
   });
 
 afterAll(async () => {
