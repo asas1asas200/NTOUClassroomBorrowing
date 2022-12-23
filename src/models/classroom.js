@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Record = require("./record");
 
 const classroomSchema = new mongoose.Schema(
   {
@@ -52,6 +53,11 @@ const classroomSchema = new mongoose.Schema(
     },
   }
 );
+
+classroomSchema.pre("remove", function (next) {
+  Record.deleteMany({ classroom: this._id }).exec();
+  next();
+});
 
 classroomSchema.static("newClassroom", async function (floor, info) {
   let classroom = new this({

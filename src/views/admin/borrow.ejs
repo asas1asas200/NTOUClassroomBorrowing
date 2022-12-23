@@ -1,0 +1,43 @@
+<nav class="d-flex position-relative flex-row justify-content-between animate__animated animate__fadeInDown">
+  <div class="nav nav-pills" id="nav-tab" role="tablist">
+    <% for(let applications of Object.keys(data)) { %>
+      <button class="nav-link" id="<%- applications %>" data-bs-toggle="pill" data-bs-target="#<%- applications %>-pane"
+        type="button" role="tab" aria-controls="<%- applications %>-pane" onclick="sessionStorage.setItem('borrow:tab', '<%- applications %>')">
+        <%- applications %>
+      </button>
+    <% } %>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <% for(let applications of Object.keys(data)) { %>
+    <div class="tab-pane fade" id="<%- applications %>-pane" role="tabpanel" aria-labelledby="<%- applications %>" tabindex="0">
+      <div class="list-group">
+        <div class="list-group-item">
+          <div class="row align-items-center">
+            <h3 class="m-0 text-center col"> 借用教室 </h3>
+            <h3 class="m-0 text-center col"> 借用時間 </h3>
+            <h3 class="m-0 text-center col"> 節次 </h3>
+            <div class="col-1">
+              <h3 class="m-0 text-center"> 動作 </h3>
+            </div>
+          </div>
+        </div>
+        <% for(let record of data[applications]) { %>
+          <div class="list-group-item animate__animated animate__fadeInDown animate__fast">
+            <div class="row align-items-center">
+              <h3 class="m-0 col text-center"><%- record.classroom.name %></h3>
+              <h3 class="m-0 col text-center"><%- record.date.toDateString() %></h3>
+              <h3 class="m-0 col text-center"><%- record.period %> - <%- record.period + record.during %></h3>
+              <div class="col-1 align-items-center d-flex flex-row justify-content-evenly flex-wrap">
+                <button class="btn btn-lg btn-outline-info text-nowrap" type="button"
+                  onclick=<%- record.status === 'Approve' ? `borrowOut('${record._id}');` : `returnBack('${record._id}');` %>>
+                  <%- record.status === "Approve" ? "借出鑰匙" : "歸還鑰匙" %>
+                </button>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+</div>
