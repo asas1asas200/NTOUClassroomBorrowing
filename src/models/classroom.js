@@ -31,7 +31,7 @@ const classroomSchema = new mongoose.Schema(
     ],
     keyState: {
       type: "String",
-      enum: ["Free", "Borrowed"],
+      enum: ["Free", "Borrowing"],
       required: true,
     },
   },

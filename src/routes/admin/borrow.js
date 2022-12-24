@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const Record = require("../../models/record");
+const Classroom = require("../../models/classroom");
 
 router.get("/", async function (req, res) {
   let findStatus = async (status) =>
@@ -37,17 +38,25 @@ router.get("/", async function (req, res) {
 router.put("/:id", async function (req, res) {
   try {
     let record = await Record.findById(req.params.id);
+    let classroom = await Classroom.findById(record.classroom);
     if (req.body.data.status == "Borrowing" && record.status == "Approve") {
-      record.status = "Borrowing";
+      if (classroom.keyState == "Free") {
+        record.status = "Borrowing";
+        classroom.keyState = "Borrowing";
+      } else {
+        throw new Error("The key has not been returned.");
+      }
     } else if (
       req.body.data.status == "Finish" &&
       record.status == "Borrowing"
     ) {
       record.status = "Finish";
+      classroom.keyState = "Free";
     } else {
       throw new Error("Invalid status change.");
     }
     await record.save();
+    await classroom.save();
     res.status(200).send("OK");
   } catch (e) {
     res.status(400).send(e.message);
