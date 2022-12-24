@@ -6,7 +6,7 @@ const Record = require("../../models/record");
 router.get("/", async function (req, res) {
   res.render("admin/home", {
     title: "Admin",
-    page: "record",
+    page: "applications",
     data: { records: await Record.findPendingRecords() },
   });
 });

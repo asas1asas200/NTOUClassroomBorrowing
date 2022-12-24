@@ -1,5 +1,5 @@
 axios.defaults.withCredentials = true;
-const url = `${window.location.protocol}//${window.location.host}/admin/record`;
+const url = `${window.location.protocol}//${window.location.host}/admin/applications`;
 const csrfToken = document.getElementById("csrfToken").value;
 var recordID = "";
 
