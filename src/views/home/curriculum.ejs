@@ -34,10 +34,14 @@
                       <%- lesson.name %> - <span class="h6 text-warning"><%- lesson.teacher %></span>
                     </button>
                     <% } else { %>
-                      <button class="btn btn-outline-info btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#borrowModal"
-                        onclick="setBorrowInfo('<%- classroom._id %>', '<%- date %>', '<%- period %>');" <%- user ? "" : "disabled" %>>
-                        申請借用
-                      </button>
+                      <% if(user) { %>
+                        <button class="btn btn-outline-info btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#borrowModal"
+                          onclick="setBorrowInfo('<%- classroom._id %>', '<%- date %>', '<%- period %>');">
+                      <% } else { %>
+                        <button class="btn btn-outline-info btn-lg" type="button" onclick="location.href='/users/session'">
+                      <% } %>
+                          申請借用
+                        </button>
                     <% } %>
                     </div>
                   </td>
@@ -87,3 +91,8 @@
     </div>
   </div>
 </div>
+
+<script>
+  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
