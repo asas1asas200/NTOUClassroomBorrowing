@@ -1,3 +1,11 @@
+<style>
+  .key-borrowing {
+    --bs-tooltip-bg: var(--bs-primary);
+  }
+  .key-free {
+    --bs-tooltip-bg: var(--bs-success);
+  }
+</style>
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <% for (let building of buildings) { %>
@@ -16,7 +24,11 @@
             <th scope="col" class="align-middle"> 節次 </th>
             <% for (let floor of building.floors) { %>
               <% for (let classroom of floor.classrooms) { %>
-                <th scope="col"> <span class="text-secondary"><%- floor.name %></span> <br> <%- classroom.name %> </th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                  style=<%- classroom.keyState === "Free" ? "background:#d2f4ea;" : "background:#cfe2ff;" %>
+                  data-bs-custom-class=<%- classroom.keyState === "Free" ? "key-free" : "key-borrowing" %> data-bs-title="<%- classroom.keyState === "Free" ? "鑰匙未被借用" : "鑰匙正在借用中" %>">
+                  <span class="text-secondary"><%- floor.name %></span> <br> <%- classroom.name %>
+                </th>
               <% } %>
             <% } %>
           </tr></thead>
@@ -91,8 +103,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-</script>

@@ -19,6 +19,13 @@ let updateCurriculum = () => {
       if (building) {
         document.getElementById(building).click();
       }
+
+      const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+      );
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
     })
     .catch((err) => {
       console.log(err);
