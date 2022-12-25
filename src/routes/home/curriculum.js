@@ -1,11 +1,26 @@
 var express = require("express");
 var router = express.Router();
 const Building = require("../../models/building");
+const classroom = require("../../models/classroom");
 const Lesson = require("../../models/lesson");
 const Record = require("../../models/record");
 
 async function returnCurriculum(req, res, date) {
   try {
+    const dateRecords = await Record.find({
+      date: date,
+      status: {
+        $in: ["Approve", "Borrowing", "Finish"],
+      },
+    }).lean();
+    var records = {};
+    for (let record of dateRecords) {
+      if (!records[record.classroom]) records[record.classroom] = {};
+      for (let i = record.period; i < record.period + record.during; i++) {
+        records[record.classroom][i] = record;
+      }
+    }
+
     res.render("home/curriculum", {
       user: req.user,
       buildings: await Building.find({})
@@ -27,8 +42,10 @@ async function returnCurriculum(req, res, date) {
         })
         .lean(),
       date: date,
+      records: records,
     });
   } catch (e) {
+    console.error(e);
     res.status(500).send(e);
   }
 }

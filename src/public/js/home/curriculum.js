@@ -10,6 +10,14 @@ let setDate = (picker, date) =>
   (picker.value = date.toISOString().slice(0, 10));
 
 let updateCurriculum = () => {
+  curriculum.innerHTML = `
+<div class="text-center">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+`;
+
   axios
     .get(url + `/${datePicker.value}`)
     .then((res) => {
@@ -72,9 +80,6 @@ function showLessonInfo(id) {
 }
 
 function setBorrowInfo(classroomID, date, period) {
-  //var borrowModal = new bootstrap.Modal(document.getElementById("borrowModal"));
-
-  //modal.show();
   borrowInfo = {
     classroom: classroomID,
     date: new Date(date),

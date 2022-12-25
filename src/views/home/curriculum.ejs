@@ -42,9 +42,14 @@
                     <div class="d-grid">
                     <% let lesson = classroom.schedule[date.getDay()][period] %>
                     <% if (lesson) { %>
-                    <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#lessonInfoModal" onclick="showLessonInfo('<%- lesson._id %>');">
-                      <%- lesson.name %> - <span class="h6 text-warning"><%- lesson.teacher %></span>
-                    </button>
+                      <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#lessonInfoModal" onclick="showLessonInfo('<%- lesson._id %>');">
+                        <%- lesson.name %> - <span class="h6 text-warning"><%- lesson.teacher %></span>
+                      </button>
+                    <% } else if (records[classroom._id] && records[classroom._id][period]) { %>
+                      <% var record = records[classroom._id][period] %>
+                      <button class="btn btn-secondary btn-lg" type="button">
+                        <%- record.name %> - <span class="h6 text-warning"><%- record.teacher %></span>
+                      </button>
                     <% } else { %>
                       <% if(user) { %>
                         <button class="btn btn-outline-info btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#borrowModal"
@@ -66,40 +71,4 @@
       </div>
     </div>
   <% } %>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="borrowModal" tabindex="-1" aria-labelledby="borrowModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="borrowModalLabel"> 教室借用 </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="name" class="form-label float-start"> 名稱 </label>
-          <input id="borrowName" type="text" class="form-control" value="" required>
-        </div>
-        <div class="mb-3">
-          <label for="borrowTeacher" class="form-label float-start"> 授課教師 </label>
-          <input id="borrowTeacher" type="text" class="form-control" value="" required>
-        </div>
-        <div class="mb-3 row align-items-center">
-          <label for="borrowDuring" class="form-label col-3"> 借用 </label>
-          <div class="col">
-            <input id="borrowDuring" type="number" class="form-control" value="" required>
-          </div>
-          <label for="borrowDuring" class="form-label col-3"> 節 </label>
-        </div>
-        <div class="mb-3">
-          <label for="borrowReason" class="form-label float-start"> 借用原因 </label>
-          <textarea class="form-control" id="borrowReason"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="borrow()" data-bs-dismiss="modal"> 送出申請 </button>
-      </div>
-    </div>
-  </div>
 </div>
