@@ -81,21 +81,3 @@ router.get("/logined", auth.loginedUser, function (req, res) {
 router.get("/admin_only", auth.admin, function (req, res) {
   res.send("admin only page");
 });
-/* ----------------------------------------------- */
-
-module.exports = router;
-/*
-User.findOne({ id: req.body.id }, function (err, user) {
-  if (err) {
-    res.redirect("/users/session");
-  }
-  user.comparePassword(req.body.password, function (err, isMatch) {
-    if (err) {
-      res.redirect("/users/session");
-    }
-    console.log(req.body.password);
-    //帶往正確的路
-    res.redirect("/home");
-  });
-});
-*/
