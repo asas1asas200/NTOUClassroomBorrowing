@@ -39,7 +39,7 @@ describe("Create building test.", () => {
     testSession
       .post("/users/login")
       .type("form")
-      .send({ id: "0123", password: "1234", _csrf: csrfToken })
+      .send({ id: "root", password: "root", _csrf: csrfToken })
       .end(function (err, res) {
         assert.equal(res.status, 302);
         done();
@@ -75,7 +75,7 @@ describe("Create building test.", () => {
           name: "103",
           capacity: 70,
           schedule: [],
-          options: [computer],
+          options: ["computer"],
         },
         _csrf: csrfToken,
       })
@@ -93,7 +93,7 @@ describe("Create building test.", () => {
           name: "103",
           capacity: 70,
           schedule: [],
-          options: [computer],
+          options: ["computer"],
         },
         _csrf: csrfToken,
       })
@@ -130,7 +130,7 @@ describe("Create building test.", () => {
           name: "103",
           capacity: 70,
           schedule: [],
-          options: [computer],
+          options: ["computer"],
         },
         _csrf: csrfToken,
       })
