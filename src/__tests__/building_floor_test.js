@@ -84,38 +84,25 @@ describe("Create building test.", () => {
 
   test("Delete a classroom", async () => {
     return testSession
-      .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
+      .post("admin/classroom//building/TestBuilding/floor/1f/classroom/103")
       .type("form")
-      .send({
-        data: {
-          building: "TestBuilding",
-          floor: "1f",
-          name: "103",
-          capacity: 70,
-          schedule: [],
-          options: ["computer"],
-        },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(200);
   });
 
   test("Delete a floor", async () => {
     return testSession
-      .post("admin/classroom//building/:id/floor/:fid")
+      .post("admin/classroom//building/TestBuilding/floor/1f")
       .type("form")
-      .send({
-        data: { building: "TestBuilding", name: "1f" },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(200);
   });
 
   test("Delete a building", async () => {
     return testSession
-      .post("admin/classroom//building/:id")
+      .post("admin/classroom//building/TestBuilding")
       .type("form")
-      .send({ data: { _csrf: csrfToken }, param: "TestBuilding" })
+      .send({_csrf: csrfToken })
       .expect(200);
   });
 
@@ -123,17 +110,7 @@ describe("Create building test.", () => {
     return testSession
       .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
       .type("form")
-      .send({
-        data: {
-          building: "TestBuilding",
-          floor: "1f",
-          name: "103",
-          capacity: 70,
-          schedule: [],
-          options: ["computer"],
-        },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(400);
   });
 
@@ -141,10 +118,7 @@ describe("Create building test.", () => {
     return testSession
       .post("admin/classroom//building/:id/floor/:fid")
       .type("form")
-      .send({
-        data: { building: "TestBuilding", name: "1f" },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(400);
   });
 
@@ -152,7 +126,7 @@ describe("Create building test.", () => {
     return testSession
       .post("admin/classroom//building/:id")
       .type("form")
-      .send({ data: { _csrf: csrfToken }, param: "TestBuilding" })
+      .send({_csrf: csrfToken })
       .expect(400);
   });
 });
