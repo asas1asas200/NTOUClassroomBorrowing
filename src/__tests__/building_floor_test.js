@@ -39,7 +39,7 @@ describe("Create building test.", () => {
     testSession
       .post("/users/login")
       .type("form")
-      .send({ id: "0123", password: "1234", _csrf: csrfToken })
+      .send({ id: "root", password: "root", _csrf: csrfToken })
       .end(function (err, res) {
         assert.equal(res.status, 302);
         done();
@@ -47,7 +47,7 @@ describe("Create building test.", () => {
   });
   test("Create a new building", async () => {
     return testSession
-      .post("admin/classroom/building")
+      .post("/admin/classroom/building")
       .type("form")
       .send({ data: { name: "TestBuilding" }, _csrf: csrfToken })
       .expect(200);
@@ -55,7 +55,7 @@ describe("Create building test.", () => {
 
   test("Create a new floor", async () => {
     return testSession
-      .post("admin/classroom/floor")
+      .post("/admin/classroom/floor")
       .type("form")
       .send({
         data: { building: "TestBuilding", name: "1f" },
@@ -66,7 +66,7 @@ describe("Create building test.", () => {
 
   test("Create a new classroom", async () => {
     return testSession
-      .post("admin/classroom/")
+      .post("/admin/classroom/")
       .type("form")
       .send({
         data: {
@@ -75,7 +75,7 @@ describe("Create building test.", () => {
           name: "103",
           capacity: 70,
           schedule: [],
-          options: [computer],
+          options: ["computer"],
         },
         _csrf: csrfToken,
       })
@@ -84,75 +84,49 @@ describe("Create building test.", () => {
 
   test("Delete a classroom", async () => {
     return testSession
-      .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
+      .delete("/admin/classroom//building/TestBuilding/floor/1f/classroom/103")
       .type("form")
-      .send({
-        data: {
-          building: "TestBuilding",
-          floor: "1f",
-          name: "103",
-          capacity: 70,
-          schedule: [],
-          options: [computer],
-        },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(200);
   });
 
   test("Delete a floor", async () => {
     return testSession
-      .post("admin/classroom//building/:id/floor/:fid")
+      .delete("/admin/classroom/building/TestBuilding/floor/1f")
       .type("form")
-      .send({
-        data: { building: "TestBuilding", name: "1f" },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(200);
   });
 
   test("Delete a building", async () => {
     return testSession
-      .post("admin/classroom//building/:id")
+      .delete("/admin/classroom//building/TestBuilding")
       .type("form")
-      .send({ data: { _csrf: csrfToken }, param: "TestBuilding" })
+      .send({_csrf: csrfToken })
       .expect(200);
   });
 
   test("Delete a non existing classroom", async () => {
     return testSession
-      .post("admin/classroom//building/:id/floor/:fid/classroom/:cid")
+      .delete("/admin/classroom//building/nonb/floor/nonfl/classroom/noncl")
       .type("form")
-      .send({
-        data: {
-          building: "TestBuilding",
-          floor: "1f",
-          name: "103",
-          capacity: 70,
-          schedule: [],
-          options: [computer],
-        },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(400);
   });
 
   test("Delete a non existing floor", async () => {
     return testSession
-      .post("admin/classroom//building/:id/floor/:fid")
+      .delete("/admin/classroom//building/nob/floor/nof")
       .type("form")
-      .send({
-        data: { building: "TestBuilding", name: "1f" },
-        _csrf: csrfToken,
-      })
+      .send({_csrf: csrfToken })
       .expect(400);
   });
 
   test("Delete a non existing building", async () => {
     return testSession
-      .post("admin/classroom//building/:id")
+      .delete("/admin/classroom//building/nb")
       .type("form")
-      .send({ data: { _csrf: csrfToken }, param: "TestBuilding" })
+      .send({_csrf: csrfToken })
       .expect(400);
   });
 });
