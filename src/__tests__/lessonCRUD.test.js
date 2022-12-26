@@ -29,7 +29,7 @@ beforeEach(function (done) {
     });
   });
 
-  beforeEach(function (done) {
+beforeEach(function (done) {
     testSession
       .post("/users/login")
       .type("form")
@@ -37,7 +37,7 @@ beforeEach(function (done) {
       .end(function (err, res) {
         assert.equal(res.status, 302);
         done();
-      });
+    });
   });
 
 afterAll(async () => {
@@ -53,7 +53,6 @@ describe("Before add new lesson", () => {
 });
 
 describe("Create lessons", () =>{
-    
     test("create new lesson", async () => {
         return testSession
             .post("/admin/lesson")
@@ -70,9 +69,28 @@ describe("Create lessons", () =>{
     });
 });
 
+describe("lesson RUD", () => {
+    beforeAll(function(done){
+        testSession
+        .post("/admin/lesson")
+        .type("form")
+        .send({
+            data:{
+                name: "TestLesson",
+                teacher: "testteacher",
+                description: "testdescription",
+            },
+            _csrf: csrfToken,
+        })
+        .end(function (err,res){
+            assert.equal(res.status, 200);
+            done();
+        });
+    });
 
     test("Read lessoninfo", async () => {
         return testSession
+        
     });
 
     test("Update lessoninfo", async () => {
@@ -83,4 +101,6 @@ describe("Create lessons", () =>{
         return testSession
 
     })
+
+})
 
