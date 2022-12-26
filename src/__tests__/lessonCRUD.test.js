@@ -90,6 +90,7 @@ describe("lesson RUD", () => {
 
     test("Read lessoninfo", async () => {
         return testSession
+        
     });
 
     test("Update lessoninfo", async () => {
