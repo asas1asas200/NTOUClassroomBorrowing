@@ -116,7 +116,7 @@ router.get("/empty", async function (req, res, next) {
     capacity: 0,
     schedule: null,
     options: [],
-    lessons: await Lesson.find({ fixed: true }).lean(),
+    lessons: await Lesson.findLessons(),
   });
 });
 
@@ -142,7 +142,7 @@ router.get(
         capacity: classroom.capacity,
         schedule: classroom.schedule,
         options: classroom.options,
-        lessons: await Lesson.find({ fixed: true }).lean(),
+        lessons: await Lesson.findLessons(),
       });
     } catch (e) {
       errorHandle(e, res);

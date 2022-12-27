@@ -6,7 +6,7 @@ router.get("/", async function (req, res, next) {
   res.render("admin/home", {
     title: "Admin",
     page: "lesson",
-    data: { lessons: await Lesson.find({ fixed: true }).lean() },
+    data: { lessons: await Lesson.findLessons() },
   });
 });
 
@@ -16,7 +16,6 @@ router.post("/", async function (req, res, next) {
       name: req.body.data.name,
       teacher: req.body.data.teacher,
       description: req.body.data.description,
-      fixed: true,
     });
     await lesson.save();
     res.status(200).send("OK");

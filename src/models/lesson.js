@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Classroom = require("./classroom");
 
 const lessonSchema = new mongoose.Schema({
   name: {
@@ -10,18 +9,28 @@ const lessonSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  borrowerID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
   description: {
     type: String,
   },
-  fixed: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
+});
+
+// Only find the lessons and dont return records
+lessonSchema.static("findLessons", async function () {
+  return await this.find({
+    __t: {
+      $ne: "Record",
+    },
+  }).lean();
+});
+
+lessonSchema.static("findPendingRecords", async function () {
+  return await this.find({
+    status: "Pending",
+    __t: "Record",
+  })
+    .populate("classroom")
+    .populate("borrower")
+    .lean();
 });
 
 module.exports = mongoose.model("Lesson", lessonSchema);

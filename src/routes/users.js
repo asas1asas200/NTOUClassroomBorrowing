@@ -1,5 +1,6 @@
 var express = require("express");
 const User = require("../models/user.js");
+const Record = require("../models/record.js");
 
 var router = express.Router();
 
@@ -66,6 +67,44 @@ router.post("/logout", function (req, res, next) {
       return next(err);
     }
     res.redirect("/users/session");
+  });
+});
+
+router.get("/applications", auth.loginedUser, function (req, res) {
+  let findRecordStatus = async (status) =>
+    Record.find({
+      borrower: req.user._id,
+      status: status,
+    })
+      .populate({
+        path: "classroom",
+        populate: {
+          path: "floor",
+          model: "Floor",
+          populate: {
+            path: "building",
+            model: "Building",
+          },
+        },
+      })
+      .lean();
+
+  const pending = findRecordStatus("Pending");
+  const approve = findRecordStatus("Approve");
+  const reject = findRecordStatus("Reject");
+  const borrowing = findRecordStatus("Borrowing");
+  const finish = findRecordStatus("Finish");
+
+  Promise.all([pending, approve, reject, borrowing, finish]).then((values) => {
+    res.render("user/applications", {
+      data: {
+        Pending: values[0],
+        Approve: values[1],
+        Reject: values[2],
+        Borrowing: values[3],
+        Finish: values[4],
+      },
+    });
   });
 });
 
