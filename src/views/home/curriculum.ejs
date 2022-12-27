@@ -25,8 +25,9 @@
             <% for (let floor of building.floors) { %>
               <% for (let classroom of floor.classrooms) { %>
                 <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
-                  style=<%- classroom.keyState === "Free" ? "background:#d2f4ea;" : "background:#cfe2ff;" %>
-                  data-bs-custom-class=<%- classroom.keyState === "Free" ? "key-free" : "key-borrowing" %> data-bs-title="<%- classroom.keyState === "Free" ? "鑰匙未被借用" : "鑰匙正在借用中" %>">
+                  style=<%- `cursor:pointer;${classroom.keyState === "Free" ? "background:#d2f4ea;" : "background:#cfe2ff;"}` %>
+                  data-bs-custom-class=<%- classroom.keyState === "Free" ? "key-free" : "key-borrowing" %> data-bs-title="<%- classroom.keyState === "Free" ? "鑰匙未被借用" : "鑰匙正在借用中" %>"
+                  onclick="showClassroomInfo('<%- classroom._id %>');">
                   <span class="text-secondary"><%- floor.name %></span> <br> <%- classroom.name %>
                 </th>
               <% } %>

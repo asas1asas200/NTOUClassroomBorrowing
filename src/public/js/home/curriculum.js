@@ -4,6 +4,7 @@ const csrfToken = document.getElementById("csrfToken").value;
 var curriculum = document.getElementById("curriculum");
 var datePicker = document.getElementById("date");
 var lessonInfo = document.getElementById("lessonInfo");
+var classroomInfo = document.getElementById("classroomInfo");
 var borrowInfo = {};
 
 let setDate = (picker, date) =>
@@ -76,6 +77,35 @@ window.onload = function () {
 function showLessonInfo(id) {
   axios.get(url + `/lesson/${id}`).then((res) => {
     lessonInfo.innerHTML = res.data;
+  });
+}
+
+function showClassroomInfo(id) {
+  const classroomInfoModal = new bootstrap.Modal(
+    document.getElementById("classroomInfoModal")
+  );
+  classroomInfoModal.show();
+  axios.get(url + `/classroom/${id}`).then((res) => {
+    optionHTML = "";
+    for (let option of res.data.options) {
+      optionHTML += `<span class="badge bg-primary">${option}</span>`;
+    }
+
+    document.getElementById("classroomBuilding").value =
+      res.data.floor.building.name;
+    document.getElementById("classroomFloor").value = res.data.floor.name;
+    document.getElementById("classroomName").value = res.data.name;
+    document.getElementById("classroomCapacity").value = res.data.capacity;
+    document.getElementById("classroomOptions").innerHTML = optionHTML;
+    document.getElementById("classroomKey").value =
+      res.data.keyState === "Free" ? "已歸還" : "借用中";
+    document.getElementById("classroomKey").classList.remove("text-success");
+    document.getElementById("classroomKey").classList.remove("text-danger");
+    document
+      .getElementById("classroomKey")
+      .classList.add(
+        res.data.keyState === "Free" ? "text-success" : "text-danger"
+      );
   });
 }
 

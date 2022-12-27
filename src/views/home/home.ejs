@@ -34,6 +34,50 @@
     </div>
   </div>
 
+  <!-- Classroom modal -->
+  <div class="modal fade" id="classroomInfoModal" tabindex="-1" aria-labelledby="classroomInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="classroomInfoModalTitle"> 教室資訊 </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="classroomInfo">
+          <div class="row">
+            <div class="col">
+              <label for="name" class="form-label"> 大樓 </label>
+              <input type="text" id="classroomBuilding" class="form-control" value="" disabled>
+            </div>
+            <div class="col">
+              <label for="name" class="form-label"> 樓層 </label>
+              <input type="text" id="classroomFloor" class="form-control" value="" disabled>
+            </div>
+            <div class="col">
+              <label for="name" class="form-label"> 教室名稱 </label>
+              <input type="text" id="classroomName" class="form-control" value="" disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="name" class="form-label"> 教室容量 </label>
+              <input type="text" id="classroomCapacity" class="form-control" value="" disabled>
+            </div>
+            <div class="col">
+              <label for="name" class="form-label"> 教室設備 </label>
+              <div id="classroomOptions"></div>
+            </div>
+            <div class="col">
+              <label for="name" class="form-label"> 鑰匙狀態 </label>
+              <input type="text" id="classroomKey" class="form-control" value="" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Borrow modal -->
   <div class="modal fade" id="borrowModal" tabindex="-1" aria-labelledby="borrowModalLabel" aria-hidden="true">

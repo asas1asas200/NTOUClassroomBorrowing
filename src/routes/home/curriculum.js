@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const Building = require("../../models/building");
-const classroom = require("../../models/classroom");
+const Classroom = require("../../models/classroom");
 const Lesson = require("../../models/lesson");
 const Record = require("../../models/record");
 
@@ -62,6 +62,20 @@ router.get("/lesson/:id", async function (req, res) {
   res.render("home/lessonInfo", {
     lesson: await Lesson.findById(req.params.id).lean(),
   });
+});
+
+router.get("/classroom/:id", async function (req, res) {
+  res.status(200).json(
+    await Classroom.findById(req.params.id)
+      .populate({
+        path: "floor",
+        populate: {
+          path: "building",
+          model: "Building",
+        },
+      })
+      .lean()
+  );
 });
 
 router.post("/record", async function (req, res) {
