@@ -27,7 +27,7 @@
             <div class="row align-items-center">
               <h3 class="m-0 col text-center"><%- record.classroom.name %></h3>
               <h3 class="m-0 col text-center"><%- record.date.toDateString() %></h3>
-              <h3 class="m-0 col text-center"><%- record.period %> - <%- record.period + record.during %></h3>
+              <h3 class="m-0 col text-center"><%- record.period %> - <%- record.period + record.during - 1 %></h3>
               <div class="col-1 align-items-center d-flex flex-row justify-content-evenly flex-wrap">
                 <button class="btn btn-lg btn-outline-info text-nowrap" type="button"
                   onclick=<%- record.status === 'Approve' ? `borrowOut('${record._id}');` : `returnBack('${record._id}');` %>>
