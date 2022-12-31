@@ -86,7 +86,7 @@ describe("Create building test.", () => {
     return testSession
       .delete("/admin/classroom//building/TestBuilding/floor/1f/classroom/103")
       .type("form")
-      .send({_csrf: csrfToken })
+      .send({ _csrf: csrfToken })
       .expect(200);
   });
 
@@ -94,7 +94,7 @@ describe("Create building test.", () => {
     return testSession
       .delete("/admin/classroom/building/TestBuilding/floor/1f")
       .type("form")
-      .send({_csrf: csrfToken })
+      .send({ _csrf: csrfToken })
       .expect(200);
   });
 
@@ -102,7 +102,7 @@ describe("Create building test.", () => {
     return testSession
       .delete("/admin/classroom//building/TestBuilding")
       .type("form")
-      .send({_csrf: csrfToken })
+      .send({ _csrf: csrfToken })
       .expect(200);
   });
 
@@ -110,7 +110,7 @@ describe("Create building test.", () => {
     return testSession
       .delete("/admin/classroom//building/nonb/floor/nonfl/classroom/noncl")
       .type("form")
-      .send({_csrf: csrfToken })
+      .send({ _csrf: csrfToken })
       .expect(400);
   });
 
@@ -118,7 +118,7 @@ describe("Create building test.", () => {
     return testSession
       .delete("/admin/classroom//building/nob/floor/nof")
       .type("form")
-      .send({_csrf: csrfToken })
+      .send({ _csrf: csrfToken })
       .expect(400);
   });
 
@@ -126,7 +126,7 @@ describe("Create building test.", () => {
     return testSession
       .delete("/admin/classroom//building/nb")
       .type("form")
-      .send({_csrf: csrfToken })
+      .send({ _csrf: csrfToken })
       .expect(400);
   });
 });
