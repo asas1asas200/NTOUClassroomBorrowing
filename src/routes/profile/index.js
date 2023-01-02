@@ -37,12 +37,12 @@ router.put("/:id", async function (req, res, next) {
       user.username = req.body.data.username;
       user.email = req.body.data.email;
       user.phone = req.body.data.phone;
-      if (passwordEditing) {
+      if (passwordEditing == true) {
         let typed_oldPassword = req.body.data.oldPassword;
         if (typed_oldPassword == req.user.password) {
           user.password = req.body.data.newPassword;
         } else {
-          res.status(400).send("old pwd wrong");
+          res.status(400).send("old pwd wrong, pwdEdit:" + passwordEditing);
           valid = false;
         }
       }

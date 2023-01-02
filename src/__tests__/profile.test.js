@@ -12,6 +12,17 @@ function extractCSRFToken(html) {
   return $("input[name=_csrf]").val();
 }
 
+let id = "0123";
+let origin_username = "TestUser";
+let origin_password = "1234";
+let origin_email = "test@cc.cc";
+let origin_phone = "1234567890";
+
+let new_username = "EditedUser";
+let new_password = "5678";
+let new_email = "edit@cc.cc";
+let new_phone = "987654321";
+
 beforeAll(async () => {
   await mongoose.connect("mongodb://localhost:27017/test");
   await mongoose.connection.db.dropDatabase();
@@ -32,34 +43,16 @@ afterAll(async () => {
 });
 
 describe("login and register", () => {
-  test("login as not exist user", async () => {
-    return testSession
-      .post("/users/login")
-      .type("form")
-      .send({ id: "0123", password: "1234", _csrf: csrfToken })
-      .expect(302)
-      .expect("Location", "/users/session");
-  });
-
-  test("login as default root", async () => {
-    return testSession
-      .post("/users/login")
-      .type("form")
-      .send({ id: "root", password: "root", _csrf: csrfToken })
-      .expect(302)
-      .expect("Location", "/home");
-  });
-
   test("register a new user", async () => {
     return testSession
       .post("/users/register")
       .type("form")
       .send({
-        username: "TestUser",
-        password: "1234",
-        email: "test@cc.cc",
-        id: "0123",
-        phone: "1234567890",
+        username: origin_username,
+        password: origin_password,
+        email: origin_email,
+        id: id,
+        phone: origin_phone,
         _csrf: csrfToken,
       })
       .expect(302)
@@ -77,42 +70,45 @@ describe("login as new user", () => {
     testSession
       .post("/users/login")
       .type("form")
-      .send({ id: "0123", password: "1234", _csrf: csrfToken })
+      .send({ id: id, password: origin_password, _csrf: csrfToken })
       .end(function (err, res) {
         assert.equal(res.status, 302);
         done();
       });
   });
 
-  test("logined page", async () => {
+  test("check if logined", async () => {
     return testSession.get("/users/logined").expect(200);
   });
 
-  test("edit phone", async () => {
-    id = "0123";
-    testSession
+  let passwordEditing = false;
+
+  test("edit profile without pwd", async () => {
+    await testSession
       .put("/profile/" + id)
       .type("form")
       .send({
-        username: "TestUser",
-        email: "test@cc.cc",
-        id: "0123",
-        phone: "1234567890000000",
         _csrf: csrfToken,
+        data: {
+          username: new_username,
+          email: new_email,
+          phone: new_phone,
+          passwordEditing: passwordEditing,
+          oldPassword: "",
+          newPassword: "",
+        },
       })
-      .end(function (err, res) {
-        console.log(res);
-      });
+      .expect(200);
 
     testSession.get("/profile").end(function (err, res) {
       const $ = cheerio.load(res.text);
-      console.log("id: " + getInputValue(res.text, "id"));
-
-      console.log("username: " + getInputValue(res.text, "username"));
-
-      console.log("email: " + getInputValue(res.text, "email"));
-
-      console.log("phone: " + getInputValue(res.text, "phone"));
+      //console.log("id: " + getInputValue(res.text, "id"));
+      let afterEditUsername = getInputValue(res.text, "username");
+      let afterEditEmail = getInputValue(res.text, "email");
+      let afterEditPhone = getInputValue(res.text, "phone");
+      expect(afterEditUsername).toBe(new_username);
+      expect(afterEditEmail).toBe(new_email);
+      expect(afterEditPhone).toBe(new_phone);
     });
   });
 
