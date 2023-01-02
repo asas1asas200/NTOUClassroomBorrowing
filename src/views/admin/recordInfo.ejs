@@ -1,0 +1,54 @@
+
+<div class="row">
+  <div class="col">
+    <label for="name" class="form-label"> 課程名稱 </label>
+    <input type="text" class="form-control" id="name" value="<%- record.name %>" disabled>
+  </div>
+  <div class="col">
+    <label for="teacher" class="form-label"> 授課教師 </label>
+    <input type="text" class="form-control" id="teacher" value="<%- record.teacher %>" disabled>
+  </div>
+  <div class="col">
+    <label for="borrower" class="form-label"> 借用人 </label>
+    <input type="text" class="form-control" id="borrower" value="<%- record.borrower.username %>" disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <label for="classroom" class="form-label"> 借用教室 </label>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <input type="text" class="form-control" value="<%- record.classroom.floor.building.name %>" disabled>
+  </div>
+  <div class="col">
+    <input type="text" class="form-control" value="<%- record.classroom.floor.name %>" disabled>
+  </div>
+  <div class="col">
+    <input type="text" class="form-control" value="<%- record.classroom.name %>" disabled>
+  </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <label for="date" class="form-label"> 借用日期 </label>
+    <input type="text" class="form-control" id="date" value="<%- record.date.toDateString() %>" disabled>
+  </div>
+  <div class="col">
+    <label for="period" class="form-label"> 借用時間 </label>
+    <input type="text" class="form-control" id="period" value="<%- record.period %> - <%- record.period + record.during - 1 %> 節" disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <label for="description" class="form-label"> 借用原因 </label>
+    <textarea class="form-control" id="description" rows="3" disabled><%- record.description %></textarea>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <label for="rejectReason" class="form-label"> 拒絕原因（僅拒絕借用需填寫） </label>
+    <textarea class="form-control" id="rejectReason"></textarea>
+  </div>
+</div>

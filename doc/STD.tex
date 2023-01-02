@@ -18,11 +18,13 @@
 \newcolumntype{A}[1]{>{\columncolor{LightGray}}m{#1}}
 
 \usepackage{tabularx}
+\renewcommand\tabularxcolumn[1]{m{#1}}
 \usepackage{makecell}
 
 \renewcommand*\contentsname{目錄}
 
 \usepackage{tocloft}
+\usepackage{indentfirst}
 
 \begin{document}
 \begin{titlepage}
@@ -57,7 +59,7 @@
 	\hline
 	版次  & 變更項目 & 變更日期       \\ \hline
 	0.1 & 初版   & 2022/10/04 \\ \hline
-	    &      &            \\ \hline
+	0.2 & 文件補完 & 2023/01/02 \\ \hline
 	    &      &            \\ \hline
 	    &      &            \\ \hline
 	    &      &            \\ \hline
@@ -75,6 +77,36 @@
 \section[測試目的與接受準則(OBJECTIVES AND ACCEPTANCE CRITERIA)]{測試目的與接受準則(Objectives and Acceptance Criteria)}
 
 \subsection[系統範圍(SYSTEM SCOPE)]{系統範圍(System Scope)}
+
+本測試文件基於 \href{https://github.com/asas1asas200/NTOUClassroomBorrowing/releases/tag/v0.3}{海大教室借用系統 v0.3} 版本進行測試，測試範圍包含所有功能模組。
+
+達成需求規格中部份功能的測試目的，如下：
+
+\begin{itemize}
+	\item 功能需求：
+	      \begin{itemize}
+		      \item 帳號註冊
+		      \item 帳號登入
+		      \item 個人資料管理
+		      \item 審核個人資料
+		      \item 教室狀態
+		      \item 教室時段篩選
+		      \item 教室借用歷程
+		      \item 教室立即借用
+		      \item 教室借用進度查詢
+		      \item 預約審核
+		      \item 鑰匙歸還登記
+		      \item 教室編輯
+	      \end{itemize}
+	\item 非功能需求：
+	      \begin{itemize}
+		      \item 延遲時間不超過一分鐘
+		      \item 密碼以雜湊方式儲存、傳輸
+		      \item 查詢以前端實作
+		      \item 系統人數上線至少 100 人
+		      \item 最多 1000ms 的回應時間
+	      \end{itemize}
+\end{itemize}
 
 \subsection[測試接受準則(TEST ACCEPTANCE CRITERIA)]{測試接受準則(Test Acceptance Criteria)}
 
@@ -96,29 +128,74 @@
 
 \subsection[硬體需求(HARDWARE SPECIFICATION AND CONFIGURATION)]{硬體需求(Hardware Specification and Configuration)}
 
+Server 端硬體需求如下：
+
+\bigskip
+
 \begin{tabularx}{\textwidth}{| c | C | c | C | M{0.15\textwidth} |}
 	\rowcolor{LightGray}
 	\hline
-	項次 & 名稱 & 數量 & 規格 & 備註 \\ \hline
-	   &    &    &    &    \\ \hline
-	   &    &    &    &    \\ \hline
-	   &    &    &    &    \\ \hline
+	項次 & 名稱             & 數量 & 規格            & 備註 \\ \hline
+	1  & 一般桌上型電腦或機架式伺服器 & 1  & 限制 x86\_64 平台 &    \\ \hline
+	   &                &    &               &    \\ \hline
+	   &                &    &               &    \\ \hline
+\end{tabularx}
+
+\bigskip
+
+Client 端硬體需求如下：
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| c | C | c | C | M{0.15\textwidth} |}
+	\rowcolor{LightGray}
+	\hline
+	項次 & 名稱            & 數量 & 規格    & 備註 \\ \hline
+	1  & 一般桌上型電腦或智慧型手機 & 1  & 具上網功能 &    \\ \hline
+	   &               &    &       &    \\ \hline
+	   &               &    &       &    \\ \hline
 \end{tabularx}
 
 \subsection[軟體需求(SOFTWARE SPECIFICATION AND CONFIGURATION)]{軟體需求(Software Specification and Configuration)}
 
+Server 端軟體需求如下：
+
+\bigskip
+
 \begin{tabularx}{\textwidth}{| c | C | c | C | M{0.15\textwidth} |}
 	\rowcolor{LightGray}
 	\hline
-	項次 & 名稱 & 數量 & 規格 & 備註 \\ \hline
-	   &    &    &    &    \\ \hline
-	   &    &    &    &    \\ \hline
-	   &    &    &    &    \\ \hline
+	項次 & 名稱      & 數量 & 規格                        & 備註                              \\ \hline
+	1  & 作業系統    & 1  & Linux 64-bit              & 測試環境為 Arch Linux 和 Ubuntu 22.04 \\ \hline
+	2  & Docker  & 1  & Docker 20.10.22           &                                 \\ \hline
+	3  & Node.js & 1  & v19.3.0、v14.x、v16.x、v18.x &                                 \\ \hline
+\end{tabularx}
+
+\bigskip
+
+Client 端軟體需求如下：
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| c | C | c | C | M{0.15\textwidth} |}
+	\rowcolor{LightGray}
+	\hline
+	項次 & 名稱  & 數量 & 規格                                 & 備註 \\ \hline
+	1  & 瀏覽器 & 1  & 具解析 HTML5 + CSS3 和執行 JavaScript 功能 &    \\ \hline
+	   &     &    &                                    &    \\ \hline
+	   &     &    &                                    &    \\ \hline
 \end{tabularx}
 
 \subsection[測試資料來源(TEST DATA SOURCE)]{測試資料來源(Test Data Source)}
 
+測試資料由測試人員根據測試案例的需求自行產生。
+
 \subsection[測試工具與設備(TOOLS AND EQUIPMENT)]{測試工具與設備(Tools and Equipment)}
+
+\begin{itemize}
+	\item 單元測試：以 Jest 和 Supertest 為主要工具，並且搭配 Github Action 作為 CI/CD 工具，進而保證每次的更改不影響先前的結果。
+	\item 壓力測試：以 JMeter 進行隨機的壓力測試，保證系統在一定流量時不會崩潰。
+\end{itemize}
 
 \newpage
 
@@ -126,13 +203,182 @@
 
 \begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
 	\hline
-	Identification  & (編號)           \\ \hline
-	Name            & (名稱)           \\ \hline
-	Reference       & (對應的功能需求)      \\ \hline
-	Severity        & (重要性)          \\ \hline
-	Instructions    & (測試步驟)         \\ \hline
-	Expected result & (預期結果)         \\ \hline
-	Cleanup         & (回復測試錢原始狀態的步驟) \\ \hline
+	Identification  & NCB-TC-001       \\ \hline
+	Name            & 帳號註冊             \\ \hline
+	Reference       & 帳號註冊             \\ \hline
+	Severity        & 高                \\ \hline
+	Instructions    & 進入帳號註冊頁面輸入資料註冊帳號 \\ \hline
+	Expected result & 成功註冊一個新帳號        \\ \hline
+	Cleanup         & 無                \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-002    \\ \hline
+	Name            & 帳號登入          \\ \hline
+	Reference       & 帳號登入          \\ \hline
+	Severity        & 高             \\ \hline
+	Instructions    & 在登入頁面登入已註冊的帳號 \\ \hline
+	Expected result & 成功以指定帳號登入     \\ \hline
+	Cleanup         & 按登出按鈕以登出      \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-003       \\ \hline
+	Name            & 個人資料管理           \\ \hline
+	Reference       & 個人資料管理           \\ \hline
+	Severity        & 中                \\ \hline
+	Instructions    & 進入個人資料編輯頁面，編輯後儲存 \\ \hline
+	Expected result & 成功編輯個人資料         \\ \hline
+	Cleanup         & 無                \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-004         \\ \hline
+	Name            & 審核個人資料             \\ \hline
+	Reference       & 審核個人資料             \\ \hline
+	Severity        & 高                  \\ \hline
+	Instructions    & 管理員在管理介面審核使用者之個人資料 \\ \hline
+	Expected result & 成功改變指定帳戶的審核狀態      \\ \hline
+	Cleanup         & 無                  \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-005                     \\ \hline
+	Name            & 查看教室狀態                         \\ \hline
+	Reference       & 教室狀態、教室時段篩選、教室借用歷程             \\ \hline
+	Severity        & 中                              \\ \hline
+	Instructions    & 在主頁面可以看到教室當前的狀態，包含鑰匙、指定日期之借用狀態 \\ \hline
+	Expected result & 可以看到教室當前鑰匙狀態和指定日期之借用情況等資訊      \\ \hline
+	Cleanup         & 無                              \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-006                 \\ \hline
+	Name            & 教室立即借用                     \\ \hline
+	Reference       & 教室立即借用                     \\ \hline
+	Severity        & 高                          \\ \hline
+	Instructions    & 選擇日期和教室後申請借用教室，並按照表格填入應填資訊 \\ \hline
+	Expected result & 成功送出教室借用申請                 \\ \hline
+	Cleanup         & 無                          \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-007                     \\ \hline
+	Name            & 教室借用進度查詢                       \\ \hline
+	Reference       & 教室借用進度查詢                       \\ \hline
+	Severity        & 中                              \\ \hline
+	Instructions    & 查詢教室借用申請的借用進度                  \\ \hline
+	Expected result & 網頁上會顯示當前借用進度，申請中、核可、拒絕、借用中或已完成 \\ \hline
+	Cleanup         & 無                              \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-008     \\ \hline
+	Name            & 教室借用審核         \\ \hline
+	Reference       & 預約審核           \\ \hline
+	Severity        & 高              \\ \hline
+	Instructions    & 管理員在管理介面審核借用申請 \\ \hline
+	Expected result & 成功同意/拒絕指定的借用申請 \\ \hline
+	Cleanup         & 無              \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-009            \\ \hline
+	Name            & 鑰匙狀態管理                \\ \hline
+	Reference       & 鑰匙歸還登記                \\ \hline
+	Severity        & 高                     \\ \hline
+	Instructions    & 管理員在管理介面操作鑰匙狀態        \\ \hline
+	Expected result & 指定教室的鑰匙狀態會被更新，可從主畫面確認 \\ \hline
+	Cleanup         & 無                     \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-010            \\ \hline
+	Name            & 大樓/樓層/教室編輯            \\ \hline
+	Reference       & 教室編輯                  \\ \hline
+	Severity        & 低                     \\ \hline
+	Instructions    & 管理員在管理介面編輯大樓/樓層/教室的資訊 \\ \hline
+	Expected result & 編輯結果成功存入資料庫           \\ \hline
+	Cleanup         & 無                     \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-011      \\ \hline
+	Name            & 系統狀態更新延遲        \\ \hline
+	Reference       & 延遲時間不超過一分鐘      \\ \hline
+	Severity        & 低               \\ \hline
+	Instructions    & 更新鑰匙狀態後手動查看是否更新 \\ \hline
+	Expected result & 一分鐘內主頁同步更新狀態    \\ \hline
+	Cleanup         & 無               \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-012            \\ \hline
+	Name            & 密碼安全                  \\ \hline
+	Reference       & 密碼以雜湊方式儲存、傳輸          \\ \hline
+	Severity        & 中                     \\ \hline
+	Instructions    & 於資料庫和封包紀錄中查看密碼如何存放及傳輸 \\ \hline
+	Expected result & 皆無明文形式之密碼             \\ \hline
+	Cleanup         & 無                     \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-013    \\ \hline
+	Name            & 查詢功能以前端實作     \\ \hline
+	Reference       & 查詢以前端實作       \\ \hline
+	Severity        & 低             \\ \hline
+	Instructions    & 在網頁操作查詢功能     \\ \hline
+	Expected result & 查詢時瀏覽器不會有換頁行為 \\ \hline
+	Cleanup         & 無             \\ \hline
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{| A{0.3\textwidth} | X |}
+	\hline
+	Identification  & NCB-TC-014                     \\ \hline
+	Name            & 壓力測試                           \\ \hline
+	Reference       & 系統人數上線至少 100 人、最多 1000ms 的回應時間 \\ \hline
+	Severity        & 低                              \\ \hline
+	Instructions    & 以壓力測試軟體進行測試及分析                 \\ \hline
+	Expected result & 最多回應時間不超過 1000ms               \\ \hline
+	Cleanup         & 無                              \\ \hline
 \end{tabularx}
 
 \newpage
@@ -141,15 +387,7 @@
 
 \subsection[測試成員(PERSONNEL)]{測試成員(Personnel)}
 
-\begin{tabularx}{0.4\textwidth}{| X | X |}
-	\hline
-	姓名 & 職責 \\ \hline
-	   &    \\ \hline
-	   &    \\ \hline
-	   &    \\ \hline
-	   &    \\ \hline
-	   &    \\ \hline
-\end{tabularx}
+本專案分工上參考扁平化組織的實作，並遵循開源文化的精神，由成員們自由認領工作。
 
 \newpage
 
@@ -160,30 +398,36 @@
 \begin{tabularx}{\textwidth}{| m{0.3\textwidth} | m{0.2\textwidth} | X |}
 	\rowcolor{LightGray}
 	\hline
-	測試案例編號 & \makecell{測試結果   \\ (Pass/Fail)} & 註解 \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
-	       &                & \\ \hline
+	測試案例編號     & \makecell{測試結果    \\ (Pass/Fail)} & 註解 \\ \hline
+	NCB-TC-001 & Pass            & \\ \hline
+	NCB-TC-002 & Pass            & \\ \hline
+	NCB-TC-003 & \color{red}Fail & \\ \hline
+	NCB-TC-004 & Pass            & \\ \hline
+	NCB-TC-005 & Pass            & \\ \hline
+	NCB-TC-006 & Pass            & \\ \hline
+	NCB-TC-007 & Pass            & \\ \hline
+	NCB-TC-008 & Pass            & \\ \hline
+	NCB-TC-009 & Pass            & \\ \hline
+	NCB-TC-010 & Pass            & \\ \hline
+	NCB-TC-011 & Pass            & \\ \hline
+	NCB-TC-012 & \color{red}Fail & \\ \hline
+	NCB-TC-013 & Pass            & \\ \hline
+	NCB-TC-014 & Pass            & \\ \hline
 	\rowcolor{LightGray}
-	RATE   & ? \%           & \\ \hline
+	RATE       & 85.7\%          & \\ \hline
 \end{tabularx}
 
 \subsection[缺失報告(DEFECT TRACKING)]{缺失報告(Defect Tracking)}
 
-\begin{tabularx}{\textwidth}{| c | c | X | c | c | c | X |}
+\begin{tabularx}{\textwidth}{| c | c | C | c | c | c | c |}
 	\rowcolor{LightGray}
 	\hline
-	\makecell{缺失      \\ 編號} & \makecell{缺失 \\ 嚴重性} & 缺失說明 & \makecell{測試\\案例\\編號} & \makecell{缺失 \\ 負責人} & 修復狀態 & 修復說明 \\ \hline
-	 &  &  &  &  &  & \\ \hline
-	 &  &  &  &  &  & \\ \hline
-	 &  &  &  &  &  & \\ \hline
+	缺失  & 缺失     & 缺失                         & 測試案例       & 缺失  & 修復      & 修復                                                                            \\
+	\rowcolor{LightGray}
+	編號  & 嚴重性    & 說明                         & 編號         & 負責人 & 狀態      & 說明                                                                            \\ \hline
+	001 & Medium & 變更密碼時需輸入舊密碼，但程式不會檢查舊密碼是否正確 & NCB-TC-003 & 張銀軒 & Open    & \href{https://github.com/asas1asas200/NTOUClassroomBorrowing/issues/62}{\#62} \\ \hline
+	002 & High   & 密碼以明文形式傳輸                  & NCB-TC-012 & 林暐傑 & Ongoing & \href{https://github.com/asas1asas200/NTOUClassroomBorrowing/pull/45}{\#45}   \\ \hline
+	    &        &                            &            &     &         &                                                                               \\ \hline
 \end{tabularx}
 
 \newpage
@@ -192,20 +436,24 @@
 
 \begin{tabularx}{\textwidth}{| X | X | X |}
 	\hline
-	Req. No. & Test Case \# & Verification \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
-	         &              &              \\ \hline
+	Req. No.       & Test Case \# & Verification \\ \hline
+	CBP-AM-LOG-01  & NCB-TC-002   & Verified     \\ \hline
+	CBP-AM-REG-01  & NCB-TC-001   & Verified     \\ \hline
+	CBP-AM-PIM-01  & NCB-TC-003   & Unverified   \\ \hline
+	CBP-AM-PIV-01  & NCB-TC-004   & Verified     \\ \hline
+	CBP-CBI-LOG-01 & NCB-TC-005   & Verified     \\ \hline
+	CBP-CBI-LOG-03 & NCB-TC-005   & Verified     \\ \hline
+	CBP-CBI-LOG-04 & NCB-TC-005   & Verified     \\ \hline
+	CBP-CBI-BOR-01 & NCB-TC-006   & Verified     \\ \hline
+	CBP-CBI-BOR-03 & NCB-TC-007   & Verified     \\ \hline
+	CBP-CBI-BOR-3  & NCB-TC-008   & Verified     \\ \hline
+	CBP-CBI-KR-1   & NCB-TC-009   & Verified     \\ \hline
+	CBP-CBI-CR-1   & NCB-TC-010   & Verified     \\ \hline
+	CBP-NFR-01     & NCB-TC-011   & Verified     \\ \hline
+	CBP-NFR-02     & NCB-TC-012   & Unverified   \\ \hline
+	CBP-NFR-03     & NCB-TC-013   & Verified     \\ \hline
+	CBP-NFR-05     & NCB-TC-014   & Verified     \\ \hline
+	CBP-NFR-06     & NCB-TC-014   & Verified     \\ \hline
 \end{tabularx}
 
 \end{document}

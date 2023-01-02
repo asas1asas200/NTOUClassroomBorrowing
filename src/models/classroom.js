@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Record = require("./record");
 
 const classroomSchema = new mongoose.Schema(
   {
@@ -28,6 +29,11 @@ const classroomSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    keyState: {
+      type: "String",
+      enum: ["Free", "Borrowing"],
+      required: true,
+    },
   },
   {
     methods: {
@@ -48,6 +54,11 @@ const classroomSchema = new mongoose.Schema(
   }
 );
 
+classroomSchema.pre("remove", function (next) {
+  Record.deleteMany({ classroom: this._id }).exec();
+  next();
+});
+
 classroomSchema.static("newClassroom", async function (floor, info) {
   let classroom = new this({
     name: info.name,
@@ -55,6 +66,7 @@ classroomSchema.static("newClassroom", async function (floor, info) {
     capacity: info.capacity,
     schedule: info.schedule,
     options: info.options,
+    keyState: "Free",
   });
   await classroom.save();
   floor.classrooms.push(classroom);
