@@ -91,7 +91,7 @@ describe("lesson RUD", () => {
   });
 
   test("Read lessoninfo", async () => {
-    return testSession.get("/admin/lesson/" + id).expect(200);
+    return testSession.get("/admin/lesson/" + Lessonid).expect(200);
   });
 
   test("Update lessoninfo", async () => {
