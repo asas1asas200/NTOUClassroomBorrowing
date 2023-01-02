@@ -100,7 +100,7 @@ describe("lesson RUD", () => {
 
   test("Delete lesson", async () => {
     return testSession
-      .delete("/admin/lesson/${id}")
+      .delete("/admin/lesson/:Lessonid")
       .type("form")
       .send({ _csrf: csrfToken })
       .expect(200);
