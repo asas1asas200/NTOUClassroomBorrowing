@@ -734,6 +734,148 @@ Plain HTML
 {/home/lesson/:id}
 {列出指定課程的資訊}
 
+\pagebreak
+
+\subsection{教室借用}
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+{
+	"classroom": "classroomID",
+	"date":
+		"Mon Jan 02 2023 22:17:47
+		GMT+0800 (Taipei Standard Time)",
+	"period": 3,
+	"during": 2,
+	"name": "課程名稱",
+	"teacher": "教師",
+	"description": "借用原因"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{借用申請}
+{Home 模組}
+{Home 頁面}
+{HTTP POST}
+{/home/curriculum}
+{新增一個借用申請}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{借用申請列表}
+{Admin 模組}
+{Admin/Applications}
+{HTTP GET}
+{/admin/applications}
+{列出所有借用申請}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{借用申請內容}
+{Admin 模組}
+{Admin/Applications}
+{HTTP GET}
+{/admin/applications/:id}
+{查看指定借用申請的內容}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
+{
+	"status": "Approve"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{審核借用申請}
+{Admin 模組}
+{Admin/Applications}
+{HTTP PUT}
+{/admin/applications/:id}
+{審核指定借用申請}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}
+None
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+Plain HTML
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{鑰匙管理頁面}
+{Admin 模組}
+{Admin/Borrow 頁面}
+{HTTP GET}
+{/admin/borrow}
+{列出審核通過且尚未借用鑰匙的申請列表和鑰匙借用中的申請列表}
+
+\bigskip
+
+\begin{lrbox}{\jsoninputbox}
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
+{
+	"status": "Borrowing"
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{lrbox}{\jsonoutputbox}
+	\begin{lstlisting}
+200 OK
+\end{lstlisting}
+\end{lrbox}
+
+\IRTable{借用/歸還鑰匙登記}
+{Admin 模組}
+{Admin/Borrow 頁面}
+{HTTP PUT}
+{/admin/borrow/:id}
+{借用/歸還鑰匙}
+
 \newpage
 
 \section[流程設計(PROCESS DESIGN)]{流程設計(Process Design)}
@@ -1046,6 +1188,37 @@ Plain HTML
 
 \pagebreak
 
+\captionof*{figure}{申請借用教室}
+\begin{center}
+	\includegraphics[width=\linewidth]{PendingApplication.png}
+\end{center}
+
+選擇好欲借用之教室及時間後，按下申請借用按鈕並填入應填資料（可連續借用），即可申請借用教室。
+
+\pagebreak
+
+\captionof*{figure}{借用申請進度}
+\begin{center}
+	\includegraphics[width=\linewidth]{ApplicationsList.png}
+\end{center}
+
+在此頁面可以查看使用者的借用申請進度，包含申請中、已核准、已歸還等。
+
+\pagebreak
+
+\captionof*{figure}{當前教室狀態}
+\begin{center}
+	\includegraphics[width=\linewidth]{HomePageWithBorrowing.png}
+
+	\bigskip
+
+	\includegraphics[width=\linewidth]{HomePageClassroomInfo.png}
+\end{center}
+
+借用申請通過審核後，會顯示在主頁上面，每個教室也會顯示當前鑰匙的借用狀態。
+
+\pagebreak
+
 \subsection{管理者相關}
 
 \captionof*{figure}{管理者頁面}
@@ -1100,6 +1273,28 @@ Plain HTML
 \end{center}
 
 管理者課程編輯頁面，管理者可以在此頁面編輯課程資訊，例如課程名稱、授課教師以及課程描述。
+
+\pagebreak
+
+\captionof*{figure}{審核借用申請}
+\begin{center}
+	\includegraphics[width=\linewidth]{AdminApplications.png}
+\end{center}
+
+管理者可以在此頁面審核借用申請，若拒絕申請，需填寫拒絕原因。
+
+\pagebreak
+
+\captionof*{figure}{鑰匙狀態更新}
+\begin{center}
+	\includegraphics[width=\linewidth]{AdminKeyApprove.png}
+
+	\bigskip
+
+	\includegraphics[width=\linewidth]{AdminKeyBorrowing.png}
+\end{center}
+
+此畫面會顯示已經核准的借用申請，管理員可以在這裡更新鑰匙的狀態。
 
 \newpage
 
