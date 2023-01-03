@@ -13,11 +13,6 @@ function extractCSRFToken(html) {
   return $("input[name=_csrf]").val();
 }
 
-function extractLessonid(html) {
-  const $ = cheerio.load(html);
-  return $("input[name=connect.sid]").val();
-}
-
 beforeAll(async () => {
   await mongoose.connect("mongodb://localhost:27017/test");
   await mongoose.connection.db.dropDatabase();
@@ -71,8 +66,17 @@ describe("Create lessons", () => {
   });
 });
 
+function extractLessonid(body) {
+  const $ = cheerio.load(body);
+  return $("onclick", "#lessonEditModal").text();
+
+  //  console.log(id);
+  //  return id;
+  //$("onclick='getLessonInfo()'").val();
+}
+
 describe("lesson RUD", () => {
-  beforeEach(function (done) {
+  beforeAll(function (done) {
     testSession
       .post("/admin/lesson")
       .type("form")
@@ -86,22 +90,29 @@ describe("lesson RUD", () => {
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
-        Lessonid = extractLessonid(res.text);
         done();
       });
   });
 
+  beforeEach(function (done) {
+    testSession.get("/admin/lesson").end(function (err, res) {
+      assert.equal(res.status, 200);
+      Lessonid = extractLessonid(res.text);
+      done();
+    });
+  });
+
   test("Read lessoninfo", async () => {
-    return testSession.get("/admin/lesson/" + Lessonid).expect(200);
+    return testSession.get("/admin/lesson" + `/${Lessonid}`).expect(200);
   });
 
   test("Update lessoninfo", async () => {
-    return testSession;
+    return testSession.put("/admin/lesson" + `/${Lessonid}`).expect(200);
   });
 
   test("Delete lesson", async () => {
     return testSession
-      .delete("/admin/lesson/:Lessonid")
+      .delete("/admin/lesson" + `/${Lessonid}`)
       .type("form")
       .send({ _csrf: csrfToken })
       .expect(200);
