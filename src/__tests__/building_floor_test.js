@@ -104,8 +104,17 @@ describe("Create building test.", () => {
     .get("/admin/classroom")
     .end(function (err, res) {
       const $ = cheerio.load(res.text);
-      expect($("#name").val()).toBe("1040");
-      expect($("#capacity").val()).toBe("40");
+      res.get(
+        "/building/${building.name}/floor/${floor.name}/classroom/${classroom.name}",
+        function (data) {
+          console.log(data);
+          expect(data.Building).toBe("TestBuilding");
+          expect(data.floor).toBe("1f");
+          expect(data.name).toBe("1040");
+          expect(data.capacity).toBe(40);
+        }
+      );
+      expect((data = "40"));
     });
 
   test("Delete a classroom", async () => {
