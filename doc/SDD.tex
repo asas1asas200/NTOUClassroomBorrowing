@@ -21,8 +21,6 @@
 \usepackage{graphicx}
 \graphicspath{{./img/}}
 
-\usepackage{indentfirst}
-
 \renewcommand*\contentsname{目錄}
 
 \usepackage{graphicx}
@@ -1536,5 +1534,10 @@ const userSchema = new mongoose.Schema({
 但 \textbf{Express} 本身提供了 \textbf{Middleware} 的功能，因此可以使用 \textbf{Frontend Framework} 來實作，例如 \textbf{Vue} 或 \textbf{React} 等。
 考慮到專案的工作量跟我的肝指數，所以目前沒有使用前端框架，而是使用 \textbf{EJS} 直接在後端 render 完後配合 \textbf{Bootstrap} 實作簡單的互動介面傳回前端。
 
+\subsection{同時借用問題}
+
+當兩個人同時借用一間教室時，如何避免重複借用的問題？
+
+借用申請可以衝堂沒有問題，因為審核時同時只會有一個審核被通過，因此不會有同時借用的問題。且在審核通過時會將該時段衝堂的借用申請全部自動拒絕，因此也不會有同時借用的問題。
 
 \end{document}
