@@ -82,7 +82,6 @@ describe("Create building test.", () => {
       .expect(200);
   });
 
-  
   test("Editing a classroom", async () => {
     return testSession
       .put("/admin/classroom//building/TestBuilding/floor/1f/classroom/103")
@@ -101,15 +100,17 @@ describe("Create building test.", () => {
       .expect(200);
   });
 
-  session(app).get("/admin/classroom").end(function(err,res){
-    const $=cheerio.load(res.text);
-    expect($(".name").text()).toBe("1040");
-    expect($(".capacity").text()).toBe("40");
-  })
+  session(app)
+    .get("/admin/classroom")
+    .end(function (err, res) {
+      const $ = cheerio.load(res.text);
+      expect($("#name").val()).toBe("1040");
+      expect($("#capacity").val()).toBe("40");
+    });
 
   test("Delete a classroom", async () => {
     return testSession
-      .delete("/admin/classroom//building/TestBuilding/floor/1f/classroom/103")
+      .delete("/admin/classroom//building/TestBuilding/floor/1f/classroom/1040")
       .type("form")
       .send({ _csrf: csrfToken })
       .expect(200);
