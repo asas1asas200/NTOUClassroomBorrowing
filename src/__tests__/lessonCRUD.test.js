@@ -15,7 +15,7 @@ function extractCSRFToken(html) {
 
 function extractLessonid(html) {
   const $ = cheerio.load(html);
-  return $("input[name=_csrf]").val();
+  return $("input[name=connect.sid]").val();
 }
 
 beforeAll(async () => {
@@ -86,6 +86,7 @@ describe("lesson RUD", () => {
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
+        Lessonid = extractLessonid(res.text);
         done();
       });
   });
