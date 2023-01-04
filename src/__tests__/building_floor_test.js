@@ -107,7 +107,6 @@ describe("Create building test.", () => {
       res.get(
         "/building/${building.name}/floor/${floor.name}/classroom/${classroom.name}",
         function (data) {
-          console.log(data);
           expect(data.Building).toBe("TestBuilding");
           expect(data.floor).toBe("1f");
           expect(data.name).toBe("1040");
