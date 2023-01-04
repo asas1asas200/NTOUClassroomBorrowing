@@ -7,6 +7,7 @@ const Building = require("../models/building.js");
 const Classroom = require("../models/classroom.js");
 const Floor = require("../models/floor.js");
 const app = require("../app");
+const { get } = require("http");
 
 var csrfToken;
 
@@ -100,25 +101,20 @@ describe("Create building test.", () => {
       .expect(200);
   });
 
-  session(app)
-    .get("/admin/classroom")
-    .end(function (err, res) {
-      const $ = cheerio.load(res.text);
-      res.get(
-        "/building/${building.name}/floor/${floor.name}/classroom/${classroom.name}",
-        function (data) {
-          expect(data.Building).toBe("TestBuilding");
-          expect(data.floor).toBe("1f");
-          expect(data.name).toBe("1040");
-          expect(data.capacity).toBe(40);
-        }
-      );
-      expect((data = "40"));
+  test("Read edited classroom info.", async () => {
+    await testSession
+      .get("/admin/classroom")
+      .expect(200);
+    testSession.get("/building/TestBuilding/floor/1f/classroom/1040").end(function (err, res) {
+      const $ = cheerio.load(res.text);    
+      expect($("#name").val).toBe("1040");
+      expect($("#capacity").val).toBe(40);
     });
+  });
 
   test("Delete a classroom", async () => {
     return testSession
-      .delete("/admin/classroom//building/TestBuilding/floor/1f/classroom/1040")
+      .delete("/admin/classroom/building/TestBuilding/floor/1f/classroom/1040")
       .type("form")
       .send({ _csrf: csrfToken })
       .expect(200);
