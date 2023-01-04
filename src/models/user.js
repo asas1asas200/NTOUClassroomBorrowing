@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+var SALT_WORK_FACTOR = 10;
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -28,6 +30,34 @@ const userSchema = new mongoose.Schema({
   emailVerified: { type: Boolean, required: true },
   verified: { type: Boolean, required: true },
 });
+
+userSchema.pre("save", function (next) {
+  var user = this;
+  if (!user.isModified("password")) return next();
+
+  // generate a salt
+  bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+    if (err) return next(err);
+    //加密
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      console.log(user.password);
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function (
+  candidatePassword,
+  hash,
+  callback
+) {
+  bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
+    if (err) throw err;
+    callback(null, isMatch);
+  });
+};
 
 userSchema.static("createRoot", async function () {
   let root = await this.findOne({ id: "root" });

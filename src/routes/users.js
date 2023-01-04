@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
     // TODO: verify infos like if user exist, if email is valid, etc
     const user = new User({
       username: req.body.username,
-      // TODO: hash password agiain
+      // hash password
       password: req.body.password,
       email: req.body.email,
       admin: false,
@@ -36,7 +36,10 @@ router.post("/register", async (req, res) => {
       emailVerified: false,
       verified: false,
     });
-    await user.save();
+
+    await user.save(function (err) {
+      if (err) throw err;
+    });
     res.redirect("/users/session");
   } catch (e) {
     console.log(e);
@@ -51,6 +54,7 @@ router.get("/session", auth.unloginedUser, function (req, res, next) {
   });
 });
 
+//這邊出問題
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -116,6 +120,3 @@ router.get("/logined", auth.loginedUser, function (req, res) {
 router.get("/admin_only", auth.admin, function (req, res) {
   res.send("admin only page");
 });
-/* ----------------------------------------------- */
-
-module.exports = router;
