@@ -443,3 +443,7 @@ data/
 
 doc/tmp/
 
+*.cert
+*.crt
+*.key
+
